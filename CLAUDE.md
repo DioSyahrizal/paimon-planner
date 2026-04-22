@@ -638,21 +638,38 @@ Build Guides Tab                    Build Editor Screen
 
 ## Development Phases
 
-### Phase 1 — Foundation (Week 1-2)
+### Phase 1 — Foundation (Week 1-2) ✅ COMPLETE
 
 - [x] Initialize Expo project with TypeScript, Expo Router, Tamagui
-- [ ] Set up tab navigation (Home, Builds, Farm, Settings)
-- [ ] Settings screen: UID input + persist to Zustand/SQLite
-- [ ] Enka API client with direct fetch (no npm wrapper) + response parser
-- [ ] Bundle Enka lookup tables (characters.json, loc.json for ID → name mapping)
-- [ ] Home dashboard: fetch + display character grid with basic info
+- [x] Set up tab navigation (Home, Builds, Farm, Settings)
+- [x] Settings screen: UID input + persist to Zustand/SQLite
+- [x] Enka API client with direct fetch (no npm wrapper) + response parser
+- [x] Bundle Enka lookup tables (characters.json, loc.json for ID → name mapping)
+- [x] Home dashboard: fetch + display character grid with basic info
+
+**Phase 1 implementation notes:**
+- All Tamagui packages pinned to `1.144.4` — do NOT upgrade selectively or versions will split and break config detection (`npx @tamagui/cli check` to verify)
+- `loc.json` from Enka uses lowercase `"en"` key (not `"EN"`) — parser handles both
+- `@/*` path alias maps to `./src/*` (updated from the Expo default of `./`)
+- Old Expo template files (`components/`, `hooks/`, `constants/` at root) were deleted — they conflicted with the new alias
+- `babel.config.js` was created manually (Expo template had none); includes `@tamagui/babel-plugin` and `react-native-reanimated/plugin`
+- SQLite schema (`getDatabase()` in `src/db/schema.ts`) is initialized on app mount in `app/_layout.tsx`
+- UID is stored in Zustand (in-memory only for now — Phase 2 should persist it to SQLite or AsyncStorage so it survives app restarts)
 
 ### Phase 2 — Character Detail (Week 3-4)
 
-- [ ] Character detail screen with artifact and weapon display
+- [ ] Persist UID to SQLite or AsyncStorage (survives app restarts)
+- [ ] Character detail screen (`app/character/[id].tsx`) — currently a placeholder
 - [ ] "My Build" tab with full artifact + stat rendering
 - [ ] Total stat calculator (aggregate base + weapon + artifacts)
-- [ ] Pull-to-refresh on dashboard
+- [ ] Pull-to-refresh on dashboard (RefreshControl wired up, but dashboard needs polish)
+
+**Starting point for Phase 2:**
+- `app/character/[id].tsx` exists as a placeholder — receives `id` (avatarId string) via route param
+- Character data is already parsed and available from `useEnkaUser()` — pass it down or re-select from query cache by id
+- `src/lib/enka-parser.ts` → `parseEnkaResponse()` returns `Character[]` with full artifact/weapon/stat data
+- Weapon type (`WeaponType`) defaults to `"Sword"` in the parser — a weapon type lookup table or mapping from `WeaponType` field in characters.json is needed for accuracy
+- `src/types/character.ts` has the full `Character` interface with `artifacts[]`, `weapon`, `totalStats`, `iconUrl`
 
 ### Phase 3 — Build Editor & Recommended Builds (Week 5-7)
 

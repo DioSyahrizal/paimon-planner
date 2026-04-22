@@ -1,98 +1,178 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router'
+import { FlatList, RefreshControl, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, XStack, YStack, Spinner } from 'tamagui'
+import { useEnkaUser } from '@/hooks/useEnkaUser'
+import { useUserStore } from '@/store/user-store'
+import { getEnkaErrorMessage } from '@/api/enka'
+import type { Character } from '@/types/character'
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+const ELEMENT_COLOR: Record<string, string> = {
+  Pyro: '#ff6040',
+  Hydro: '#4cb8f5',
+  Anemo: '#74c69d',
+  Electro: '#c77dff',
+  Dendro: '#6abe30',
+  Cryo: '#a8dadc',
+  Geo: '#f4a261',
+}
+
+function CharacterCard({ character }: { character: Character }) {
+  const router = useRouter()
+  const elementColor = ELEMENT_COLOR[character.element] ?? '#c9a227'
+
+  return (
+    <TouchableOpacity
+      style={styles.cardTouchable}
+      onPress={() => router.push(`/character/${character.id}`)}>
+      <View style={[styles.card, { borderColor: elementColor }]}>
+        <View style={[styles.elementBadge, { backgroundColor: elementColor }]}>
+          <Text style={styles.elementText}>{character.element[0]}</Text>
+        </View>
+        <Text style={styles.characterName} numberOfLines={1}>
+          {character.name}
+        </Text>
+        <XStack style={styles.cardMeta}>
+          <Text style={styles.metaText}>Lv.{character.level}</Text>
+          <Text style={styles.metaText}>C{character.constellation}</Text>
+        </XStack>
+        <Text style={styles.rarityText}>{'★'.repeat(character.rarity)}</Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+function PlayerInfoBar({ nickname, level, uid }: { nickname: string; level: number; uid: string }) {
+  return (
+    <View style={styles.playerBar}>
+      <YStack>
+        <Text style={styles.playerName}>{nickname}</Text>
+        <Text style={styles.playerMeta}>AR {level} · UID {uid}</Text>
+      </YStack>
+    </View>
+  )
+}
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const uid = useUserStore((s) => s.uid)
+  const { data, isLoading, isFetching, isError, error, refetch } = useEnkaUser(uid)
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+  if (!uid) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.emptyTitle}>No UID set</Text>
+        <Text style={styles.emptySubtitle}>
+          Go to Settings and enter your Genshin Impact UID to get started.
+        </Text>
+      </View>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.centerContainer}>
+        <Spinner size="large" color="$yellow9" />
+        <Text style={styles.loadingText}>Fetching showcase...</Text>
+      </View>
+    )
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.errorText}>{getEnkaErrorMessage(error)}</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
+          <Text style={styles.retryText}>Retry</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  return (
+    <View style={styles.container}>
+      {data && (
+        <PlayerInfoBar
+          nickname={data.playerInfo.nickname}
+          level={data.playerInfo.level}
+          uid={uid}
+        />
+      )}
+      <FlatList
+        data={data?.characters ?? []}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        contentContainerStyle={styles.grid}
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetching && !isLoading}
+            onRefresh={() => refetch()}
+            tintColor="#c9a227"
+          />
+        }
+        ListEmptyComponent={
+          <View style={styles.centerContainer}>
+            <Text style={styles.emptyTitle}>No characters found</Text>
+            <Text style={styles.emptySubtitle}>
+              Make sure your Character Showcase is set to public in-game (max 8 characters).
+            </Text>
+          </View>
+        }
+        renderItem={({ item }: { item: Character }) => (
+          <CharacterCard character={item} />
+        )}
+      />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: { flex: 1, backgroundColor: '#0f0f0f' },
+  centerContainer: {
+    flex: 1,
+    backgroundColor: '#0f0f0f',
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'center',
+    padding: 24,
   },
-  stepContainer: {
-    gap: 8,
+  playerBar: {
+    backgroundColor: '#1a1a1a',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#2a2a2a',
+  },
+  playerName: { color: '#fff', fontSize: 18, fontWeight: '700' },
+  playerMeta: { color: '#888', fontSize: 13, marginTop: 2 },
+  grid: { padding: 8 },
+  cardTouchable: { flex: 1, margin: 6 },
+  card: {
+    backgroundColor: '#1a1a1a',
+    borderRadius: 12,
+    borderWidth: 1.5,
+    padding: 12,
+    minHeight: 120,
+  },
+  elementBadge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  elementText: { color: '#fff', fontSize: 11, fontWeight: '700' },
+  characterName: { color: '#fff', fontSize: 15, fontWeight: '600', marginBottom: 4 },
+  cardMeta: { gap: 8, marginBottom: 4 },
+  metaText: { color: '#aaa', fontSize: 12 },
+  rarityText: { color: '#c9a227', fontSize: 11 },
+  loadingText: { color: '#888', marginTop: 12, fontSize: 14 },
+  emptyTitle: { color: '#fff', fontSize: 18, fontWeight: '600', textAlign: 'center' },
+  emptySubtitle: { color: '#888', fontSize: 14, textAlign: 'center', marginTop: 8, lineHeight: 20 },
+  errorText: { color: '#ff6b6b', fontSize: 15, textAlign: 'center', marginBottom: 16 },
+  retryButton: {
+    backgroundColor: '#c9a227',
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    borderRadius: 8,
   },
-});
+  retryText: { color: '#000', fontWeight: '700' },
+})
