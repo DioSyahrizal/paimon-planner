@@ -66,7 +66,10 @@ function CharacterHeader({ character }: { character: Character }) {
 // ─── Section A: Weapon Card ───────────────────────────────────────────────────
 
 function WeaponCard({ weapon }: { weapon: Weapon }) {
-  console.log("weapon", JSON.stringify(weapon, null, 2));
+  const isWeaponStatPercentage = weapon.subStat
+    ? weapon.subStat.stat.includes("%")
+    : false;
+
   return (
     <View style={styles.weaponCard}>
       <XStack gap="$3" alignItems="center">
@@ -85,10 +88,11 @@ function WeaponCard({ weapon }: { weapon: Weapon }) {
             </Text>
           </YStack>
           <YStack alignItems="flex-end" gap="$1">
-            <Text style={styles.weaponStat}>ATK {weapon.baseATK}</Text>
+            <Text style={styles.weaponStat}>ATK: {weapon.baseATK}</Text>
             {weapon.subStat && (
               <Text style={styles.weaponSubStat}>
-                {weapon.subStat.stat} {(weapon.subStat.value * 100).toFixed(1)}%
+                {weapon.subStat.stat}: {weapon.subStat.value}
+                {isWeaponStatPercentage && "%"}
               </Text>
             )}
           </YStack>
