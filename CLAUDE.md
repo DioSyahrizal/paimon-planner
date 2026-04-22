@@ -562,22 +562,7 @@ Simple weighted scoring based on recommended substats for the character:
 
 ### Enka Response Parsing
 
-The raw Enka response uses numeric IDs for everything (fight properties, equipment types, etc.). The parser must:
-
-1. Map `avatarId` → character name using Enka's `store/characters.json`
-2. Map `fightPropMap` keys → readable stat names (e.g. `FIGHT_PROP_CRITICAL` → `CR%`)
-3. Extract artifact data from `equipList` where `flat.itemType === "ITEM_RELIQUARY"`
-4. Extract weapon data from `equipList` where `flat.itemType === "ITEM_WEAPON"`
-5. Map `setNameTextMapHash` → artifact set name
-
-Reference for prop IDs: https://github.com/EnkaNetwork/API-docs
-
-**Bundled lookup tables:** Download and bundle these JSON files from the Enka API docs repo into `src/data/enka-store/`:
-
-- `characters.json` — avatarId → character metadata
-- `loc.json` — textMapHash → localized strings (English)
-- `pfps.json` — profile picture IDs
-  These are static and only change on Genshin game updates. Bundle them as app assets and update manually when new patches drop.
+See **[docs/enka-parser.md](docs/enka-parser.md)** for full parser documentation — API response shape, lookup strategies, known gotchas, and patch update checklist.
 
 ### SQLite Schema for Build Guides
 

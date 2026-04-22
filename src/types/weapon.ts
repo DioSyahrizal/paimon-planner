@@ -12,4 +12,5 @@ export interface Weapon {
   refinement: number
   baseATK: number
   subStat?: StatValue
+  iconUrl: string
 }

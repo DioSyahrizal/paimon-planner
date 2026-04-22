@@ -54,7 +54,7 @@ export interface EnkaFlatData {
   itemType: 'ITEM_RELIQUARY' | 'ITEM_WEAPON'
   icon: string
   equipType?: string
-  weaponStat?: Array<{ propType: string; statValue: number }>
+  weaponStats?: Array<{ appendPropId: string; statValue: number }>
   reliquaryMainstat?: { mainPropId: string; statValue: number }
   reliquarySubstats?: Array<{ appendPropId: string; statValue: number }>
 }

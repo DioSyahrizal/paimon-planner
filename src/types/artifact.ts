@@ -35,4 +35,5 @@ export interface Artifact {
   level: number
   mainStat: StatValue
   subStats: StatValue[]
+  iconUrl: string
 }
