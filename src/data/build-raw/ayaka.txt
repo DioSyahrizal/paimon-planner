@@ -1,0 +1,18 @@
+Ayaka Main DPS Build
+Best Weapon	
+Mistsplitter Reforged Image Mistsplitter Reforged
+Replacement Weapons	
+1. Haran Geppaku Futsu Image Haran Geppaku Futsu
+2. The Black Sword Image The Black Sword
+3. Amenoma Kageuchi Image Amenoma Kageuchi
+Best Artifacts	
+Genshin - Blizzard Strayer Image Blizzard Strayer x4
+Artifact Main Stats	
+Genshin - HourglassSands: ATK%
+Genshin - GobletGoblet: Cryo DMG
+Genshin - CircletCirclet: CRIT DMG
+Artifact Substats	CRIT DMG, Energy Recharge, ATK%, CRIT Rate
+
+Ayaka Talent Priority
+1st	2nd	3rd
+Elemental Burst	Normal Attack	Elemental Skill

@@ -1,0 +1,19 @@
+Hu Tao Main DPS Builds
+Crimson Witch of Flames DPS
+Best Weapon	
+Staff of Homa Image Staff of Homa
+Replacement Weapons	
+1. Staff of the Scarlet Sands Image Staff of the Scarlet Sands
+2. Ballad of the Fjords Image Ballad of the Fjords
+3. Dragon Dragon's Bane
+Best Artifacts	
+Genshin - Crimson Witch of Flames Image Crimson Witch of Flames x4
+Artifact Main Stats	
+Genshin - HourglassSands: HP%
+Genshin - GobletGoblet:Pyro DMG Bonus
+Genshin - CircletCirclet: CRIT DMG or CRIT Rate
+Artifact Sub Stats	CRIT Rate, CRIT DMG, HP%, Elemental Mastery
+
+Hu Tao's Talent Priority
+1st	2nd
+Normal Attack or Elemental Skill	Elemental Burst

@@ -1,0 +1,30 @@
+Hexerei DPS Build
+Best Weapon
+Gest of the Mighty Wolf Image Gest of the Mighty Wolf
+Replacement Weapons
+1. A Thousand Blazing Suns Image A Thousand Blazing Suns
+2. Redhorn Stonethresher Image Redhorn Stonethresher
+3. Wolf Wolf's Gravestone
+4. Serpent Spine Image Serpent Spine (BP)
+5. Tidal Shadow Image Tidal Shadow (Craftable)
+6. Blackcliff Slasher Image Blackcliff Slasher
+Best Artifacts
+Genshin - A Day Carved from Rising Winds Image A Day Carved from Rising Winds x4
+Artifact Main Stats
+Genshin - HourglassSands: ATK%
+Genshin - GobletGoblet: ATK%
+Genshin - CircletCirclet: CRIT Rate or CRIT DMG
+Artifact Sub Stats
+CRIT Rate, CRIT DMG, ATK%, Energy Recharge, Elemental Mastery
+
+Varka Goal Stat Values
+Stat Goal Value
+ATK 2,500 ~ 3,000+
+CRIT Rate 70 ~ 80%
+CRIT DMG 200% or above
+Energy Recharge 100 - 130%
+Only get Energy Recharge if you plan to Burst every other rotation.
+
+Varka Talent Priority
+1st 2nd 3rd
+Elemental Skill Elemental Burst Normal Attack

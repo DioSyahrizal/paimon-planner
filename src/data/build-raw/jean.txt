@@ -1,0 +1,19 @@
+Support Builds for Jean
+Anemo Healer Support
+Best Weapon	
+Freedom-Sworn Image Freedom-Sworn
+Replacement Weapons	
+1. Skyward Blade Image Skyward Blade
+2. Festering Desire Image Festering Desire
+3. Amenoma Kageuchi Image Amenoma Kageuchi
+Best Artifacts	
+Genshin - Viridescent Venerer Image Viridescent Venerer x4
+Artifact Main Stats	
+Genshin - HourglassSands: ATK% or Energy Recharge
+Genshin - GobletGoblet: Anemo DMG Bonus
+Genshin - CircletCirclet: Healing Bonus, CRIT Rate or CRIT DMG
+Artifact Sub Stats	ATK%, Energy Recharge, CRIT DMG, CRIT Rate
+
+Jean's Talent Priority
+1st	2nd	3rd
+Elemental Burst	Elemental Skill	Normal Attack

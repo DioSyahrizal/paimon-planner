@@ -1,0 +1,18 @@
+Yelan Sub-DPS Build
+Best Weapon	
+Aqua Simulacra Image Aqua Simulacra
+Replacement Weapons	
+1. Elegy for the End Image Elegy for the End
+2. Favonius Warbow Image Favonius Warbow
+3. Slingshot Image Slingshot
+Best Artifacts	
+Genshin - Emblem of Severed Fate Image Emblem of Severed Fate x4
+Artifact Main Stats	
+Genshin - HourglassSands: HP% or Energy Recharge
+Genshin - GobletGoblet: Hydro DMG Bonus
+Genshin - CircletCirclet: CRIT Rate or CRIT DMG
+Artifact Sub Stats	Energy Recharge, HP%, CRIT Rate or CRIT DMG
+
+Yelan's Talent Priority
+1st	2nd	3rd
+Elemental Burst	Elemental Skill	Normal Attack

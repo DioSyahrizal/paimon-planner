@@ -285,8 +285,8 @@
       {
         "sets": [
           {
-            "setId": "day_carved_rising_winds",
-            "setName": "A Day Carved from Rising Winds",
+            "setId": "15044",
+            "setName": "A Day Carved From Rising Winds",
             "pieces": 4
           }
         ],
@@ -354,7 +354,7 @@
         "weaponName": "Serpent Spine",
         "refinement": "R1",
         "tier": "A",
-        "note": "BP weapon"
+        "note": "BP"
       },
       {
         "weaponId": "12425",
@@ -370,7 +370,285 @@
         "tier": "A"
       }
     ],
-    "notes": "Only get Energy Recharge if you plan to Burst every other rotation. NOTE: characterId and setId are placeholders — update after running `npm run update-enka` once Varka is released.",
+    "notes": "Only get Energy Recharge if you plan to Burst every other rotation.",
+    "source": "Game8",
+    "lastUpdated": "2026-04-23"
+  },
+  {
+    "characterId": "10000046",
+    "characterName": "Hu Tao",
+    "role": "Crimson Witch of Flames DPS",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "15006",
+            "setName": "Crimson Witch of Flames",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "HP%"
+      ],
+      "goblet": [
+        "Pyro DMG%"
+      ],
+      "circlet": [
+        "CD%",
+        "CR%"
+      ]
+    },
+    "substatPriority": [
+      "CR%",
+      "CD%",
+      "HP%",
+      "EM"
+    ],
+    "talentPriority": [
+      "normal",
+      "skill",
+      "burst"
+    ],
+    "weapons": [
+      {
+        "weaponId": "13501",
+        "weaponName": "Staff of Homa",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "13511",
+        "weaponName": "Staff of the Scarlet Sands",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "13424",
+        "weaponName": "Ballad of the Fjords",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "13401",
+        "weaponName": "Dragon's Bane",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "source": "Game8",
+    "lastUpdated": "2026-04-23"
+  },
+  {
+    "characterId": "10000060",
+    "characterName": "Yelan",
+    "role": "Best Weapon",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "15020",
+            "setName": "Emblem of Severed Fate",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "HP%",
+        "ER%"
+      ],
+      "goblet": [
+        "Hydro DMG%"
+      ],
+      "circlet": [
+        "CR%",
+        "CD%"
+      ]
+    },
+    "substatPriority": [
+      "ER%",
+      "HP%",
+      "CR%",
+      "CD%"
+    ],
+    "talentPriority": [
+      "burst",
+      "skill",
+      "normal"
+    ],
+    "weapons": [
+      {
+        "weaponId": "15508",
+        "weaponName": "Aqua Simulacra",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "15503",
+        "weaponName": "Elegy for the End",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "15401",
+        "weaponName": "Favonius Warbow",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "15304",
+        "weaponName": "Slingshot",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "source": "Game8",
+    "lastUpdated": "2026-04-23"
+  },
+  {
+    "characterId": "10000003",
+    "characterName": "Jean",
+    "role": "Support Builds for Jean",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "15002",
+            "setName": "Viridescent Venerer",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "ATK%",
+        "ER%"
+      ],
+      "goblet": [
+        "Anemo DMG%"
+      ],
+      "circlet": [
+        "Healing%",
+        "CR%",
+        "CD%"
+      ]
+    },
+    "substatPriority": [
+      "ATK%",
+      "ER%",
+      "CD%",
+      "CR%"
+    ],
+    "talentPriority": [
+      "burst",
+      "skill",
+      "normal"
+    ],
+    "weapons": [
+      {
+        "weaponId": "11503",
+        "weaponName": "Freedom-Sworn",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "11502",
+        "weaponName": "Skyward Blade",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11413",
+        "weaponName": "Festering Desire",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11414",
+        "weaponName": "Amenoma Kageuchi",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "source": "Game8",
+    "lastUpdated": "2026-04-23"
+  },
+  {
+    "characterId": "10000002",
+    "characterName": "Kamisato Ayaka",
+    "role": "Ayaka Main DPS",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "14001",
+            "setName": "Blizzard Strayer",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "ATK%"
+      ],
+      "goblet": [
+        "Cryo DMG%"
+      ],
+      "circlet": [
+        "CD%"
+      ]
+    },
+    "substatPriority": [
+      "CD%",
+      "ER%",
+      "ATK%",
+      "CR%"
+    ],
+    "talentPriority": [
+      "burst",
+      "normal",
+      "skill"
+    ],
+    "weapons": [
+      {
+        "weaponId": "11509",
+        "weaponName": "Mistsplitter Reforged",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "11510",
+        "weaponName": "Haran Geppaku Futsu",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11409",
+        "weaponName": "The Black Sword",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11414",
+        "weaponName": "Amenoma Kageuchi",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
     "source": "Game8",
     "lastUpdated": "2026-04-23"
   }
