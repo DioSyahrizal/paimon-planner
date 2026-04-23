@@ -39,8 +39,8 @@ const CharacterPage = () => {
       <TabToggle active={activeTab} onChange={setActiveTab} />
 
       {activeTab === "my-build" && <MyBuildTab character={character} />}
-      {activeTab === "recommended" && <RecommendedTab />}
-      {activeTab === "compare" && <CompareTab />}
+      {activeTab === "recommended" && <RecommendedTab characterId={character.id} />}
+      {activeTab === "compare" && <CompareTab characterId={character.id} character={character} />}
     </ScrollView>
   );
 };

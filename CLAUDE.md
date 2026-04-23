@@ -642,39 +642,33 @@ Build Guides Tab                    Build Editor Screen
 - SQLite schema (`getDatabase()` in `src/db/schema.ts`) is initialized on app mount in `app/_layout.tsx`
 - UID is stored in Zustand (in-memory only for now — Phase 2 should persist it to SQLite or AsyncStorage so it survives app restarts)
 
-### Phase 2 — Character Detail (Week 3-4)
+### Phase 2 — Character Detail (Week 3-4) ✅ COMPLETE
 
 - [x] Persist UID to SQLite or AsyncStorage (survives app restarts)
-- [x] Character detail screen (`app/character/[id].tsx`) — currently a placeholder
+- [x] Character detail screen (`app/character/[id].tsx`)
 - [x] "My Build" tab with full artifact + stat rendering
-- [ ] Total stat calculator (aggregate base + weapon + artifacts)
-- [ ] Pull-to-refresh on dashboard (RefreshControl wired up, but dashboard needs polish)
+- [x] Total stat calculator — Enka's `fightPropMap` already provides final aggregated stats (base + weapon + artifacts). `parseTotalStats()` in `enka-parser.ts` maps these directly to `StatBlock`. No local calculation needed.
+- [x] Pull-to-refresh on dashboard
 
-**Starting point for Phase 2:**
+### Phase 3 — Recommended Builds & Gap Analysis (Week 5-7) ✅ COMPLETE
 
-- `app/character/[id].tsx` exists as a placeholder — receives `id` (avatarId string) via route param
-- Character data is already parsed and available from `useEnkaUser()` — pass it down or re-select from query cache by id
-- `src/lib/enka-parser.ts` → `parseEnkaResponse()` returns `Character[]` with full artifact/weapon/stat data
-- Weapon type (`WeaponType`) defaults to `"Sword"` in the parser — a weapon type lookup table or mapping from `WeaponType` field in characters.json is needed for accuracy
-- `src/types/character.ts` has the full `Character` interface with `artifacts[]`, `weapon`, `totalStats`, `iconUrl`
+**Approach changed:** Replaced SQLite + Build Editor with a bundled `src/data/recommended-builds.json` file. Builds are manually curated from community guides (KQM, Game8) and mapped to the `RecommendedBuild[]` type. Simpler, no CRUD UI needed for a personal app.
 
-### Phase 3 — Build Editor & Recommended Builds (Week 5-7)
+- [x] `src/data/recommended-builds.json` — bundled build data (Chasca, Zibai, Nahida entries)
+- [x] `src/lib/recommended-builds.ts` — `getBuildsForCharacter()`, `getBuildByRole()`, `getAllBuilds()`
+- [x] `src/lib/gap-analysis.ts` — `analyzeGap()` computes artifact set match, main stat match per slot, weapon tier (ID + name fallback), substat coverage, goal stat deltas with decimal→% conversion
+- [x] "Recommended" tab — artifact sets with tier badges, main stats, substat priority, goal stats, weapons, talent priority, notes
+- [x] "Compare" tab — overall score badge (0–100), artifact set check, main stat check per slot, weapon tier, goal stat delta rows, substat coverage chips
+- [x] `RecommendedBuild` type extended with `goalStats` and `talentPriority` fields
 
-- [ ] Set up expo-sqlite database with schema for recommended builds
-- [ ] Build Guides Manager screen (list/delete builds)
-- [ ] Build Editor screen with full form:
-  - [ ] Character + role selector
-  - [ ] Artifact set picker (searchable, multi-option with tiers)
-  - [ ] Main stat selectors (sands/goblet/circlet)
-  - [ ] Substat priority drag-to-reorder list
-  - [ ] Weapon tier editor (searchable, add/remove/reorder)
-  - [ ] Notes + source text fields
-- [ ] "Recommended" tab on character detail (read from SQLite)
-- [ ] Basic gap analysis: set match, main stat match, stat comparison
-- [ ] "Compare" tab with side-by-side view
+**Skipped (intentionally):**
+- SQLite schema for recommended builds — not needed with JSON approach
+- Build Guides Manager screen — not needed
+- Build Editor UI — not needed; paste community guides directly into JSON
 
 ### Phase 4 — Farm Planner & Polish (Week 8-9)
 
+- [ ] Build Guides tab — read-only viewer of `recommended-builds.json` (character name, role, best set, S-tier weapon). Tap → navigate to character detail. No editing, no SQLite. Full editor deferred to Phase 5 with VPS sync.
 - [ ] Materials/domain data mapping
 - [ ] Farm planner screen with day-based grouping
 - [ ] Checklist persistence
@@ -691,6 +685,8 @@ Build Guides Tab                    Build Editor Screen
 - [ ] Share build card as image
 - [ ] Team composition builder
 - [ ] Remote build guide sync (fetch/push JSON from Contabo VPS)
+- [ ] Auto-fetch recommended builds via scraper/API — feed into the same `RecommendedBuild[]` JSON shape so the UI requires no changes
+- [ ] Multiple build roles per character (e.g. "Chasca DPS" vs "Chasca Anemo DPS") — already supported by the data model, just needs more JSON entries and a role selector in the UI
 
 ---
 

@@ -20,6 +20,8 @@ export interface TeamComp {
   note?: string
 }
 
+export type TalentKey = 'normal' | 'skill' | 'burst'
+
 export interface RecommendedBuild {
   characterId: string
   characterName: string
@@ -31,6 +33,8 @@ export interface RecommendedBuild {
     circlet: StatType[]
   }
   substatPriority: StatType[]
+  goalStats?: Partial<Record<StatType, number>>
+  talentPriority?: TalentKey[]
   weapons: WeaponRecommendation[]
   teamComps?: TeamComp[]
   notes?: string

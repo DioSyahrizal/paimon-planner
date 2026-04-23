@@ -1,0 +1,210 @@
+[
+  {
+    "characterId": "10000104",
+    "characterName": "Chasca",
+    "role": "Obsidian Codex DPS",
+    "artifactSets": [
+      {
+        "sets": [{ "setId": "15038", "setName": "Obsidian Codex", "pieces": 4 }],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": ["ATK%"],
+      "goblet": ["ATK%", "Anemo DMG%"],
+      "circlet": ["CD%", "CR%"]
+    },
+    "substatPriority": ["CD%", "CR%", "ATK%", "EM"],
+    "goalStats": {
+      "ATK": 2000,
+      "CR%": 45,
+      "CD%": 200
+    },
+    "talentPriority": ["skill", "burst", "normal"],
+    "weapons": [
+      {
+        "weaponId": "astral_vulture",
+        "weaponName": "Astral Vulture's Crimson Plumage",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "15508",
+        "weaponName": "Aqua Simulacra",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "15512",
+        "weaponName": "The First Great Magic",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "15424",
+        "weaponName": "Scion of the Blazing Sun",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "chain_breaker",
+        "weaponName": "Chain Breaker",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "notes": "Goblet: Use ATK% for general builds, or Anemo DMG% for specialized Nightsoul DPS. Talent priority: Elemental Skill > Elemental Burst > Normal Attack.",
+    "source": "Game8",
+    "lastUpdated": "2026-04-23"
+  },
+  {
+    "characterId": "10000126",
+    "characterName": "Zibai",
+    "role": "Lunar-Crystallize DPS",
+    "artifactSets": [
+      {
+        "sets": [{ "setId": "15041", "setName": "Night of the Sky's Unveiling", "pieces": 4 }],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": ["DEF%"],
+      "goblet": ["DEF%"],
+      "circlet": ["CR%", "CD%"]
+    },
+    "substatPriority": ["CR%", "CD%", "DEF%", "EM", "ER%"],
+    "goalStats": {
+      "DEF": 2500,
+      "CR%": 40,
+      "CD%": 175,
+      "EM": 100,
+      "ER%": 110
+    },
+    "talentPriority": ["skill", "burst", "normal"],
+    "weapons": [
+      {
+        "weaponId": "lightbearing_moonshard",
+        "weaponName": "Lightbearing Moonshard",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "11514",
+        "weaponName": "Uraku Misugiri",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11512",
+        "weaponName": "Light of Foliar Incision",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11516",
+        "weaponName": "Peak Patrol Song",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "harbinger_of_dawn",
+        "weaponName": "Harbinger of Dawn",
+        "refinement": "R5",
+        "tier": "A",
+        "note": "F2P option, needs R5"
+      },
+      {
+        "weaponId": "11431",
+        "weaponName": "Flute of Ezpitzal",
+        "refinement": "R1",
+        "tier": "A",
+        "note": "Craftable"
+      },
+      {
+        "weaponId": "11515",
+        "weaponName": "Absolution",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "cinnabar_spindle",
+        "weaponName": "Cinnabar Spindle",
+        "refinement": "R5",
+        "tier": "A",
+        "note": "Limited event weapon"
+      }
+    ],
+    "notes": "CR% goal is before Night of the Sky's Unveiling CRIT Rate bonus. EM target: 100–200. ER target: 110–130%.",
+    "source": "Game8",
+    "lastUpdated": "2026-04-23"
+  },
+  {
+    "characterId": "10000073",
+    "characterName": "Nahida",
+    "role": "Sub-DPS / Support",
+    "artifactSets": [
+      {
+        "sets": [{ "setId": "15025", "setName": "Deepwood Memories", "pieces": 4 }],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": ["EM"],
+      "goblet": ["EM", "Dendro DMG%"],
+      "circlet": ["EM", "CR%", "CD%"]
+    },
+    "substatPriority": ["EM", "CR%", "CD%", "ER%"],
+    "goalStats": {
+      "EM": 800,
+      "ER%": 130
+    },
+    "talentPriority": ["skill", "burst", "normal"],
+    "weapons": [
+      {
+        "weaponId": "a_thousand_floating_dreams",
+        "weaponName": "A Thousand Floating Dreams",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "sacrificial_fragments",
+        "weaponName": "Sacrificial Fragments",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "14301",
+        "weaponName": "Magic Guide",
+        "refinement": "R5",
+        "tier": "A",
+        "note": "F2P option, needs R5"
+      },
+      {
+        "weaponId": "wandering_evenstar",
+        "weaponName": "Wandering Evenstar",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "14407",
+        "weaponName": "Mappa Mare",
+        "refinement": "R1",
+        "tier": "A",
+        "note": "Craftable"
+      },
+      {
+        "weaponId": "14402",
+        "weaponName": "The Widsith",
+        "refinement": "R1",
+        "tier": "A",
+        "note": "RNG-dependent"
+      }
+    ],
+    "notes": "Prioritize EM above all. Goblet: use EM for general Quicken/Spread, Dendro DMG% if team already provides high EM buffs. ER target: 110% with A Thousand Floating Dreams, up to 160% without.",
+    "source": "Game8",
+    "lastUpdated": "2026-04-23"
+  }
+]
