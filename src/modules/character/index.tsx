@@ -12,11 +12,23 @@ import CompareTab from "./components/tabs/components/CompareTab";
 
 export type CharacterTab = "my-build" | "recommended" | "compare";
 
+const VALID_TABS: CharacterTab[] = ["my-build", "recommended", "compare"];
+
+function getInitialTab(tabParam?: string | string[]): CharacterTab {
+  const tab = Array.isArray(tabParam) ? tabParam[0] : tabParam;
+
+  if (tab && VALID_TABS.includes(tab as CharacterTab)) {
+    return tab as CharacterTab;
+  }
+
+  return "my-build";
+}
+
 const CharacterPage = () => {
   const { bottom } = useSafeAreaInsets();
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, tab } = useLocalSearchParams<{ id: string; tab?: string | string[] }>();
   const uid = useUserStore((s) => s.uid);
-  const [activeTab, setActiveTab] = useState<CharacterTab>("my-build");
+  const [activeTab, setActiveTab] = useState<CharacterTab>(() => getInitialTab(tab));
 
   const { data } = useEnkaUser(uid);
   const character = data?.characters.find((c) => c.id === id);
