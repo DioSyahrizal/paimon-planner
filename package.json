@@ -9,7 +9,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "update-enka": "bash scripts/update-enka-data.sh"
+    "update-enka": "bash scripts/update-enka-data.sh",
+    "import-guide": "npx tsx scripts/import-guide.ts"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

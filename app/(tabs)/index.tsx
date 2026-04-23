@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Spinner, Text, View, XStack, YStack } from "tamagui";
+import { Image, Spinner, Text, View, XStack, YStack } from "tamagui";
 
 function CharacterCard({ character }: { character: Character }) {
   const router = useRouter();
@@ -24,8 +24,9 @@ function CharacterCard({ character }: { character: Character }) {
     >
       <View style={[styles.card, { borderColor: elementColor }]}>
         <View style={[styles.elementBadge, { backgroundColor: elementColor }]}>
-          <Text style={styles.elementText}>{character.element[0]}</Text>
+          <Image src={character.iconUrl} width={24} height={24} />
         </View>
+
         <Text style={styles.characterName} numberOfLines={1}>
           {character.name}
         </Text>
@@ -173,8 +174,8 @@ const styles = StyleSheet.create({
     minHeight: 120,
   },
   elementBadge: {
-    width: 24,
-    height: 24,
+    width: 36,
+    height: 36,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",

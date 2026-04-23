@@ -5,23 +5,46 @@
     "role": "Obsidian Codex DPS",
     "artifactSets": [
       {
-        "sets": [{ "setId": "15038", "setName": "Obsidian Codex", "pieces": 4 }],
+        "sets": [
+          {
+            "setId": "15038",
+            "setName": "Obsidian Codex",
+            "pieces": 4
+          }
+        ],
         "label": "Best in Slot",
         "tier": "S"
       }
     ],
     "mainStats": {
-      "sands": ["ATK%"],
-      "goblet": ["ATK%", "Anemo DMG%"],
-      "circlet": ["CD%", "CR%"]
+      "sands": [
+        "ATK%"
+      ],
+      "goblet": [
+        "ATK%",
+        "Anemo DMG%"
+      ],
+      "circlet": [
+        "CD%",
+        "CR%"
+      ]
     },
-    "substatPriority": ["CD%", "CR%", "ATK%", "EM"],
+    "substatPriority": [
+      "CD%",
+      "CR%",
+      "ATK%",
+      "EM"
+    ],
     "goalStats": {
       "ATK": 2000,
       "CR%": 45,
       "CD%": 200
     },
-    "talentPriority": ["skill", "burst", "normal"],
+    "talentPriority": [
+      "skill",
+      "burst",
+      "normal"
+    ],
     "weapons": [
       {
         "weaponId": "astral_vulture",
@@ -64,17 +87,36 @@
     "role": "Lunar-Crystallize DPS",
     "artifactSets": [
       {
-        "sets": [{ "setId": "15041", "setName": "Night of the Sky's Unveiling", "pieces": 4 }],
+        "sets": [
+          {
+            "setId": "15041",
+            "setName": "Night of the Sky's Unveiling",
+            "pieces": 4
+          }
+        ],
         "label": "Best in Slot",
         "tier": "S"
       }
     ],
     "mainStats": {
-      "sands": ["DEF%"],
-      "goblet": ["DEF%"],
-      "circlet": ["CR%", "CD%"]
+      "sands": [
+        "DEF%"
+      ],
+      "goblet": [
+        "DEF%"
+      ],
+      "circlet": [
+        "CR%",
+        "CD%"
+      ]
     },
-    "substatPriority": ["CR%", "CD%", "DEF%", "EM", "ER%"],
+    "substatPriority": [
+      "CR%",
+      "CD%",
+      "DEF%",
+      "EM",
+      "ER%"
+    ],
     "goalStats": {
       "DEF": 2500,
       "CR%": 40,
@@ -82,7 +124,11 @@
       "EM": 100,
       "ER%": 110
     },
-    "talentPriority": ["skill", "burst", "normal"],
+    "talentPriority": [
+      "skill",
+      "burst",
+      "normal"
+    ],
     "weapons": [
       {
         "weaponId": "lightbearing_moonshard",
@@ -146,22 +192,46 @@
     "role": "Sub-DPS / Support",
     "artifactSets": [
       {
-        "sets": [{ "setId": "15025", "setName": "Deepwood Memories", "pieces": 4 }],
+        "sets": [
+          {
+            "setId": "15025",
+            "setName": "Deepwood Memories",
+            "pieces": 4
+          }
+        ],
         "label": "Best in Slot",
         "tier": "S"
       }
     ],
     "mainStats": {
-      "sands": ["EM"],
-      "goblet": ["EM", "Dendro DMG%"],
-      "circlet": ["EM", "CR%", "CD%"]
+      "sands": [
+        "EM"
+      ],
+      "goblet": [
+        "EM",
+        "Dendro DMG%"
+      ],
+      "circlet": [
+        "EM",
+        "CR%",
+        "CD%"
+      ]
     },
-    "substatPriority": ["EM", "CR%", "CD%", "ER%"],
+    "substatPriority": [
+      "EM",
+      "CR%",
+      "CD%",
+      "ER%"
+    ],
     "goalStats": {
       "EM": 800,
       "ER%": 130
     },
-    "talentPriority": ["skill", "burst", "normal"],
+    "talentPriority": [
+      "skill",
+      "burst",
+      "normal"
+    ],
     "weapons": [
       {
         "weaponId": "a_thousand_floating_dreams",
@@ -204,6 +274,103 @@
       }
     ],
     "notes": "Prioritize EM above all. Goblet: use EM for general Quicken/Spread, Dendro DMG% if team already provides high EM buffs. ER target: 110% with A Thousand Floating Dreams, up to 160% without.",
+    "source": "Game8",
+    "lastUpdated": "2026-04-23"
+  },
+  {
+    "characterId": "10000128",
+    "characterName": "Varka",
+    "role": "Hexerei DPS",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "day_carved_rising_winds",
+            "setName": "A Day Carved from Rising Winds",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "ATK%"
+      ],
+      "goblet": [
+        "ATK%"
+      ],
+      "circlet": [
+        "CR%",
+        "CD%"
+      ]
+    },
+    "substatPriority": [
+      "CR%",
+      "CD%",
+      "ATK%",
+      "ER%",
+      "EM"
+    ],
+    "goalStats": {
+      "ATK": 2500,
+      "CR%": 70,
+      "CD%": 200,
+      "ER%": 100
+    },
+    "talentPriority": [
+      "skill",
+      "burst",
+      "normal"
+    ],
+    "weapons": [
+      {
+        "weaponId": "12515",
+        "weaponName": "Gest of the Mighty Wolf",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "12514",
+        "weaponName": "A Thousand Blazing Suns",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "12510",
+        "weaponName": "Redhorn Stonethresher",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "12502",
+        "weaponName": "Wolf's Gravestone",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "12409",
+        "weaponName": "Serpent Spine",
+        "refinement": "R1",
+        "tier": "A",
+        "note": "BP weapon"
+      },
+      {
+        "weaponId": "12425",
+        "weaponName": "Tidal Shadow",
+        "refinement": "R1",
+        "tier": "A",
+        "note": "Craftable"
+      },
+      {
+        "weaponId": "12408",
+        "weaponName": "Blackcliff Slasher",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "notes": "Only get Energy Recharge if you plan to Burst every other rotation. NOTE: characterId and setId are placeholders — update after running `npm run update-enka` once Varka is released.",
     "source": "Game8",
     "lastUpdated": "2026-04-23"
   }
