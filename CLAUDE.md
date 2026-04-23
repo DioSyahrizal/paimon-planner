@@ -633,6 +633,7 @@ Build Guides Tab                    Build Editor Screen
 - [x] Home dashboard: fetch + display character grid with basic info
 
 **Phase 1 implementation notes:**
+
 - All Tamagui packages pinned to `1.144.4` — do NOT upgrade selectively or versions will split and break config detection (`npx @tamagui/cli check` to verify)
 - `loc.json` from Enka uses lowercase `"en"` key (not `"EN"`) — parser handles both
 - `@/*` path alias maps to `./src/*` (updated from the Expo default of `./`)
@@ -643,13 +644,14 @@ Build Guides Tab                    Build Editor Screen
 
 ### Phase 2 — Character Detail (Week 3-4)
 
-- [ ] Persist UID to SQLite or AsyncStorage (survives app restarts)
-- [ ] Character detail screen (`app/character/[id].tsx`) — currently a placeholder
-- [ ] "My Build" tab with full artifact + stat rendering
+- [x] Persist UID to SQLite or AsyncStorage (survives app restarts)
+- [x] Character detail screen (`app/character/[id].tsx`) — currently a placeholder
+- [x] "My Build" tab with full artifact + stat rendering
 - [ ] Total stat calculator (aggregate base + weapon + artifacts)
 - [ ] Pull-to-refresh on dashboard (RefreshControl wired up, but dashboard needs polish)
 
 **Starting point for Phase 2:**
+
 - `app/character/[id].tsx` exists as a placeholder — receives `id` (avatarId string) via route param
 - Character data is already parsed and available from `useEnkaUser()` — pass it down or re-select from query cache by id
 - `src/lib/enka-parser.ts` → `parseEnkaResponse()` returns `Character[]` with full artifact/weapon/stat data
