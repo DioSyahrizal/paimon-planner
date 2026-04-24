@@ -323,6 +323,7 @@ export function parseEnkaAvatar(avatarInfo: EnkaAvatarInfo): Character | null {
     artifacts,
     totalStats,
     iconUrl: iconName ? `${ENKA_CDN}/${iconName}.png` : undefined,
+    costumeId: avatarInfo.costumeId,
   };
 }
 

@@ -42,4 +42,5 @@ export interface Character {
   artifacts: Artifact[]
   totalStats: StatBlock
   iconUrl?: string
+  costumeId?: number
 }

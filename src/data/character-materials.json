@@ -1,0 +1,335 @@
+[
+  {
+    "characterId": "10000104",
+    "characterName": "Chasca",
+    "ascension": [
+      {
+        "name": "Vayuda Turquoise",
+        "type": "ascension_gemstone",
+        "note": "Anemo gemstone set from Anemo-aligned bosses."
+      },
+      {
+        "name": "Withering Purpurbloom",
+        "type": "local_specialty",
+        "sourceId": "withering-purpurbloom-route"
+      },
+      {
+        "name": "Fang Series",
+        "type": "enemy_drop",
+        "sourceId": "natlan-saurians",
+        "note": "Juvenile Fang, Seasoned Fang, and Tyrant's Fang."
+      },
+      {
+        "name": "Ensnaring Gaze",
+        "type": "normal_boss_drop",
+        "sourceId": "tenebrous-papilla"
+      }
+    ],
+    "talents": [
+      {
+        "name": "Conflict Books",
+        "type": "talent_book",
+        "sourceId": "blazing-ruins",
+        "note": "Teachings, Guide, and Philosophies of Conflict."
+      },
+      {
+        "name": "Fang Series",
+        "type": "enemy_drop",
+        "sourceId": "natlan-saurians"
+      },
+      {
+        "name": "Silken Feather",
+        "type": "weekly_boss_drop",
+        "sourceId": "the-knave-trounce"
+      },
+      {
+        "name": "Crown of Insight",
+        "type": "crown",
+        "sourceId": "crown-of-insight"
+      }
+    ],
+    "ascensionStages": [
+      {
+        "fromLevel": 20,
+        "toLevel": 40,
+        "materials": [
+          { "name": "Vayuda Turquoise Sliver", "type": "ascension_gemstone", "amount": 1 },
+          { "name": "Juvenile Fang", "type": "enemy_drop", "amount": 3, "sourceId": "natlan-saurians" },
+          { "name": "Withering Purpurbloom", "type": "local_specialty", "amount": 3, "sourceId": "withering-purpurbloom-route" }
+        ]
+      },
+      {
+        "fromLevel": 40,
+        "toLevel": 50,
+        "materials": [
+          { "name": "Vayuda Turquoise Fragment", "type": "ascension_gemstone", "amount": 3 },
+          { "name": "Juvenile Fang", "type": "enemy_drop", "amount": 15, "sourceId": "natlan-saurians" },
+          { "name": "Withering Purpurbloom", "type": "local_specialty", "amount": 10, "sourceId": "withering-purpurbloom-route" },
+          { "name": "Ensnaring Gaze", "type": "normal_boss_drop", "amount": 2, "sourceId": "tenebrous-papilla" }
+        ]
+      },
+      {
+        "fromLevel": 50,
+        "toLevel": 60,
+        "materials": [
+          { "name": "Vayuda Turquoise Fragment", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Seasoned Fang", "type": "enemy_drop", "amount": 12, "sourceId": "natlan-saurians" },
+          { "name": "Withering Purpurbloom", "type": "local_specialty", "amount": 20, "sourceId": "withering-purpurbloom-route" },
+          { "name": "Ensnaring Gaze", "type": "normal_boss_drop", "amount": 4, "sourceId": "tenebrous-papilla" }
+        ]
+      },
+      {
+        "fromLevel": 60,
+        "toLevel": 70,
+        "materials": [
+          { "name": "Vayuda Turquoise Chunk", "type": "ascension_gemstone", "amount": 3 },
+          { "name": "Seasoned Fang", "type": "enemy_drop", "amount": 18, "sourceId": "natlan-saurians" },
+          { "name": "Withering Purpurbloom", "type": "local_specialty", "amount": 30, "sourceId": "withering-purpurbloom-route" },
+          { "name": "Ensnaring Gaze", "type": "normal_boss_drop", "amount": 8, "sourceId": "tenebrous-papilla" }
+        ]
+      },
+      {
+        "fromLevel": 70,
+        "toLevel": 80,
+        "materials": [
+          { "name": "Vayuda Turquoise Chunk", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Tyrant's Fang", "type": "enemy_drop", "amount": 12, "sourceId": "natlan-saurians" },
+          { "name": "Withering Purpurbloom", "type": "local_specialty", "amount": 45, "sourceId": "withering-purpurbloom-route" },
+          { "name": "Ensnaring Gaze", "type": "normal_boss_drop", "amount": 12, "sourceId": "tenebrous-papilla" }
+        ]
+      },
+      {
+        "fromLevel": 80,
+        "toLevel": 90,
+        "materials": [
+          { "name": "Vayuda Turquoise Gemstone", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Tyrant's Fang", "type": "enemy_drop", "amount": 24, "sourceId": "natlan-saurians" },
+          { "name": "Withering Purpurbloom", "type": "local_specialty", "amount": 60, "sourceId": "withering-purpurbloom-route" },
+          { "name": "Ensnaring Gaze", "type": "normal_boss_drop", "amount": 20, "sourceId": "tenebrous-papilla" }
+        ]
+      }
+    ]
+  },
+  {
+    "characterId": "10000126",
+    "characterName": "Zibai",
+    "ascension": [
+      {
+        "name": "Prithiva Topaz",
+        "type": "ascension_gemstone",
+        "note": "Geo gemstone set from Geo-aligned bosses."
+      },
+      {
+        "name": "Glaze Lily",
+        "type": "local_specialty",
+        "sourceId": "glaze-lily-route"
+      },
+      {
+        "name": "Warrant Series",
+        "type": "enemy_drop",
+        "sourceId": "fatui-oprichniki",
+        "note": "Tattered Warrant, Immaculate Warrant, and Frost-Etched Warrant."
+      },
+      {
+        "name": "Remnant of the Dreadwing",
+        "type": "normal_boss_drop",
+        "sourceId": "lord-of-the-hidden-depths"
+      }
+    ],
+    "talents": [
+      {
+        "name": "Gold Books",
+        "type": "talent_book",
+        "sourceId": "taishan-mansion",
+        "note": "Teachings, Guide, and Philosophies of Gold."
+      },
+      {
+        "name": "Warrant Series",
+        "type": "enemy_drop",
+        "sourceId": "fatui-oprichniki"
+      },
+      {
+        "name": "Ascended Sample: Queen",
+        "type": "weekly_boss_drop",
+        "sourceId": "the-game-before-the-gate"
+      },
+      {
+        "name": "Crown of Insight",
+        "type": "crown",
+        "sourceId": "crown-of-insight"
+      }
+    ],
+    "ascensionStages": [
+      {
+        "fromLevel": 20,
+        "toLevel": 40,
+        "materials": [
+          { "name": "Prithiva Topaz Sliver", "type": "ascension_gemstone", "amount": 1 },
+          { "name": "Glaze Lily", "type": "local_specialty", "amount": 3, "sourceId": "glaze-lily-route" },
+          { "name": "Tattered Warrant", "type": "enemy_drop", "amount": 3, "sourceId": "fatui-oprichniki" }
+        ]
+      },
+      {
+        "fromLevel": 40,
+        "toLevel": 50,
+        "materials": [
+          { "name": "Prithiva Topaz Fragment", "type": "ascension_gemstone", "amount": 3 },
+          { "name": "Glaze Lily", "type": "local_specialty", "amount": 10, "sourceId": "glaze-lily-route" },
+          { "name": "Tattered Warrant", "type": "enemy_drop", "amount": 15, "sourceId": "fatui-oprichniki" },
+          { "name": "Remnant of the Dreadwing", "type": "normal_boss_drop", "amount": 2, "sourceId": "lord-of-the-hidden-depths" }
+        ]
+      },
+      {
+        "fromLevel": 50,
+        "toLevel": 60,
+        "materials": [
+          { "name": "Prithiva Topaz Fragment", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Glaze Lily", "type": "local_specialty", "amount": 20, "sourceId": "glaze-lily-route" },
+          { "name": "Immaculate Warrant", "type": "enemy_drop", "amount": 12, "sourceId": "fatui-oprichniki" },
+          { "name": "Remnant of the Dreadwing", "type": "normal_boss_drop", "amount": 4, "sourceId": "lord-of-the-hidden-depths" }
+        ]
+      },
+      {
+        "fromLevel": 60,
+        "toLevel": 70,
+        "materials": [
+          { "name": "Prithiva Topaz Chunk", "type": "ascension_gemstone", "amount": 3 },
+          { "name": "Glaze Lily", "type": "local_specialty", "amount": 30, "sourceId": "glaze-lily-route" },
+          { "name": "Immaculate Warrant", "type": "enemy_drop", "amount": 18, "sourceId": "fatui-oprichniki" },
+          { "name": "Remnant of the Dreadwing", "type": "normal_boss_drop", "amount": 8, "sourceId": "lord-of-the-hidden-depths" }
+        ]
+      },
+      {
+        "fromLevel": 70,
+        "toLevel": 80,
+        "materials": [
+          { "name": "Prithiva Topaz Chunk", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Glaze Lily", "type": "local_specialty", "amount": 45, "sourceId": "glaze-lily-route" },
+          { "name": "Frost-Etched Warrant", "type": "enemy_drop", "amount": 12, "sourceId": "fatui-oprichniki" },
+          { "name": "Remnant of the Dreadwing", "type": "normal_boss_drop", "amount": 12, "sourceId": "lord-of-the-hidden-depths" }
+        ]
+      },
+      {
+        "fromLevel": 80,
+        "toLevel": 90,
+        "materials": [
+          { "name": "Prithiva Topaz Gemstone", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Glaze Lily", "type": "local_specialty", "amount": 60, "sourceId": "glaze-lily-route" },
+          { "name": "Frost-Etched Warrant", "type": "enemy_drop", "amount": 24, "sourceId": "fatui-oprichniki" },
+          { "name": "Remnant of the Dreadwing", "type": "normal_boss_drop", "amount": 20, "sourceId": "lord-of-the-hidden-depths" }
+        ]
+      }
+    ]
+  },
+  {
+    "characterId": "10000073",
+    "characterName": "Nahida",
+    "ascension": [
+      {
+        "name": "Nagadus Emerald",
+        "type": "ascension_gemstone",
+        "note": "Dendro gemstone set from Dendro-aligned bosses."
+      },
+      {
+        "name": "Kalpalata Lotus",
+        "type": "local_specialty",
+        "sourceId": "kalpalata-lotus-route"
+      },
+      {
+        "name": "Fungal Spore Series",
+        "type": "enemy_drop",
+        "sourceId": "floating-fungi",
+        "note": "Fungal Spores, Luminescent Pollen, and Crystalline Cyst Dust."
+      },
+      {
+        "name": "Quelled Creeper",
+        "type": "normal_boss_drop",
+        "sourceId": "dendro-hypostasis"
+      }
+    ],
+    "talents": [
+      {
+        "name": "Ingenuity Books",
+        "type": "talent_book",
+        "sourceId": "steeple-of-ignorance",
+        "note": "Teachings, Guide, and Philosophies of Ingenuity."
+      },
+      {
+        "name": "Fungal Spore Series",
+        "type": "enemy_drop",
+        "sourceId": "floating-fungi"
+      },
+      {
+        "name": "Puppet Strings",
+        "type": "weekly_boss_drop",
+        "sourceId": "shouki-no-kami"
+      },
+      {
+        "name": "Crown of Insight",
+        "type": "crown",
+        "sourceId": "crown-of-insight"
+      }
+    ],
+    "ascensionStages": [
+      {
+        "fromLevel": 20,
+        "toLevel": 40,
+        "materials": [
+          { "name": "Nagadus Emerald Sliver", "type": "ascension_gemstone", "amount": 1 },
+          { "name": "Kalpalata Lotus", "type": "local_specialty", "amount": 3, "sourceId": "kalpalata-lotus-route" },
+          { "name": "Fungal Spores", "type": "enemy_drop", "amount": 3, "sourceId": "floating-fungi" }
+        ]
+      },
+      {
+        "fromLevel": 40,
+        "toLevel": 50,
+        "materials": [
+          { "name": "Nagadus Emerald Fragment", "type": "ascension_gemstone", "amount": 3 },
+          { "name": "Kalpalata Lotus", "type": "local_specialty", "amount": 10, "sourceId": "kalpalata-lotus-route" },
+          { "name": "Fungal Spores", "type": "enemy_drop", "amount": 15, "sourceId": "floating-fungi" },
+          { "name": "Quelled Creeper", "type": "normal_boss_drop", "amount": 2, "sourceId": "dendro-hypostasis" }
+        ]
+      },
+      {
+        "fromLevel": 50,
+        "toLevel": 60,
+        "materials": [
+          { "name": "Nagadus Emerald Fragment", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Kalpalata Lotus", "type": "local_specialty", "amount": 20, "sourceId": "kalpalata-lotus-route" },
+          { "name": "Luminescent Pollen", "type": "enemy_drop", "amount": 12, "sourceId": "floating-fungi" },
+          { "name": "Quelled Creeper", "type": "normal_boss_drop", "amount": 4, "sourceId": "dendro-hypostasis" }
+        ]
+      },
+      {
+        "fromLevel": 60,
+        "toLevel": 70,
+        "materials": [
+          { "name": "Nagadus Emerald Chunk", "type": "ascension_gemstone", "amount": 3 },
+          { "name": "Kalpalata Lotus", "type": "local_specialty", "amount": 30, "sourceId": "kalpalata-lotus-route" },
+          { "name": "Luminescent Pollen", "type": "enemy_drop", "amount": 18, "sourceId": "floating-fungi" },
+          { "name": "Quelled Creeper", "type": "normal_boss_drop", "amount": 8, "sourceId": "dendro-hypostasis" }
+        ]
+      },
+      {
+        "fromLevel": 70,
+        "toLevel": 80,
+        "materials": [
+          { "name": "Nagadus Emerald Chunk", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Kalpalata Lotus", "type": "local_specialty", "amount": 45, "sourceId": "kalpalata-lotus-route" },
+          { "name": "Crystalline Cyst Dust", "type": "enemy_drop", "amount": 12, "sourceId": "floating-fungi" },
+          { "name": "Quelled Creeper", "type": "normal_boss_drop", "amount": 12, "sourceId": "dendro-hypostasis" }
+        ]
+      },
+      {
+        "fromLevel": 80,
+        "toLevel": 90,
+        "materials": [
+          { "name": "Nagadus Emerald Gemstone", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Kalpalata Lotus", "type": "local_specialty", "amount": 60, "sourceId": "kalpalata-lotus-route" },
+          { "name": "Crystalline Cyst Dust", "type": "enemy_drop", "amount": 24, "sourceId": "floating-fungi" },
+          { "name": "Quelled Creeper", "type": "normal_boss_drop", "amount": 20, "sourceId": "dendro-hypostasis" }
+        ]
+      }
+    ]
+  }
+]

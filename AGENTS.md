@@ -119,7 +119,8 @@ paimon-planner/
 │   │       └── MaterialList.tsx
 │   ├── data/                     # Bundled static reference data (game data, NOT user builds)
 │   │   ├── enka-store/           # Enka lookup tables (characters.json, loc.json, etc.)
-│   │   ├── materials.json        # Material → domain → day mapping
+│   │   ├── character-materials.json # Curated character farm requirements + ascension stages
+│   │   ├── farm-sources.json     # Domains, bosses, enemy routes, local specialty sources
 │   │   └── artifact-sets.json    # Set names + set bonus reference
 │   ├── db/                       # SQLite database layer
 │   │   ├── schema.ts             # Table definitions (recommended_builds, farm_items)
@@ -133,6 +134,8 @@ paimon-planner/
 │   │   ├── artifact-scorer.ts    # Artifact scoring / grading logic
 │   │   ├── stat-calculator.ts    # Stat aggregation from artifacts + weapon
 │   │   ├── gap-analysis.ts       # Diff current vs recommended
+│   │   ├── farm-data.ts          # Farm planner selectors + day filtering
+│   │   ├── character-portraits.ts # Character portrait resolver helpers
 │   │   └── enka-parser.ts        # Parse raw Enka response into app types
 │   ├── store/                    # Zustand stores
 │   │   ├── user-store.ts         # UID, player info, preferences
@@ -141,6 +144,7 @@ paimon-planner/
 │   └── types/                    # App-wide TypeScript types
 │       ├── character.ts
 │       ├── artifact.ts
+│       ├── farm.ts
 │       ├── weapon.ts
 │       └── build.ts
 ├── assets/                       # Static assets (fonts, images, icons)
@@ -668,13 +672,28 @@ Build Guides Tab                    Build Editor Screen
 
 ### Phase 4 — Farm Planner & Polish (Week 8-9)
 
-- [ ] Build Guides tab — read-only viewer of `recommended-builds.json` (character name, role, best set, S-tier weapon). Tap → navigate to character detail. No editing, no SQLite. Full editor deferred to Phase 5 with VPS sync.
-- [ ] Materials/domain data mapping
-- [ ] Farm planner screen with day-based grouping
+- [x] Build Guides tab — read-only viewer of `recommended-builds.json` (character name, role, best set, S-tier weapon). Tap → navigate to character detail with `tab=recommended`.
+- [x] Materials/domain data mapping
+- [x] Farm planner screen with day-based grouping
 - [ ] Checklist persistence
 - [ ] Artifact scoring/grading system
 - [ ] Error handling polish (empty states, loading skeletons, error boundaries)
 - [ ] Dark mode support
+
+**Phase 4 implementation notes:**
+
+- `recommended-builds.json` remains the source of truth for recommendations. Build Guides is read-only and grouped by character, with one row per build role.
+- Character detail now accepts an optional `tab` route param: `my-build`, `recommended`, or `compare`.
+- Farm planner data is currently curated for the active recommended roster (`Chasca`, `Zibai`, `Nahida`) via `src/data/character-materials.json` and `src/data/farm-sources.json`.
+- `src/lib/farm-data.ts` exposes selectors for character materials, related domains, available domains by day, recommended artifact domains, and next ascension stage by current character level.
+- The Farm tab uses live Enka showcase data for current character level, constellation, friendship, and portrait, then combines it with the local farm mapping to show:
+  - today's open domains
+  - tracked characters in showcase
+  - next ascension range (e.g. `80-90`) with per-stage material counts
+  - today's day-locked farm targets
+  - tracked bosses/domains per character
+- Character portraits on the Farm tab currently use the same Enka-provided `iconUrl` pattern as the Home `CharacterCard`. Tamagui `Image` rendering was more reliable when width/height were passed directly without extra style-based sizing.
+- Recommendation ingestion is still manual for now. A script-assisted importer is a good future improvement, but Phase 4 keeps the JSON hand-curated.
 
 ### Phase 5 — Nice to Have (Later)
 

@@ -1,0 +1,176 @@
+[
+  {
+    "id": "sanctum-of-rainbow-spirits",
+    "name": "Sanctum of Rainbow Spirits",
+    "category": "artifact_domain",
+    "region": "Natlan",
+    "location": "Toyac Springs Region",
+    "drops": ["Obsidian Codex", "Scroll of the Hero of Cinder City"],
+    "note": "Artifact domain for Chasca's recommended Obsidian Codex set."
+  },
+  {
+    "id": "blazing-ruins",
+    "name": "Blazing Ruins",
+    "category": "talent_domain",
+    "region": "Natlan",
+    "location": "Coatepec Mountain",
+    "drops": ["Conflict"],
+    "availableDays": ["Wed", "Sat", "Sun"],
+    "note": "Drops the Conflict talent book series."
+  },
+  {
+    "id": "tenebrous-papilla",
+    "name": "Tenebrous Papilla",
+    "category": "normal_boss",
+    "region": "Natlan",
+    "location": "Natlan",
+    "drops": ["Ensnaring Gaze"],
+    "note": "Normal boss that drops Ensnaring Gaze."
+  },
+  {
+    "id": "natlan-saurians",
+    "name": "Natlan Saurians",
+    "category": "enemy",
+    "region": "Natlan",
+    "location": "Overworld enemy routes",
+    "drops": ["Juvenile Fang", "Seasoned Fang", "Tyrant's Fang"],
+    "note": "Enemy drop route for the Fang series."
+  },
+  {
+    "id": "withering-purpurbloom-route",
+    "name": "Withering Purpurbloom Route",
+    "category": "local_specialty",
+    "region": "Natlan",
+    "location": "Ochkanatlan",
+    "drops": ["Withering Purpurbloom"],
+    "note": "Natlan local specialty route for Chasca."
+  },
+  {
+    "id": "the-knave-trounce",
+    "name": "The Knave",
+    "category": "weekly_boss",
+    "region": "Fontaine",
+    "location": "Mont Esus East",
+    "drops": ["Silken Feather"],
+    "note": "Weekly boss source for Silken Feather."
+  },
+  {
+    "id": "frostladen-machinery",
+    "name": "Frostladen Machinery",
+    "category": "artifact_domain",
+    "region": "Nod-Krai",
+    "location": "Kuuvahki Experimental Design Bureau",
+    "drops": ["Night of the Sky's Unveiling", "Silken Moon's Serenade"],
+    "note": "Artifact domain for Zibai's recommended set."
+  },
+  {
+    "id": "taishan-mansion",
+    "name": "Taishan Mansion",
+    "category": "talent_domain",
+    "region": "Liyue",
+    "location": "Jueyun Karst, Minlin",
+    "drops": ["Gold"],
+    "availableDays": ["Wed", "Sat", "Sun"],
+    "note": "Drops the Gold talent book series."
+  },
+  {
+    "id": "lord-of-the-hidden-depths",
+    "name": "Lord of the Hidden Depths",
+    "category": "normal_boss",
+    "region": "Nod-Krai",
+    "location": "Whisperer of Nightmares",
+    "drops": ["Remnant of the Dreadwing"],
+    "note": "Normal boss source for Zibai's ascension boss material."
+  },
+  {
+    "id": "fatui-oprichniki",
+    "name": "Fatui Oprichniki",
+    "category": "enemy",
+    "region": "Nod-Krai",
+    "location": "Overworld enemy routes",
+    "drops": ["Tattered Warrant", "Immaculate Warrant", "Frost-Etched Warrant"],
+    "note": "Enemy drop route for the Warrant series."
+  },
+  {
+    "id": "glaze-lily-route",
+    "name": "Glaze Lily Route",
+    "category": "local_specialty",
+    "region": "Liyue",
+    "location": "Liyue Harbor and Qingce Village",
+    "drops": ["Glaze Lily"],
+    "note": "Liyue local specialty route for Zibai."
+  },
+  {
+    "id": "the-game-before-the-gate",
+    "name": "The Game Before the Gate",
+    "category": "weekly_boss",
+    "region": "Sumeru",
+    "location": "Trounce Domain",
+    "drops": ["Ascended Sample: Queen", "Ascended Sample: Rook", "Ascended Sample: Knight"],
+    "note": "Weekly boss source for Zibai's talent material."
+  },
+  {
+    "id": "spire-of-solitary-enlightenment",
+    "name": "Spire of Solitary Enlightenment",
+    "category": "artifact_domain",
+    "region": "Sumeru",
+    "location": "Avidya Forest",
+    "drops": ["Deepwood Memories", "Gilded Dreams"],
+    "note": "Artifact domain for Nahida's recommended Deepwood set."
+  },
+  {
+    "id": "steeple-of-ignorance",
+    "name": "Steeple of Ignorance",
+    "category": "talent_domain",
+    "region": "Sumeru",
+    "location": "Chatrakam Cave",
+    "drops": ["Ingenuity"],
+    "availableDays": ["Tue", "Fri", "Sun"],
+    "note": "Drops the Ingenuity talent book series."
+  },
+  {
+    "id": "dendro-hypostasis",
+    "name": "Dendro Hypostasis",
+    "category": "normal_boss",
+    "region": "Sumeru",
+    "location": "Land of Lower Setekh",
+    "drops": ["Quelled Creeper"],
+    "note": "Normal boss source for Nahida's ascension boss material."
+  },
+  {
+    "id": "floating-fungi",
+    "name": "Floating Fungi",
+    "category": "enemy",
+    "region": "Sumeru",
+    "location": "Overworld enemy routes",
+    "drops": ["Fungal Spores", "Luminescent Pollen", "Crystalline Cyst Dust"],
+    "note": "Enemy drop route for Nahida's fungal materials."
+  },
+  {
+    "id": "kalpalata-lotus-route",
+    "name": "Kalpalata Lotus Route",
+    "category": "local_specialty",
+    "region": "Sumeru",
+    "location": "Cliffside routes across Sumeru",
+    "drops": ["Kalpalata Lotus"],
+    "note": "Sumeru local specialty route for Nahida."
+  },
+  {
+    "id": "shouki-no-kami",
+    "name": "Shouki no Kami, the Prodigal",
+    "category": "weekly_boss",
+    "region": "Sumeru",
+    "location": "Joururi Workshop, Chinvat Ravine",
+    "drops": ["Puppet Strings", "Mirror of Mushin", "Daka's Bell"],
+    "note": "Weekly boss source for Nahida's Puppet Strings."
+  },
+  {
+    "id": "crown-of-insight",
+    "name": "Crown of Insight",
+    "category": "special",
+    "region": "Event / Offering Reward",
+    "location": "Limited-time events and permanent offering systems",
+    "drops": ["Crown of Insight"],
+    "note": "Limited special material used for talent level 10."
+  }
+]
