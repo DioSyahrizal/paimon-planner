@@ -1,5 +1,7 @@
 import { getEnkaErrorMessage } from "@/api/enka";
 import { ELEMENT_COLOR } from "@/constants/color";
+import { scoreBuild, scoreToGrade, type Grade } from "@/lib/artifact-scorer";
+import { getBuildsForCharacter } from "@/lib/recommended-builds";
 import { useEnkaUser } from "@/hooks/useEnkaUser";
 import { useUserStore } from "@/store/user-store";
 import type { Character } from "@/types/character";
@@ -12,6 +14,30 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, Spinner, Text, View, XStack, YStack } from "tamagui";
+
+const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
+  S: { bg: "#FFD700", text: "#000" },
+  A: { bg: "#9de06b", text: "#000" },
+  B: { bg: "#8ec8ff", text: "#000" },
+  C: { bg: "#e7c766", text: "#000" },
+  D: { bg: "#555", text: "#fff" },
+};
+
+function BuildScoreBadge({ character }: { character: Character }) {
+  const builds = getBuildsForCharacter(character.id);
+  if (!builds.length || !character.artifacts.length) return null;
+
+  const { overall } = scoreBuild(character.artifacts, builds[0]);
+  const grade = scoreToGrade(overall);
+  const { bg, text } = GRADE_COLORS[grade];
+
+  return (
+    <XStack style={styles.scoreBadge} gap={4} alignItems="center">
+      <Text style={[styles.scoreBadgeGrade, { color: bg }]}>{grade}</Text>
+      <Text style={styles.scoreBadgeValue}>{overall}</Text>
+    </XStack>
+  );
+}
 
 function CharacterCard({ character }: { character: Character }) {
   const router = useRouter();
@@ -34,7 +60,10 @@ function CharacterCard({ character }: { character: Character }) {
           <Text style={styles.metaText}>Lv.{character.level}</Text>
           <Text style={styles.metaText}>C{character.constellation}</Text>
         </XStack>
-        <Text style={styles.rarityText}>{"★".repeat(character.rarity)}</Text>
+        <XStack justifyContent="space-between" alignItems="center">
+          <Text style={styles.rarityText}>{"★".repeat(character.rarity)}</Text>
+          <BuildScoreBadge character={character} />
+        </XStack>
       </View>
     </TouchableOpacity>
   );
@@ -191,6 +220,14 @@ const styles = StyleSheet.create({
   cardMeta: { gap: 8, marginBottom: 4 },
   metaText: { color: "#aaa", fontSize: 12 },
   rarityText: { color: "#c9a227", fontSize: 11 },
+  scoreBadge: {
+    backgroundColor: "#111",
+    borderRadius: 6,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  scoreBadgeGrade: { fontSize: 11, fontWeight: "800" },
+  scoreBadgeValue: { color: "#888", fontSize: 11 },
   loadingText: { color: "#888", marginTop: 12, fontSize: 14 },
   emptyTitle: {
     color: "#fff",

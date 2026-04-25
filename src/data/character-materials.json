@@ -222,6 +222,117 @@
     ]
   },
   {
+    "characterId": "10000066",
+    "characterName": "Ayato",
+    "ascension": [
+      {
+        "name": "Varunada Lazurite",
+        "type": "ascension_gemstone",
+        "note": "Hydro gemstone set from Hydro-aligned bosses."
+      },
+      {
+        "name": "Sakura Bloom",
+        "type": "local_specialty",
+        "sourceId": "sakura-bloom-route"
+      },
+      {
+        "name": "Handguard Series",
+        "type": "enemy_drop",
+        "sourceId": "nobushi-kairagi",
+        "note": "Old Handguard, Kageuchi Handguard, and Famed Handguard."
+      },
+      {
+        "name": "Dew of Repudiation",
+        "type": "normal_boss_drop",
+        "sourceId": "hydro-hypostasis"
+      }
+    ],
+    "talents": [
+      {
+        "name": "Elegance Books",
+        "type": "talent_book",
+        "sourceId": "violet-court",
+        "note": "Teachings, Guide, and Philosophies of Elegance."
+      },
+      {
+        "name": "Handguard Series",
+        "type": "enemy_drop",
+        "sourceId": "nobushi-kairagi"
+      },
+      {
+        "name": "Mudra of the Malefic General",
+        "type": "weekly_boss_drop",
+        "sourceId": "magatsu-mitake"
+      },
+      {
+        "name": "Crown of Insight",
+        "type": "crown",
+        "sourceId": "crown-of-insight"
+      }
+    ],
+    "ascensionStages": [
+      {
+        "fromLevel": 20,
+        "toLevel": 40,
+        "materials": [
+          { "name": "Varunada Lazurite Sliver", "type": "ascension_gemstone", "amount": 1 },
+          { "name": "Old Handguard", "type": "enemy_drop", "amount": 3, "sourceId": "nobushi-kairagi" },
+          { "name": "Sakura Bloom", "type": "local_specialty", "amount": 3, "sourceId": "sakura-bloom-route" }
+        ]
+      },
+      {
+        "fromLevel": 40,
+        "toLevel": 50,
+        "materials": [
+          { "name": "Varunada Lazurite Fragment", "type": "ascension_gemstone", "amount": 3 },
+          { "name": "Old Handguard", "type": "enemy_drop", "amount": 15, "sourceId": "nobushi-kairagi" },
+          { "name": "Sakura Bloom", "type": "local_specialty", "amount": 10, "sourceId": "sakura-bloom-route" },
+          { "name": "Dew of Repudiation", "type": "normal_boss_drop", "amount": 2, "sourceId": "hydro-hypostasis" }
+        ]
+      },
+      {
+        "fromLevel": 50,
+        "toLevel": 60,
+        "materials": [
+          { "name": "Varunada Lazurite Fragment", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Kageuchi Handguard", "type": "enemy_drop", "amount": 12, "sourceId": "nobushi-kairagi" },
+          { "name": "Sakura Bloom", "type": "local_specialty", "amount": 20, "sourceId": "sakura-bloom-route" },
+          { "name": "Dew of Repudiation", "type": "normal_boss_drop", "amount": 4, "sourceId": "hydro-hypostasis" }
+        ]
+      },
+      {
+        "fromLevel": 60,
+        "toLevel": 70,
+        "materials": [
+          { "name": "Varunada Lazurite Chunk", "type": "ascension_gemstone", "amount": 3 },
+          { "name": "Kageuchi Handguard", "type": "enemy_drop", "amount": 18, "sourceId": "nobushi-kairagi" },
+          { "name": "Sakura Bloom", "type": "local_specialty", "amount": 30, "sourceId": "sakura-bloom-route" },
+          { "name": "Dew of Repudiation", "type": "normal_boss_drop", "amount": 8, "sourceId": "hydro-hypostasis" }
+        ]
+      },
+      {
+        "fromLevel": 70,
+        "toLevel": 80,
+        "materials": [
+          { "name": "Varunada Lazurite Chunk", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Famed Handguard", "type": "enemy_drop", "amount": 12, "sourceId": "nobushi-kairagi" },
+          { "name": "Sakura Bloom", "type": "local_specialty", "amount": 45, "sourceId": "sakura-bloom-route" },
+          { "name": "Dew of Repudiation", "type": "normal_boss_drop", "amount": 12, "sourceId": "hydro-hypostasis" }
+        ]
+      },
+      {
+        "fromLevel": 80,
+        "toLevel": 90,
+        "materials": [
+          { "name": "Varunada Lazurite Gemstone", "type": "ascension_gemstone", "amount": 6 },
+          { "name": "Famed Handguard", "type": "enemy_drop", "amount": 24, "sourceId": "nobushi-kairagi" },
+          { "name": "Sakura Bloom", "type": "local_specialty", "amount": 60, "sourceId": "sakura-bloom-route" },
+          { "name": "Dew of Repudiation", "type": "normal_boss_drop", "amount": 20, "sourceId": "hydro-hypostasis" }
+        ]
+      }
+    ]
+  },
+  {
     "characterId": "10000073",
     "characterName": "Nahida",
     "ascension": [

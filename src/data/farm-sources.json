@@ -172,5 +172,51 @@
     "location": "Limited-time events and permanent offering systems",
     "drops": ["Crown of Insight"],
     "note": "Limited special material used for talent level 10."
+  },
+  {
+    "id": "violet-court",
+    "name": "Violet Court",
+    "category": "talent_domain",
+    "region": "Inazuma",
+    "location": "Araumi, Narukami Island",
+    "drops": ["Elegance"],
+    "availableDays": ["Tue", "Fri", "Sun"],
+    "note": "Drops the Elegance talent book series."
+  },
+  {
+    "id": "nobushi-kairagi",
+    "name": "Nobushi / Kairagi",
+    "category": "enemy",
+    "region": "Inazuma",
+    "location": "Overworld enemy routes",
+    "drops": ["Old Handguard", "Kageuchi Handguard", "Famed Handguard"],
+    "note": "Enemy drop route for the Handguard series."
+  },
+  {
+    "id": "hydro-hypostasis",
+    "name": "Hydro Hypostasis",
+    "category": "normal_boss",
+    "region": "Inazuma",
+    "location": "Watatsumi Island",
+    "drops": ["Dew of Repudiation"],
+    "note": "Normal boss source for Ayato's ascension boss material."
+  },
+  {
+    "id": "magatsu-mitake",
+    "name": "Magatsu Mitake Narukami no Mikoto",
+    "category": "weekly_boss",
+    "region": "Inazuma",
+    "location": "Narukami Island, Court of Flowing Sand",
+    "drops": ["Mudra of the Malefic General", "Tears of the Calamitous God", "The Meaning of Aeons"],
+    "note": "Weekly boss source for Ayato's Mudra of the Malefic General."
+  },
+  {
+    "id": "sakura-bloom-route",
+    "name": "Sakura Bloom Route",
+    "category": "local_specialty",
+    "region": "Inazuma",
+    "location": "Narukami Island (near Grand Narukami Shrine and Konda Village)",
+    "drops": ["Sakura Bloom"],
+    "note": "Inazuma local specialty. Requires Electro to be applied to the bloom to collect it."
   }
 ]

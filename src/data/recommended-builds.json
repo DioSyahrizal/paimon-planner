@@ -651,5 +651,83 @@
     ],
     "source": "Game8",
     "lastUpdated": "2026-04-23"
+  },
+  {
+    "characterId": "10000066",
+    "characterName": "Ayato",
+    "role": "Hyperbloom Hydro Applicator",
+    "artifactSets": [
+      {
+        "sets": [{ "setId": "15023", "setName": "Heart of Depth", "pieces": 4 }],
+        "label": "Best in Slot",
+        "tier": "S"
+      },
+      {
+        "sets": [{ "setId": "15026", "setName": "Echoes of an Offering", "pieces": 4 }],
+        "label": "Alternative",
+        "tier": "S"
+      },
+      {
+        "sets": [
+          { "setId": "15007", "setName": "Noblesse Oblige", "pieces": 2 },
+          { "setId": "15023", "setName": "Heart of Depth", "pieces": 2 }
+        ],
+        "label": "Support Option (if no one else runs Noblesse)",
+        "tier": "A"
+      }
+    ],
+    "mainStats": {
+      "sands": ["ATK%"],
+      "goblet": ["Hydro DMG%"],
+      "circlet": ["CR%", "CD%"]
+    },
+    "substatPriority": ["CR%", "CD%", "ATK%", "ER%", "HP%"],
+    "goalStats": {
+      "ATK": 2000,
+      "CR%": 70,
+      "CD%": 160,
+      "ER%": 120
+    },
+    "talentPriority": ["skill", "burst", "normal"],
+    "weapons": [
+      {
+        "weaponId": "11415",
+        "weaponName": "Haran Geppaku Futsu",
+        "refinement": "R1",
+        "tier": "S",
+        "note": "Signature BiS — CR substat + Hydro DMG bonus stacks on skill use."
+      },
+      {
+        "weaponId": "11426",
+        "weaponName": "Primordial Jade Cutter",
+        "refinement": "R1",
+        "tier": "S",
+        "note": "High CR substat; HP bonus indirectly buffs Ayato's skill scaling."
+      },
+      {
+        "weaponId": "11416",
+        "weaponName": "Mistsplitter Reforged",
+        "refinement": "R1",
+        "tier": "S",
+        "note": "High base ATK + CD substat; strong for personal Hydro DMG."
+      },
+      {
+        "weaponId": "11412",
+        "weaponName": "Amenoma Kageuchi",
+        "refinement": "R5",
+        "tier": "A",
+        "note": "F2P craftable. ER passive helps burst uptime — recommended if ER feels tight."
+      },
+      {
+        "weaponId": "11403",
+        "weaponName": "The Black Sword",
+        "refinement": "R1",
+        "tier": "A",
+        "note": "Battle Pass option. CR substat is consistent."
+      }
+    ],
+    "notes": "In this Hyperbloom team (Nahida / Raiden / Ayato / Jean), Ayato's job is consistent Hydro application to create Bloom seeds with Nahida's Dendro — Raiden triggers Hyperbloom and owns the EM scaling. Build Ayato for personal Hydro DPS, not EM. Use Skill on every cooldown. Prioritise ER% substats over ATK% since Jean doesn't funnel energy — aim for 120%+ ER for reliable burst uptime. Heart of Depth 4pc is ideal as the post-skill buff aligns perfectly with Shunsuiken slashes.",
+    "source": "custom",
+    "lastUpdated": "2026-04-25"
   }
 ]

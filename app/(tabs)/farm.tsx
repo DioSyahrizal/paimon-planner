@@ -11,8 +11,8 @@ import { useFarmStore } from "@/store/farm-store";
 import { useUserStore } from "@/store/user-store";
 import type { Character } from "@/types/character";
 import type { DayOfWeek, FarmSource, ResolvedFarmTarget } from "@/types/farm";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { useEffect } from "react";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, Spinner, Text, View, XStack, YStack } from "tamagui";
 
@@ -26,8 +26,10 @@ const DAY_LABELS: DayOfWeek[] = [
   "Sat",
 ];
 
+const DEV_MOCK_DAY: DayOfWeek | null = null; // e.g. "Mon" to test Monday
+
 function getToday(): DayOfWeek {
-  return DAY_LABELS[new Date().getDay()];
+  return DEV_MOCK_DAY ?? DAY_LABELS[new Date().getDay()];
 }
 
 function getDateKey(): string {
@@ -306,9 +308,13 @@ export default function FarmScreen() {
   const toggleCompleted = useFarmStore((state) => state.toggleCompleted);
   const { data, isLoading } = useEnkaUser(uid);
 
-  const trackedCharacters = (data?.characters ?? []).filter((character) =>
-    Boolean(getCharacterFarmData(character.id)),
-  );
+  const trackedCharacters = (data?.characters ?? []).filter((character) => {
+    if (!getCharacterFarmData(character.id)) return false;
+    return getFarmTargetsForCharacter(character.id, today).some(
+      (t) => t.availableToday && t.source?.availableDays != null,
+    );
+  });
+
   const todayDomains = getAvailableDomainsForDay(today).filter((source) =>
     ["artifact_domain", "talent_domain"].includes(source.category),
   );
@@ -570,7 +576,13 @@ const styles = StyleSheet.create({
   materialCopy: { flex: 1 },
   materialName: { color: "#fff", fontSize: 14, fontWeight: "600" },
   materialSource: { color: "#888", fontSize: 12, marginTop: 4 },
-  todoLine: { color: "#fff", fontSize: 13, lineHeight: 18, flex: 1, flexShrink: 1 },
+  todoLine: {
+    color: "#fff",
+    fontSize: 13,
+    lineHeight: 18,
+    flex: 1,
+    flexShrink: 1,
+  },
   todoLineCompleted: {
     color: "#9bb394",
     textDecorationLine: "line-through",
