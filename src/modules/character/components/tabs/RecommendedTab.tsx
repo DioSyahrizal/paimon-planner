@@ -1,8 +1,11 @@
 import { getBuildsForCharacter } from "@/lib/recommended-builds";
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { RecommendedBuild, WeaponRecommendation } from "@/types/build";
 import React, { FC } from "react";
 import { StyleSheet } from "react-native";
 import { Text, View, XStack, YStack } from "tamagui";
+
+type RecommendedStyles = ReturnType<typeof createStyles>;
 
 interface Props {
   characterId: string;
@@ -14,7 +17,7 @@ const TIER_COLORS: Record<string, string> = {
   B: "#6b8fa3",
 };
 
-const TierBadge: FC<{ tier: string }> = ({ tier }) => (
+const TierBadge: FC<{ tier: string; styles: RecommendedStyles }> = ({ tier, styles }) => (
   <View style={[styles.tierBadge, { borderColor: TIER_COLORS[tier] ?? "#555" }]}>
     <Text style={[styles.tierText, { color: TIER_COLORS[tier] ?? "#555" }]}>
       {tier}
@@ -22,11 +25,11 @@ const TierBadge: FC<{ tier: string }> = ({ tier }) => (
   </View>
 );
 
-const SectionLabel: FC<{ label: string }> = ({ label }) => (
+const SectionLabel: FC<{ label: string; styles: RecommendedStyles }> = ({ label, styles }) => (
   <Text style={styles.sectionLabel}>{label}</Text>
 );
 
-const WeaponRow: FC<{ weapon: WeaponRecommendation }> = ({ weapon }) => (
+const WeaponRow: FC<{ weapon: WeaponRecommendation; styles: RecommendedStyles }> = ({ weapon, styles }) => (
   <XStack style={styles.rowCard} alignItems="center" justifyContent="space-between">
     <YStack flex={1} gap="$1">
       <Text style={styles.weaponName}>{weapon.weaponName}</Text>
@@ -35,11 +38,13 @@ const WeaponRow: FC<{ weapon: WeaponRecommendation }> = ({ weapon }) => (
       )}
       {weapon.note && <Text style={styles.noteText}>{weapon.note}</Text>}
     </YStack>
-    <TierBadge tier={weapon.tier} />
+    <TierBadge tier={weapon.tier} styles={styles} />
   </XStack>
 );
 
 const RecommendedTab: FC<Props> = ({ characterId }) => {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const builds = getBuildsForCharacter(characterId);
 
   if (builds.length === 0) {
@@ -63,7 +68,7 @@ const RecommendedTab: FC<Props> = ({ characterId }) => {
           </XStack>
 
           {/* Artifact Sets */}
-          <SectionLabel label="Artifact Sets" />
+          <SectionLabel label="Artifact Sets" styles={styles} />
           {build.artifactSets.map((option, i) => (
             <XStack key={i} style={styles.rowCard} alignItems="center" justifyContent="space-between">
               <YStack flex={1} gap="$1">
@@ -72,12 +77,12 @@ const RecommendedTab: FC<Props> = ({ characterId }) => {
                 </Text>
                 <Text style={styles.weaponMeta}>{option.label}</Text>
               </YStack>
-              <TierBadge tier={option.tier} />
+              <TierBadge tier={option.tier} styles={styles} />
             </XStack>
           ))}
 
           {/* Main Stats */}
-          <SectionLabel label="Main Stats" />
+          <SectionLabel label="Main Stats" styles={styles} />
           <View style={styles.rowCard}>
             {(
               [
@@ -94,7 +99,7 @@ const RecommendedTab: FC<Props> = ({ characterId }) => {
           </View>
 
           {/* Substat Priority */}
-          <SectionLabel label="Substat Priority" />
+          <SectionLabel label="Substat Priority" styles={styles} />
           <View style={styles.rowCard}>
             <XStack flexWrap="wrap" gap="$2">
               {build.substatPriority.map((stat, i) => (
@@ -109,7 +114,7 @@ const RecommendedTab: FC<Props> = ({ characterId }) => {
           {/* Goal Stats */}
           {build.goalStats && Object.keys(build.goalStats).length > 0 && (
             <>
-              <SectionLabel label="Goal Stats" />
+              <SectionLabel label="Goal Stats" styles={styles} />
               <View style={styles.rowCard}>
                 {Object.entries(build.goalStats).map(([stat, value]) => (
                   <XStack key={stat} justifyContent="space-between" paddingVertical={4}>
@@ -122,15 +127,15 @@ const RecommendedTab: FC<Props> = ({ characterId }) => {
           )}
 
           {/* Weapons */}
-          <SectionLabel label="Weapons" />
+          <SectionLabel label="Weapons" styles={styles} />
           {build.weapons.map((weapon) => (
-            <WeaponRow key={weapon.weaponId} weapon={weapon} />
+            <WeaponRow key={weapon.weaponId} weapon={weapon} styles={styles} />
           ))}
 
           {/* Talent Priority */}
           {build.talentPriority && build.talentPriority.length > 0 && (
             <>
-              <SectionLabel label="Talent Priority" />
+              <SectionLabel label="Talent Priority" styles={styles} />
               <View style={styles.rowCard}>
                 <XStack gap="$3">
                   {build.talentPriority.map((talent, i) => (
@@ -149,7 +154,7 @@ const RecommendedTab: FC<Props> = ({ characterId }) => {
           {/* Notes */}
           {build.notes && (
             <>
-              <SectionLabel label="Notes" />
+              <SectionLabel label="Notes" styles={styles} />
               <View style={styles.rowCard}>
                 <Text style={styles.noteText}>{build.notes}</Text>
               </View>
@@ -161,32 +166,34 @@ const RecommendedTab: FC<Props> = ({ characterId }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: AppTheme) => StyleSheet.create({
   emptyContainer: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 12,
     padding: 32,
     alignItems: "center",
     gap: 8,
   },
-  emptyText: { color: "#fff", fontSize: 15, fontWeight: "600", textAlign: "center" },
-  emptySubText: { color: "#666", fontSize: 13, textAlign: "center" },
+  emptyText: { color: theme.text, fontSize: 15, fontWeight: "600", textAlign: "center" },
+  emptySubText: { color: theme.textSubtle, fontSize: 13, textAlign: "center" },
 
   sectionLabel: {
-    color: "#c9a227",
+    color: theme.accent,
     fontSize: 12,
     fontWeight: "700",
     textTransform: "uppercase",
     letterSpacing: 0.5,
     marginTop: 4,
   },
-  roleTitle: { color: "#fff", fontSize: 16, fontWeight: "700" },
-  sourceLabel: { color: "#666", fontSize: 11 },
+  roleTitle: { color: theme.text, fontSize: 16, fontWeight: "700" },
+  sourceLabel: { color: theme.textSubtle, fontSize: 11 },
 
   rowCard: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 10,
     padding: 12,
+    borderWidth: 1,
+    borderColor: theme.border,
   },
 
   tierBadge: {
@@ -198,15 +205,15 @@ const styles = StyleSheet.create({
   },
   tierText: { fontSize: 12, fontWeight: "700" },
 
-  artifactSetName: { color: "#fff", fontSize: 14, fontWeight: "600" },
-  weaponName: { color: "#fff", fontSize: 14, fontWeight: "600" },
-  weaponMeta: { color: "#888", fontSize: 12 },
+  artifactSetName: { color: theme.text, fontSize: 14, fontWeight: "600" },
+  weaponName: { color: theme.text, fontSize: 14, fontWeight: "600" },
+  weaponMeta: { color: theme.textSubtle, fontSize: 12 },
 
-  slotLabel: { color: "#888", fontSize: 13 },
-  statValue: { color: "#fff", fontSize: 13, fontWeight: "600" },
-  goalValue: { color: "#c9a227", fontSize: 13, fontWeight: "700" },
-  priorityIndex: { color: "#666", fontSize: 12 },
-  noteText: { color: "#aaa", fontSize: 13, lineHeight: 19 },
+  slotLabel: { color: theme.textSubtle, fontSize: 13 },
+  statValue: { color: theme.text, fontSize: 13, fontWeight: "600" },
+  goalValue: { color: theme.accent, fontSize: 13, fontWeight: "700" },
+  priorityIndex: { color: theme.textSubtle, fontSize: 12 },
+  noteText: { color: theme.textMuted, fontSize: 13, lineHeight: 19 },
 });
 
 export default RecommendedTab;

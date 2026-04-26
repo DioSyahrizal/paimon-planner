@@ -1,3 +1,4 @@
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import React, { FC } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, XStack } from "tamagui";
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const TabToggle: FC<Props> = ({ active, onChange }) => {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const tabs: { key: CharacterTab; label: string }[] = [
     { key: "my-build", label: "My Build" },
     { key: "recommended", label: "Recommended" },
@@ -34,12 +37,14 @@ const TabToggle: FC<Props> = ({ active, onChange }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: AppTheme) => StyleSheet.create({
   // Tabs
   tabRow: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 10,
     padding: 4,
+    borderWidth: 1,
+    borderColor: theme.border,
   },
   tab: {
     flex: 1,
@@ -47,9 +52,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 8,
   },
-  tabActive: { backgroundColor: "#c9a227" },
-  tabText: { color: "#888", fontSize: 13, fontWeight: "600" },
-  tabTextActive: { color: "#000" },
+  tabActive: { backgroundColor: theme.accent },
+  tabText: { color: theme.textSubtle, fontSize: 13, fontWeight: "600" },
+  tabTextActive: { color: theme.accentText },
 });
 
 export default TabToggle;

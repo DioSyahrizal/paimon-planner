@@ -1,4 +1,5 @@
 import { ELEMENT_COLOR } from "@/constants/color";
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import { Character } from "@/types/character";
 import React, { FC } from "react";
 import { StyleSheet } from "react-native";
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const CharacterHeader: FC<Props> = ({ character }) => {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const elementColor = ELEMENT_COLOR[character.element] ?? "#c9a227";
 
   return (
@@ -20,7 +23,7 @@ const CharacterHeader: FC<Props> = ({ character }) => {
         borderRadius={40}
         borderWidth={2}
         borderColor={elementColor}
-        backgroundColor="#1a1a1a"
+        backgroundColor={theme.surface}
       />
       <YStack flex={1} justifyContent="center" gap="$1">
         <XStack alignItems="center" gap="$2">
@@ -57,21 +60,23 @@ const CharacterHeader: FC<Props> = ({ character }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: AppTheme) => StyleSheet.create({
   // Header
   header: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 12,
     padding: 16,
+    borderWidth: 1,
+    borderColor: theme.border,
   },
-  characterName: { color: "#fff", fontSize: 20, fontWeight: "700" },
+  characterName: { color: theme.text, fontSize: 20, fontWeight: "700" },
   elementBadge: {
     borderRadius: 6,
     paddingHorizontal: 8,
     paddingVertical: 2,
   },
-  metaText: { color: "#aaa", fontSize: 13 },
-  talentText: { color: "#c9a227", fontSize: 12 },
+  metaText: { color: theme.textMuted, fontSize: 13 },
+  talentText: { color: theme.accent, fontSize: 12 },
   elementText: { color: "#fff", fontSize: 11, fontWeight: "700" },
 });
 

@@ -1,11 +1,14 @@
 import { analyzeGap } from "@/lib/gap-analysis";
 import { getBuildsForCharacter } from "@/lib/recommended-builds";
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { ArtifactSlot } from "@/types/artifact";
 import type { GapAnalysis, StatGap } from "@/types/build";
 import type { Character } from "@/types/character";
 import React, { FC } from "react";
 import { StyleSheet } from "react-native";
 import { Text, View, XStack, YStack } from "tamagui";
+
+type CompareStyles = ReturnType<typeof createStyles>;
 
 interface Props {
   characterId: string;
@@ -39,11 +42,11 @@ function deltaColor(delta: number): string {
   return "#e05c5c";
 }
 
-const SectionLabel: FC<{ label: string }> = ({ label }) => (
+const SectionLabel: FC<{ label: string; styles: CompareStyles }> = ({ label, styles }) => (
   <Text style={styles.sectionLabel}>{label}</Text>
 );
 
-const ScoreBadge: FC<{ score: number }> = ({ score }) => (
+const ScoreBadge: FC<{ score: number; styles: CompareStyles }> = ({ score, styles }) => (
   <View style={[styles.scoreBadge, { borderColor: scoreColor(score) }]}>
     <Text style={[styles.scoreValue, { color: scoreColor(score) }]}>
       {score}
@@ -52,9 +55,10 @@ const ScoreBadge: FC<{ score: number }> = ({ score }) => (
   </View>
 );
 
-const CheckRow: FC<{ label: string; passed: boolean; detail?: string }> = ({
+const CheckRow: FC<{ label: string; passed: boolean; styles: CompareStyles; detail?: string }> = ({
   label,
   passed,
+  styles,
   detail,
 }) => (
   <XStack
@@ -72,7 +76,7 @@ const CheckRow: FC<{ label: string; passed: boolean; detail?: string }> = ({
   </XStack>
 );
 
-const StatGapRow: FC<{ gap: StatGap }> = ({ gap }) => {
+const StatGapRow: FC<{ gap: StatGap; styles: CompareStyles }> = ({ gap, styles }) => {
   const isPct = gap.stat.endsWith("%");
   const suffix = isPct ? "%" : "";
   const decimals = isPct ? 1 : 0;
@@ -104,6 +108,8 @@ const StatGapRow: FC<{ gap: StatGap }> = ({ gap }) => {
 };
 
 const CompareTab: FC<Props> = ({ characterId, character }) => {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const builds = getBuildsForCharacter(characterId);
 
   if (builds.length === 0) {
@@ -135,23 +141,24 @@ const CompareTab: FC<Props> = ({ characterId, character }) => {
           <Text style={styles.roleTitle}>{build.role}</Text>
           <Text style={styles.sourceLabel}>vs. {build.source} guide</Text>
         </YStack>
-        <ScoreBadge score={analysis.overallScore} />
+        <ScoreBadge score={analysis.overallScore} styles={styles} />
       </XStack>
 
       {/* Artifact Set */}
-      <SectionLabel label="Artifact Set" />
+      <SectionLabel label="Artifact Set" styles={styles} />
       <CheckRow
         label={build.artifactSets[0].sets
           .map((s) => `${s.setName} ${s.pieces}pc`)
           .join(" + ")}
         passed={analysis.artifactSetMatch}
+        styles={styles}
         detail={
           analysis.artifactSetMatch ? "Set bonus active" : "Wrong set equipped"
         }
       />
 
       {/* Main Stats */}
-      <SectionLabel label="Main Stats" />
+      <SectionLabel label="Main Stats" styles={styles} />
       {mainStatSlots.map((slot) => {
         const passed = analysis.mainStatMatch[slot];
         const options = recommendedMainStats[slot].join(" / ");
@@ -162,6 +169,7 @@ const CompareTab: FC<Props> = ({ characterId, character }) => {
             key={slot}
             label={SLOT_LABELS[slot]}
             passed={passed}
+            styles={styles}
             detail={
               passed
                 ? `${equipped} ✓`
@@ -172,7 +180,7 @@ const CompareTab: FC<Props> = ({ characterId, character }) => {
       })}
 
       {/* Weapon */}
-      <SectionLabel label="Weapon" />
+      <SectionLabel label="Weapon" styles={styles} />
       <XStack
         style={styles.rowCard}
         alignItems="center"
@@ -196,15 +204,15 @@ const CompareTab: FC<Props> = ({ characterId, character }) => {
       {/* Goal Stats */}
       {analysis.substatGaps.length > 0 && (
         <>
-          <SectionLabel label="Goal Stats" />
+          <SectionLabel label="Goal Stats" styles={styles} />
           {analysis.substatGaps.map((gap) => (
-            <StatGapRow key={gap.stat} gap={gap} />
+            <StatGapRow key={gap.stat} gap={gap} styles={styles} />
           ))}
         </>
       )}
 
       {/* Substat Coverage */}
-      <SectionLabel label="Substat Coverage" />
+      <SectionLabel label="Substat Coverage" styles={styles} />
       <View style={styles.rowCard}>
         <XStack flexWrap="wrap" gap="$2">
           {build.substatPriority.slice(0, 4).map((stat, i) => {
@@ -218,7 +226,7 @@ const CompareTab: FC<Props> = ({ characterId, character }) => {
                 <Text
                   style={[
                     styles.substatChip,
-                    { color: present ? "#4caf50" : "#555" },
+                    { color: present ? theme.success : theme.textSubtle },
                   ]}
                 >
                   {stat}
@@ -235,26 +243,28 @@ const CompareTab: FC<Props> = ({ characterId, character }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: AppTheme) => StyleSheet.create({
   emptyContainer: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 12,
     padding: 32,
     alignItems: "center",
     gap: 8,
   },
   emptyText: {
-    color: "#fff",
+    color: theme.text,
     fontSize: 15,
     fontWeight: "600",
     textAlign: "center",
   },
-  emptySubText: { color: "#666", fontSize: 13, textAlign: "center" },
+  emptySubText: { color: theme.textSubtle, fontSize: 13, textAlign: "center" },
 
   scoreHeader: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 12,
     padding: 16,
+    borderWidth: 1,
+    borderColor: theme.border,
   },
   scoreBadge: {
     borderWidth: 2,
@@ -265,10 +275,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   scoreValue: { fontSize: 20, fontWeight: "800" },
-  scoreMax: { color: "#555", fontSize: 10 },
+  scoreMax: { color: theme.textSubtle, fontSize: 10 },
 
   sectionLabel: {
-    color: "#c9a227",
+    color: theme.accent,
     fontSize: 12,
     fontWeight: "700",
     textTransform: "uppercase",
@@ -277,20 +287,22 @@ const styles = StyleSheet.create({
   },
 
   rowCard: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 10,
     padding: 12,
+    borderWidth: 1,
+    borderColor: theme.border,
   },
-  rowLabel: { color: "#fff", fontSize: 14, fontWeight: "600" },
-  rowDetail: { color: "#888", fontSize: 12 },
+  rowLabel: { color: theme.text, fontSize: 14, fontWeight: "600" },
+  rowDetail: { color: theme.textSubtle, fontSize: 12 },
 
   iconPass: { color: "#4caf50", fontSize: 18, fontWeight: "700" },
   iconFail: { color: "#e05c5c", fontSize: 18, fontWeight: "700" },
 
   tierText: { fontSize: 18, fontWeight: "800" },
 
-  statCurrent: { color: "#fff", fontSize: 13, fontWeight: "600" },
-  statGoal: { color: "#666", fontSize: 11 },
+  statCurrent: { color: theme.text, fontSize: 13, fontWeight: "600" },
+  statGoal: { color: theme.textSubtle, fontSize: 11 },
   statDelta: {
     fontSize: 13,
     fontWeight: "700",
@@ -299,11 +311,11 @@ const styles = StyleSheet.create({
   },
 
   substatChip: { fontSize: 14, fontWeight: "600" },
-  priorityIndex: { color: "#555", fontSize: 12 },
-  coverageHint: { color: "#444", fontSize: 11, marginTop: 8 },
+  priorityIndex: { color: theme.textSubtle, fontSize: 12 },
+  coverageHint: { color: theme.textSubtle, fontSize: 11, marginTop: 8 },
 
-  roleTitle: { color: "#fff", fontSize: 15, fontWeight: "700" },
-  sourceLabel: { color: "#666", fontSize: 11 },
+  roleTitle: { color: theme.text, fontSize: 15, fontWeight: "700" },
+  sourceLabel: { color: theme.textSubtle, fontSize: 11 },
 });
 
 export default CompareTab;

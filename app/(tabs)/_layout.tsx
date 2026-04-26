@@ -1,14 +1,20 @@
 import { Tabs } from 'expo-router'
 import { Home, BookOpen, Sprout, Settings } from '@tamagui/lucide-icons'
+import { useAppTheme } from '@/theme/app-theme'
 
 export default function TabLayout() {
+  const theme = useAppTheme()
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { backgroundColor: '#1a1a1a', borderTopColor: '#2a2a2a' },
-        tabBarActiveTintColor: '#c9a227',
-        tabBarInactiveTintColor: '#666',
+        tabBarStyle: {
+          backgroundColor: theme.surface,
+          borderTopColor: theme.border,
+        },
+        tabBarActiveTintColor: theme.accent,
+        tabBarInactiveTintColor: theme.textSubtle,
       }}>
       <Tabs.Screen
         name="index"

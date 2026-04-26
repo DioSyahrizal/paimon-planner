@@ -1,3 +1,4 @@
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import { Character } from "@/types/character";
 import React, { FC } from "react";
 import { StyleSheet } from "react-native";
@@ -8,6 +9,8 @@ interface Props {
 }
 
 const StatsGrid: FC<Props> = ({ character }) => {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const { totalStats } = character;
   const rows = [
     { label: "HP", value: Math.round(totalStats.hp).toLocaleString() },
@@ -43,7 +46,7 @@ const StatsGrid: FC<Props> = ({ character }) => {
           justifyContent="space-between"
           paddingVertical={6}
           borderBottomWidth={1}
-          borderBottomColor="#2a2a2a"
+          borderBottomColor={theme.border}
         >
           <Text style={styles.statLabel}>{row.label}</Text>
           <Text style={styles.statValue}>{row.value}</Text>
@@ -53,16 +56,18 @@ const StatsGrid: FC<Props> = ({ character }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: AppTheme) => StyleSheet.create({
   // Stats
   statsGrid: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 4,
+    borderWidth: 1,
+    borderColor: theme.border,
   },
-  statLabel: { color: "#888", fontSize: 13 },
-  statValue: { color: "#fff", fontSize: 13, fontWeight: "600" },
+  statLabel: { color: theme.textSubtle, fontSize: 13 },
+  statValue: { color: theme.text, fontSize: 13, fontWeight: "600" },
 });
 
 export default StatsGrid;

@@ -1,3 +1,4 @@
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import { Weapon } from "@/types/weapon";
 import React, { FC } from "react";
 import { StyleSheet } from "react-native";
@@ -8,6 +9,8 @@ interface Props {
 }
 
 const WeaponCard: FC<Props> = ({ weapon }) => {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const isWeaponStatPercentage = weapon.subStat
     ? weapon.subStat.stat.includes("%")
     : false;
@@ -20,7 +23,7 @@ const WeaponCard: FC<Props> = ({ weapon }) => {
           width={64}
           height={64}
           borderRadius={8}
-          backgroundColor="#111"
+          backgroundColor={theme.raised}
         />
         <XStack flex={1} justifyContent="space-between" alignItems="flex-start">
           <YStack flex={1} gap="$1">
@@ -44,16 +47,18 @@ const WeaponCard: FC<Props> = ({ weapon }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: AppTheme) => StyleSheet.create({
   weaponCard: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 12,
     padding: 14,
+    borderWidth: 1,
+    borderColor: theme.border,
   },
-  weaponName: { color: "#fff", fontSize: 15, fontWeight: "600" },
-  weaponMeta: { color: "#888", fontSize: 12, marginTop: 2 },
-  weaponStat: { color: "#c9a227", fontSize: 14, fontWeight: "600" },
-  weaponSubStat: { color: "#aaa", fontSize: 12 },
+  weaponName: { color: theme.text, fontSize: 15, fontWeight: "600" },
+  weaponMeta: { color: theme.textSubtle, fontSize: 12, marginTop: 2 },
+  weaponStat: { color: theme.accent, fontSize: 14, fontWeight: "600" },
+  weaponSubStat: { color: theme.textMuted, fontSize: 12 },
 });
 
 export default WeaponCard;

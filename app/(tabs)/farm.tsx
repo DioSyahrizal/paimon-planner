@@ -9,12 +9,15 @@ import {
 } from "@/lib/farm-data";
 import { useFarmStore } from "@/store/farm-store";
 import { useUserStore } from "@/store/user-store";
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { Character } from "@/types/character";
 import type { DayOfWeek, FarmSource, ResolvedFarmTarget } from "@/types/farm";
 import { useEffect } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, Spinner, Text, View, XStack, YStack } from "tamagui";
+
+type FarmStyles = ReturnType<typeof createStyles>;
 
 const DAY_LABELS: DayOfWeek[] = [
   "Sun",
@@ -114,9 +117,11 @@ function getDailyChecklistItems(
 function DomainCard({
   source,
   today,
+  styles,
 }: {
   source: FarmSource;
   today: DayOfWeek;
+  styles: FarmStyles;
 }) {
   return (
     <View style={styles.domainCard}>
@@ -151,11 +156,13 @@ function CharacterFarmCard({
   today,
   completedIds,
   onToggleTask,
+  styles,
 }: {
   character: Character;
   today: DayOfWeek;
   completedIds: string[];
   onToggleTask: (taskId: string) => void;
+  styles: FarmStyles;
 }) {
   const farmData = getCharacterFarmData(character.id);
   const nextStage = getNextAscensionStage(character.id, character.level);
@@ -296,6 +303,8 @@ function CharacterFarmCard({
 }
 
 export default function FarmScreen() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const { top } = useSafeAreaInsets();
   const uid = useUserStore((state) => state.uid);
   const isHydrated = useUserStore((state) => state.isHydrated);
@@ -371,7 +380,7 @@ export default function FarmScreen() {
       <View style={styles.sectionBlock}>
         <Text style={styles.sectionTitle}>Today&apos;s domains</Text>
         {todayDomains.map((source) => (
-          <DomainCard key={source.id} source={source} today={today} />
+          <DomainCard key={source.id} source={source} today={today} styles={styles} />
         ))}
       </View>
 
@@ -394,6 +403,7 @@ export default function FarmScreen() {
               today={today}
               completedIds={farmChecklist.completedIds}
               onToggleTask={toggleCompleted}
+              styles={styles}
             />
           ))
         ) : (
@@ -412,22 +422,22 @@ export default function FarmScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0f0f0f" },
+const createStyles = (theme: AppTheme) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: theme.background },
   content: { padding: 16, paddingBottom: 32, gap: 18 },
   centerContainer: {
     flex: 1,
-    backgroundColor: "#0f0f0f",
+    backgroundColor: theme.background,
     alignItems: "center",
     justifyContent: "center",
     padding: 24,
   },
   header: { gap: 6 },
-  title: { color: "#fff", fontSize: 24, fontWeight: "700" },
-  subtitle: { color: "#888", fontSize: 14, lineHeight: 20 },
-  loadingText: { color: "#888", marginTop: 12, fontSize: 14 },
+  title: { color: theme.text, fontSize: 24, fontWeight: "700" },
+  subtitle: { color: theme.textSubtle, fontSize: 14, lineHeight: 20 },
+  loadingText: { color: theme.textSubtle, marginTop: 12, fontSize: 14 },
   sectionTitle: {
-    color: "#fff",
+    color: theme.text,
     fontSize: 18,
     fontWeight: "700",
     marginBottom: 10,
@@ -439,7 +449,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   sectionLabel: {
-    color: "#c9a227",
+    color: theme.accent,
     fontSize: 13,
     fontWeight: "700",
     marginBottom: 8,
@@ -447,10 +457,10 @@ const styles = StyleSheet.create({
   },
   sectionBlock: { gap: 10 },
   domainCard: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#2a2a2a",
+    borderColor: theme.border,
     padding: 14,
   },
   domainHeader: {
@@ -460,32 +470,32 @@ const styles = StyleSheet.create({
   },
   domainTitleRow: { alignItems: "center", gap: 10, flex: 1 },
   domainHeaderRight: { alignItems: "center" },
-  domainName: { color: "#fff", fontSize: 16, fontWeight: "700", flex: 1 },
+  domainName: { color: theme.text, fontSize: 16, fontWeight: "700", flex: 1 },
   categoryBadge: {
     minWidth: 42,
-    backgroundColor: "#202a34",
+    backgroundColor: theme.infoSoft,
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 6,
     alignItems: "center",
     justifyContent: "center",
   },
-  categoryBadgeText: { color: "#8ec8ff", fontSize: 10, fontWeight: "700" },
+  categoryBadgeText: { color: theme.info, fontSize: 10, fontWeight: "700" },
   dayChip: {
-    backgroundColor: "#2d2410",
+    backgroundColor: theme.accentSoft,
     borderRadius: 999,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
-  dayChipText: { color: "#e7c766", fontSize: 11, fontWeight: "700" },
-  domainMeta: { color: "#9a9a9a", fontSize: 12, marginTop: 8 },
-  domainDrops: { color: "#fff", fontSize: 13, lineHeight: 18, marginTop: 8 },
-  domainSchedule: { color: "#888", fontSize: 12, marginTop: 8 },
+  dayChipText: { color: theme.accent, fontSize: 11, fontWeight: "700" },
+  domainMeta: { color: theme.textSubtle, fontSize: 12, marginTop: 8 },
+  domainDrops: { color: theme.text, fontSize: 13, lineHeight: 18, marginTop: 8 },
+  domainSchedule: { color: theme.textSubtle, fontSize: 12, marginTop: 8 },
   characterCard: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#2a2a2a",
+    borderColor: theme.border,
     padding: 16,
     gap: 14,
   },
@@ -500,67 +510,67 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 14,
-    backgroundColor: "#2d2410",
+    backgroundColor: theme.accentSoft,
     alignItems: "center",
     justifyContent: "center",
   },
   characterPortraitFallbackText: {
-    color: "#f0d77f",
+    color: theme.accent,
     fontSize: 22,
     fontWeight: "700",
   },
-  characterName: { color: "#fff", fontSize: 18, fontWeight: "700" },
-  characterMeta: { color: "#999", fontSize: 13 },
+  characterName: { color: theme.text, fontSize: 18, fontWeight: "700" },
+  characterMeta: { color: theme.textSubtle, fontSize: 13 },
   progressBadge: {
-    backgroundColor: "#222b1a",
+    backgroundColor: theme.successSoft,
     borderRadius: 999,
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
-  progressBadgeText: { color: "#9de06b", fontSize: 11, fontWeight: "700" },
+  progressBadgeText: { color: theme.success, fontSize: 11, fontWeight: "700" },
   resetButton: {
-    backgroundColor: "#2d2410",
+    backgroundColor: theme.accentSoft,
     borderRadius: 999,
     paddingHorizontal: 12,
     paddingVertical: 7,
   },
-  resetButtonText: { color: "#e7c766", fontSize: 12, fontWeight: "700" },
+  resetButtonText: { color: theme.accent, fontSize: 12, fontWeight: "700" },
   todoItem: {
     alignItems: "center",
     gap: 10,
     paddingHorizontal: 12,
     paddingVertical: 10,
     borderRadius: 10,
-    backgroundColor: "#141414",
+    backgroundColor: theme.surfaceMuted,
     borderWidth: 1,
-    borderColor: "#252525",
+    borderColor: theme.border,
   },
   todoItemCompleted: {
-    backgroundColor: "#182216",
-    borderColor: "#30462b",
+    backgroundColor: theme.successSoft,
+    borderColor: theme.success,
   },
   todoCheckbox: {
     width: 22,
     height: 22,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: "#555",
+    borderColor: theme.borderStrong,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#0f0f0f",
+    backgroundColor: theme.background,
   },
   todoCheckboxCompleted: {
-    backgroundColor: "#9de06b",
-    borderColor: "#9de06b",
+    backgroundColor: theme.success,
+    borderColor: theme.success,
   },
-  todoCheckboxText: { color: "#0f0f0f", fontSize: 12, fontWeight: "800" },
+  todoCheckboxText: { color: theme.background, fontSize: 12, fontWeight: "800" },
   materialRow: {
-    backgroundColor: "#141414",
+    backgroundColor: theme.surfaceMuted,
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 10,
     borderWidth: 1,
-    borderColor: "#252525",
+    borderColor: theme.border,
     gap: 10,
     alignItems: "center",
   },
@@ -568,35 +578,35 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 10,
-    backgroundColor: "#25211a",
+    backgroundColor: theme.accentSoft,
     alignItems: "center",
     justifyContent: "center",
   },
-  materialBadgeText: { color: "#e7c766", fontSize: 11, fontWeight: "700" },
+  materialBadgeText: { color: theme.accent, fontSize: 11, fontWeight: "700" },
   materialCopy: { flex: 1 },
-  materialName: { color: "#fff", fontSize: 14, fontWeight: "600" },
-  materialSource: { color: "#888", fontSize: 12, marginTop: 4 },
+  materialName: { color: theme.text, fontSize: 14, fontWeight: "600" },
+  materialSource: { color: theme.textSubtle, fontSize: 12, marginTop: 4 },
   todoLine: {
-    color: "#fff",
+    color: theme.text,
     fontSize: 13,
     lineHeight: 18,
     flex: 1,
     flexShrink: 1,
   },
   todoLineCompleted: {
-    color: "#9bb394",
+    color: theme.success,
     textDecorationLine: "line-through",
   },
-  helperText: { color: "#888", fontSize: 13, lineHeight: 18 },
+  helperText: { color: theme.textSubtle, fontSize: 13, lineHeight: 18 },
   emptyCard: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#2a2a2a",
+    borderColor: theme.border,
     padding: 16,
   },
   emptyTitle: {
-    color: "#fff",
+    color: theme.text,
     fontSize: 16,
     fontWeight: "700",
     marginBottom: 6,

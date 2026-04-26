@@ -1,4 +1,5 @@
 import { useUserStore } from "@/store/user-store";
+import { useAppTheme, type AppColorScheme, type AppTheme } from "@/theme/app-theme";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -12,9 +13,16 @@ import { Text, XStack, YStack } from "tamagui";
 type ServerRegion = "Asia" | "America" | "Europe" | "TW/HK/MO";
 
 const REGIONS: ServerRegion[] = ["Asia", "America", "Europe", "TW/HK/MO"];
+const COLOR_SCHEMES: { label: string; value: AppColorScheme }[] = [
+  { label: "System", value: "system" },
+  { label: "Dark", value: "dark" },
+  { label: "Light", value: "light" },
+];
 
 export default function SettingsScreen() {
-  const { uid, region, setUid, setRegion } = useUserStore();
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
+  const { uid, region, colorScheme, setUid, setRegion, setColorScheme } = useUserStore();
   const [uidInput, setUidInput] = useState("");
 
   useEffect(() => {
@@ -46,7 +54,7 @@ export default function SettingsScreen() {
             value={uidInput}
             onChangeText={setUidInput}
             placeholder="9-digit UID"
-            placeholderTextColor="#555"
+            placeholderTextColor={theme.textSubtle}
             keyboardType="numeric"
             maxLength={9}
             returnKeyType="done"
@@ -88,6 +96,31 @@ export default function SettingsScreen() {
       </YStack>
 
       <YStack style={styles.section}>
+        <Text style={styles.sectionTitle}>Appearance</Text>
+        <XStack style={styles.regionRow}>
+          {COLOR_SCHEMES.map((scheme) => (
+            <TouchableOpacity
+              key={scheme.value}
+              style={[
+                styles.regionChip,
+                colorScheme === scheme.value && styles.regionChipActive,
+              ]}
+              onPress={() => setColorScheme(scheme.value)}
+            >
+              <Text
+                style={[
+                  styles.regionText,
+                  colorScheme === scheme.value && styles.regionTextActive,
+                ]}
+              >
+                {scheme.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </XStack>
+      </YStack>
+
+      <YStack style={styles.section}>
         <Text style={styles.sectionTitle}>About</Text>
         <Text style={styles.aboutText}>Paimon Planner — v1.0.0</Text>
         <Text style={styles.aboutText}>
@@ -106,62 +139,64 @@ export default function SettingsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0f0f0f" },
+const createStyles = (theme: AppTheme) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: theme.background },
   content: { padding: 20, paddingBottom: 40 },
   screenTitle: {
-    color: "#fff",
+    color: theme.text,
     fontSize: 28,
     fontWeight: "700",
     marginBottom: 24,
   },
   section: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
     gap: 10,
+    borderWidth: 1,
+    borderColor: theme.border,
   },
   sectionTitle: {
-    color: "#c9a227",
+    color: theme.accent,
     fontSize: 13,
     fontWeight: "600",
     textTransform: "uppercase",
     letterSpacing: 0.5,
   },
-  label: { color: "#ccc", fontSize: 14 },
+  label: { color: theme.textMuted, fontSize: 14 },
   uidRow: { gap: 10, alignItems: "center" },
   uidInput: {
     flex: 1,
-    backgroundColor: "#111",
+    backgroundColor: theme.input,
     borderWidth: 1,
-    borderColor: "#333",
+    borderColor: theme.borderStrong,
     borderRadius: 8,
     paddingHorizontal: 14,
     paddingVertical: 10,
-    color: "#fff",
+    color: theme.text,
     fontSize: 16,
     letterSpacing: 2,
   },
   saveButton: {
-    backgroundColor: "#c9a227",
+    backgroundColor: theme.accent,
     paddingHorizontal: 18,
     paddingVertical: 10,
     borderRadius: 8,
   },
-  saveButtonText: { color: "#000", fontWeight: "700", fontSize: 14 },
-  hint: { color: "#666", fontSize: 12, lineHeight: 18 },
+  saveButtonText: { color: theme.accentText, fontWeight: "700", fontSize: 14 },
+  hint: { color: theme.textSubtle, fontSize: 12, lineHeight: 18 },
   regionRow: { flexWrap: "wrap", gap: 8 },
   regionChip: {
     borderWidth: 1,
-    borderColor: "#333",
+    borderColor: theme.borderStrong,
     borderRadius: 20,
     paddingHorizontal: 14,
     paddingVertical: 6,
   },
-  regionChipActive: { backgroundColor: "#c9a227", borderColor: "#c9a227" },
-  regionText: { color: "#888", fontSize: 13 },
-  regionTextActive: { color: "#000", fontWeight: "700" },
-  aboutText: { color: "#666", fontSize: 13, lineHeight: 20 },
-  link: { color: "#c9a227" },
+  regionChipActive: { backgroundColor: theme.accent, borderColor: theme.accent },
+  regionText: { color: theme.textSubtle, fontSize: 13 },
+  regionTextActive: { color: theme.accentText, fontWeight: "700" },
+  aboutText: { color: theme.textSubtle, fontSize: 13, lineHeight: 20 },
+  link: { color: theme.accent },
 });

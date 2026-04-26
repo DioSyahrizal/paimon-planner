@@ -1,5 +1,6 @@
 import { useEnkaUser } from "@/hooks/useEnkaUser";
 import { useUserStore } from "@/store/user-store";
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
@@ -25,6 +26,8 @@ function getInitialTab(tabParam?: string | string[]): CharacterTab {
 }
 
 const CharacterPage = () => {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const { bottom } = useSafeAreaInsets();
   const { id, tab } = useLocalSearchParams<{ id: string; tab?: string | string[] }>();
   const uid = useUserStore((s) => s.uid);
@@ -57,16 +60,16 @@ const CharacterPage = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0f0f0f" },
+const createStyles = (theme: AppTheme) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: theme.background },
   content: { padding: 16, gap: 12 },
   centerContainer: {
     flex: 1,
-    backgroundColor: "#0f0f0f",
+    backgroundColor: theme.background,
     alignItems: "center",
     justifyContent: "center",
   },
-  emptyText: { color: "#888", fontSize: 15 },
+  emptyText: { color: theme.textSubtle, fontSize: 15 },
 });
 
 export default CharacterPage;

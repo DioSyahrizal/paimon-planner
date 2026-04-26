@@ -1,11 +1,14 @@
-import { scoreBuild, scoreToGrade, type BuildScore, type Grade } from "@/lib/artifact-scorer";
+import { scoreBuild, type BuildScore, type Grade } from "@/lib/artifact-scorer";
 import { getBuildsForCharacter } from "@/lib/recommended-builds";
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { Character } from "@/types/character";
 import React, { FC, useMemo } from "react";
 import { StyleSheet } from "react-native";
 import { Text, View, XStack, YStack } from "tamagui";
 import ArtifactCard from "./components/ArtifactCard";
 import StatsGrid from "./components/StatsGrid";
+
+type MyBuildStyles = ReturnType<typeof createStyles>;
 
 // ── Overall score badge ───────────────────────────────────────────────────────
 const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
@@ -16,7 +19,7 @@ const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
   D: { bg: "#555", text: "#fff" },
 };
 
-function OverallScoreBanner({ buildScore }: { buildScore: BuildScore }) {
+function OverallScoreBanner({ buildScore, styles }: { buildScore: BuildScore; styles: MyBuildStyles }) {
   const { bg, text } = GRADE_COLORS[buildScore.grade];
 
   return (
@@ -54,6 +57,8 @@ interface Props {
 }
 
 const MyBuildTab: FC<Props> = ({ character }) => {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const buildScore = useMemo(() => {
     const builds = getBuildsForCharacter(character.id);
     if (!builds.length || !character.artifacts.length) return null;
@@ -62,7 +67,7 @@ const MyBuildTab: FC<Props> = ({ character }) => {
 
   return (
     <YStack gap="$3">
-      {buildScore && <OverallScoreBanner buildScore={buildScore} />}
+      {buildScore && <OverallScoreBanner buildScore={buildScore} styles={styles} />}
 
       <Text style={styles.sectionLabel}>Artifacts</Text>
       {character.artifacts.map((artifact) => {
@@ -84,9 +89,9 @@ const MyBuildTab: FC<Props> = ({ character }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: AppTheme) => StyleSheet.create({
   sectionLabel: {
-    color: "#c9a227",
+    color: theme.accent,
     fontSize: 12,
     fontWeight: "700",
     textTransform: "uppercase",
@@ -94,26 +99,26 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   scoreBanner: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#2a2a2a",
+    borderColor: theme.border,
     padding: 14,
   },
   scoreBannerLabel: {
-    color: "#888",
+    color: theme.textSubtle,
     fontSize: 11,
     fontWeight: "700",
     textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   scoreBannerValue: {
-    color: "#fff",
+    color: theme.text,
     fontSize: 32,
     fontWeight: "800",
   },
   scoreBannerMax: {
-    color: "#888",
+    color: theme.textSubtle,
     fontSize: 14,
     alignSelf: "flex-end",
     marginBottom: 4,
@@ -127,7 +132,7 @@ const styles = StyleSheet.create({
   },
   gradePillText: { fontSize: 14, fontWeight: "800" },
   scoreBreakdown: {
-    color: "#666",
+    color: theme.textSubtle,
     fontSize: 11,
   },
 });

@@ -4,6 +4,7 @@ import { scoreBuild, scoreToGrade, type Grade } from "@/lib/artifact-scorer";
 import { getBuildsForCharacter } from "@/lib/recommended-builds";
 import { useEnkaUser } from "@/hooks/useEnkaUser";
 import { useUserStore } from "@/store/user-store";
+import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { Character } from "@/types/character";
 import { useRouter } from "expo-router";
 import {
@@ -15,6 +16,8 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, Spinner, Text, View, XStack, YStack } from "tamagui";
 
+type HomeStyles = ReturnType<typeof createStyles>;
+
 const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
   S: { bg: "#FFD700", text: "#000" },
   A: { bg: "#9de06b", text: "#000" },
@@ -23,13 +26,13 @@ const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
   D: { bg: "#555", text: "#fff" },
 };
 
-function BuildScoreBadge({ character }: { character: Character }) {
+function BuildScoreBadge({ character, styles }: { character: Character; styles: HomeStyles }) {
   const builds = getBuildsForCharacter(character.id);
   if (!builds.length || !character.artifacts.length) return null;
 
   const { overall } = scoreBuild(character.artifacts, builds[0]);
   const grade = scoreToGrade(overall);
-  const { bg, text } = GRADE_COLORS[grade];
+  const { bg } = GRADE_COLORS[grade];
 
   return (
     <XStack style={styles.scoreBadge} gap={4} alignItems="center">
@@ -39,7 +42,7 @@ function BuildScoreBadge({ character }: { character: Character }) {
   );
 }
 
-function CharacterCard({ character }: { character: Character }) {
+function CharacterCard({ character, styles }: { character: Character; styles: HomeStyles }) {
   const router = useRouter();
   const elementColor = ELEMENT_COLOR[character.element] ?? "#c9a227";
 
@@ -62,7 +65,7 @@ function CharacterCard({ character }: { character: Character }) {
         </XStack>
         <XStack justifyContent="space-between" alignItems="center">
           <Text style={styles.rarityText}>{"★".repeat(character.rarity)}</Text>
-          <BuildScoreBadge character={character} />
+          <BuildScoreBadge character={character} styles={styles} />
         </XStack>
       </View>
     </TouchableOpacity>
@@ -73,10 +76,12 @@ function PlayerInfoBar({
   nickname,
   level,
   uid,
+  styles,
 }: {
   nickname: string;
   level: number;
   uid: string;
+  styles: HomeStyles;
 }) {
   return (
     <View style={styles.playerBar}>
@@ -91,6 +96,8 @@ function PlayerInfoBar({
 }
 
 export default function HomeScreen() {
+  const theme = useAppTheme();
+  const styles = createStyles(theme);
   const { top } = useSafeAreaInsets();
   const uid = useUserStore((s) => s.uid);
   const isHydrated = useUserStore((s) => s.isHydrated);
@@ -143,6 +150,7 @@ export default function HomeScreen() {
           nickname={data.playerInfo.nickname}
           level={data.playerInfo.level}
           uid={uid}
+          styles={styles}
         />
       )}
       <FlatList
@@ -154,8 +162,8 @@ export default function HomeScreen() {
           <RefreshControl
             refreshing={isFetching && !isLoading}
             onRefresh={() => refetch()}
-            tintColor="#c9a227"
-            colors={["#c9a227"]}
+            tintColor={theme.accent}
+            colors={[theme.accent]}
           />
         }
         ListEmptyComponent={
@@ -168,35 +176,35 @@ export default function HomeScreen() {
           </View>
         }
         renderItem={({ item }: { item: Character }) => (
-          <CharacterCard character={item} />
+          <CharacterCard character={item} styles={styles} />
         )}
       />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0f0f0f" },
+const createStyles = (theme: AppTheme) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: theme.background },
   centerContainer: {
     flex: 1,
-    backgroundColor: "#0f0f0f",
+    backgroundColor: theme.background,
     alignItems: "center",
     justifyContent: "center",
     padding: 24,
   },
   playerBar: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#2a2a2a",
+    borderBottomColor: theme.border,
   },
-  playerName: { color: "#fff", fontSize: 18, fontWeight: "700" },
-  playerMeta: { color: "#888", fontSize: 13, marginTop: 2 },
+  playerName: { color: theme.text, fontSize: 18, fontWeight: "700" },
+  playerMeta: { color: theme.textSubtle, fontSize: 13, marginTop: 2 },
   grid: { padding: 8 },
   cardTouchable: { flex: 1, margin: 6 },
   card: {
-    backgroundColor: "#1a1a1a",
+    backgroundColor: theme.surface,
     borderRadius: 12,
     borderWidth: 1.5,
     padding: 12,
@@ -212,47 +220,47 @@ const styles = StyleSheet.create({
   },
   elementText: { color: "#fff", fontSize: 11, fontWeight: "700" },
   characterName: {
-    color: "#fff",
+    color: theme.text,
     fontSize: 15,
     fontWeight: "600",
     marginBottom: 4,
   },
   cardMeta: { gap: 8, marginBottom: 4 },
-  metaText: { color: "#aaa", fontSize: 12 },
-  rarityText: { color: "#c9a227", fontSize: 11 },
+  metaText: { color: theme.textMuted, fontSize: 12 },
+  rarityText: { color: theme.accent, fontSize: 11 },
   scoreBadge: {
-    backgroundColor: "#111",
+    backgroundColor: theme.raised,
     borderRadius: 6,
     paddingHorizontal: 6,
     paddingVertical: 2,
   },
   scoreBadgeGrade: { fontSize: 11, fontWeight: "800" },
-  scoreBadgeValue: { color: "#888", fontSize: 11 },
-  loadingText: { color: "#888", marginTop: 12, fontSize: 14 },
+  scoreBadgeValue: { color: theme.textSubtle, fontSize: 11 },
+  loadingText: { color: theme.textSubtle, marginTop: 12, fontSize: 14 },
   emptyTitle: {
-    color: "#fff",
+    color: theme.text,
     fontSize: 18,
     fontWeight: "600",
     textAlign: "center",
   },
   emptySubtitle: {
-    color: "#888",
+    color: theme.textSubtle,
     fontSize: 14,
     textAlign: "center",
     marginTop: 8,
     lineHeight: 20,
   },
   errorText: {
-    color: "#ff6b6b",
+    color: theme.danger,
     fontSize: 15,
     textAlign: "center",
     marginBottom: 16,
   },
   retryButton: {
-    backgroundColor: "#c9a227",
+    backgroundColor: theme.accent,
     paddingHorizontal: 24,
     paddingVertical: 10,
     borderRadius: 8,
   },
-  retryText: { color: "#000", fontWeight: "700" },
+  retryText: { color: theme.accentText, fontWeight: "700" },
 });
