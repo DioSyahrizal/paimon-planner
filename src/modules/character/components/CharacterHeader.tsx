@@ -1,83 +1,61 @@
 import { ELEMENT_COLOR } from "@/constants/color";
-import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import { Character } from "@/types/character";
 import React, { FC } from "react";
-import { StyleSheet } from "react-native";
-import { Image, Text, View, XStack, YStack } from "tamagui";
+import { Image, Text, View } from "react-native";
 
 interface Props {
   character: Character;
 }
 
 const CharacterHeader: FC<Props> = ({ character }) => {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
   const elementColor = ELEMENT_COLOR[character.element] ?? "#c9a227";
 
   return (
-    <XStack style={styles.header} gap="$4">
+    <View className="flex-row gap-4 rounded-xl border border-paimon-border bg-paimon-surface p-4 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
       <Image
-        src={character.iconUrl}
-        width={80}
-        height={80}
-        borderRadius={40}
-        borderWidth={2}
-        borderColor={elementColor}
-        backgroundColor={theme.surface}
+        source={{ uri: character.iconUrl }}
+        className="h-20 w-20 rounded-full border-2 bg-paimon-surface dark:bg-paimon-dark-surface"
+        style={{ borderColor: elementColor }}
       />
-      <YStack flex={1} justifyContent="center" gap="$1">
-        <XStack alignItems="center" gap="$2">
-          <Text style={styles.characterName}>{character.name}</Text>
+      <View className="flex-1 justify-center gap-1">
+        <View className="flex-row items-center gap-2">
+          <Text className="text-xl font-bold text-paimon-text dark:text-paimon-dark-text">
+            {character.name}
+          </Text>
           <View
-            style={[styles.elementBadge, { backgroundColor: elementColor }]}
+            className="rounded-md px-2 py-0.5"
+            style={{ backgroundColor: elementColor }}
           >
-            <Text style={styles.elementText}>{character.element}</Text>
+            <Text className="text-xs font-bold text-white">
+              {character.element}
+            </Text>
           </View>
-        </XStack>
-        <Text style={styles.metaText}>
+        </View>
+        <Text className="text-xs text-paimon-soft dark:text-paimon-dark-soft">
           Lv.{character.level} · A{character.ascension}
         </Text>
-        <XStack gap="$3">
-          <Text style={styles.metaText}>C{character.constellation}</Text>
-          <Text style={styles.metaText}>
+        <View className="flex-row gap-3">
+          <Text className="text-xs text-paimon-soft dark:text-paimon-dark-soft">
+            C{character.constellation}
+          </Text>
+          <Text className="text-xs text-paimon-soft dark:text-paimon-dark-soft">
             Friendship: {character.friendship}
           </Text>
-        </XStack>
-        <XStack mt="$2" gap="$1">
-          <Text style={styles.talentText}>
+        </View>
+        <View className="mt-2 flex-row flex-wrap gap-1">
+          <Text className="text-xs text-paimon-accent dark:text-paimon-dark-accent">
             Normal Attack: {character.talents.normal} ·
           </Text>
-
-          <Text style={styles.talentText}>
+          <Text className="text-xs text-paimon-accent dark:text-paimon-dark-accent">
             Skill: {character.talents.skill} ·
           </Text>
-          <Text style={styles.talentText}>
+          <Text className="text-xs text-paimon-accent dark:text-paimon-dark-accent">
             Burst: {character.talents.burst}
           </Text>
-        </XStack>
-      </YStack>
-    </XStack>
+        </View>
+      </View>
+    </View>
   );
 };
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  // Header
-  header: {
-    backgroundColor: theme.surface,
-    borderRadius: 12,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  characterName: { color: theme.text, fontSize: 20, fontWeight: "700" },
-  elementBadge: {
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-  },
-  metaText: { color: theme.textMuted, fontSize: 13 },
-  talentText: { color: theme.accent, fontSize: 12 },
-  elementText: { color: "#fff", fontSize: 11, fontWeight: "700" },
-});
 
 export default CharacterHeader;

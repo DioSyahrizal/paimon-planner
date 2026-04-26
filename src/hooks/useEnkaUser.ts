@@ -11,7 +11,7 @@ interface EnkaUserData {
 }
 
 export function useEnkaUser(uid: string) {
-  return useQuery<EnkaUserData, EnkaApiError>({
+  return useQuery<EnkaUserData, unknown>({
     queryKey: ["enka-user", uid],
     queryFn: async () => {
       const raw = await fetchEnkaUser(uid);

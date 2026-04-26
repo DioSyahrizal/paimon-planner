@@ -1,14 +1,11 @@
+import { cn } from "@/lib/cn";
 import { analyzeGap } from "@/lib/gap-analysis";
 import { getBuildsForCharacter } from "@/lib/recommended-builds";
-import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { ArtifactSlot } from "@/types/artifact";
 import type { GapAnalysis, StatGap } from "@/types/build";
 import type { Character } from "@/types/character";
 import React, { FC } from "react";
-import { StyleSheet } from "react-native";
-import { Text, View, XStack, YStack } from "tamagui";
-
-type CompareStyles = ReturnType<typeof createStyles>;
+import { Text, View } from "react-native";
 
 interface Props {
   characterId: string;
@@ -42,41 +39,56 @@ function deltaColor(delta: number): string {
   return "#e05c5c";
 }
 
-const SectionLabel: FC<{ label: string; styles: CompareStyles }> = ({ label, styles }) => (
-  <Text style={styles.sectionLabel}>{label}</Text>
+const SectionLabel: FC<{ label: string }> = ({ label }) => (
+  <Text className="mt-1 text-xs font-bold uppercase tracking-wide text-paimon-accent dark:text-paimon-dark-accent">
+    {label}
+  </Text>
 );
 
-const ScoreBadge: FC<{ score: number; styles: CompareStyles }> = ({ score, styles }) => (
-  <View style={[styles.scoreBadge, { borderColor: scoreColor(score) }]}>
-    <Text style={[styles.scoreValue, { color: scoreColor(score) }]}>
+const ScoreBadge: FC<{ score: number }> = ({ score }) => (
+  <View
+    className="h-16 w-16 items-center justify-center rounded-full border-2"
+    style={{ borderColor: scoreColor(score) }}
+  >
+    <Text className="text-xl font-extrabold" style={{ color: scoreColor(score) }}>
       {score}
     </Text>
-    <Text style={styles.scoreMax}>/100</Text>
+    <Text className="text-[10px] text-paimon-subtle dark:text-paimon-dark-subtle">
+      /100
+    </Text>
   </View>
 );
 
-const CheckRow: FC<{ label: string; passed: boolean; styles: CompareStyles; detail?: string }> = ({
+const CheckRow: FC<{ label: string; passed: boolean; detail?: string }> = ({
   label,
   passed,
-  styles,
   detail,
 }) => (
-  <XStack
-    style={styles.rowCard}
-    alignItems="center"
-    justifyContent="space-between"
-  >
-    <YStack flex={1} gap="$1">
-      <Text style={styles.rowLabel}>{label}</Text>
-      {detail && <Text style={styles.rowDetail}>{detail}</Text>}
-    </YStack>
-    <Text style={passed ? styles.iconPass : styles.iconFail}>
-      {passed ? "✓" : "✗"}
+  <View className="flex-row items-center justify-between rounded-xl border border-paimon-border bg-paimon-surface p-3 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+    <View className="flex-1 gap-1">
+      <Text className="text-sm font-semibold text-paimon-text dark:text-paimon-dark-text">
+        {label}
+      </Text>
+      {detail && (
+        <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+          {detail}
+        </Text>
+      )}
+    </View>
+    <Text
+      className={cn(
+        "text-lg font-bold",
+        passed
+          ? "text-paimon-success dark:text-paimon-dark-success"
+          : "text-paimon-danger dark:text-paimon-dark-danger",
+      )}
+    >
+      {passed ? "✓" : "✕"}
     </Text>
-  </XStack>
+  </View>
 );
 
-const StatGapRow: FC<{ gap: StatGap; styles: CompareStyles }> = ({ gap, styles }) => {
+const StatGapRow: FC<{ gap: StatGap }> = ({ gap }) => {
   const isPct = gap.stat.endsWith("%");
   const suffix = isPct ? "%" : "";
   const decimals = isPct ? 1 : 0;
@@ -88,35 +100,40 @@ const StatGapRow: FC<{ gap: StatGap; styles: CompareStyles }> = ({ gap, styles }
       : `${gap.delta.toFixed(decimals)}${suffix}`;
 
   return (
-    <XStack
-      style={styles.rowCard}
-      alignItems="center"
-      justifyContent="space-between"
-    >
-      <Text style={styles.rowLabel}>{gap.stat}</Text>
-      <XStack gap="$3" alignItems="center">
-        <YStack alignItems="flex-end">
-          <Text style={styles.statCurrent}>{currentDisplay}</Text>
-          <Text style={styles.statGoal}>goal: {goalDisplay}</Text>
-        </YStack>
-        <Text style={[styles.statDelta, { color: deltaColor(gap.delta) }]}>
+    <View className="flex-row items-center justify-between rounded-xl border border-paimon-border bg-paimon-surface p-3 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+      <Text className="text-sm font-semibold text-paimon-text dark:text-paimon-dark-text">
+        {gap.stat}
+      </Text>
+      <View className="flex-row items-center gap-3">
+        <View className="items-end">
+          <Text className="text-xs font-semibold text-paimon-text dark:text-paimon-dark-text">
+            {currentDisplay}
+          </Text>
+          <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+            goal: {goalDisplay}
+          </Text>
+        </View>
+        <Text
+          className="min-w-[52px] text-right text-xs font-bold"
+          style={{ color: deltaColor(gap.delta) }}
+        >
           {deltaDisplay}
         </Text>
-      </XStack>
-    </XStack>
+      </View>
+    </View>
   );
 };
 
 const CompareTab: FC<Props> = ({ characterId, character }) => {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
   const builds = getBuildsForCharacter(characterId);
 
   if (builds.length === 0) {
     return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>No recommended build found.</Text>
-        <Text style={styles.emptySubText}>
+      <View className="items-center gap-2 rounded-xl border border-paimon-border bg-paimon-surface p-8 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+        <Text className="text-center text-[15px] font-semibold text-paimon-text dark:text-paimon-dark-text">
+          No recommended build found.
+        </Text>
+        <Text className="text-center text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
           Add a build entry to recommended-builds.json for this character first.
         </Text>
       </View>
@@ -130,35 +147,31 @@ const CompareTab: FC<Props> = ({ characterId, character }) => {
   const recommendedMainStats = build.mainStats;
 
   return (
-    <YStack gap="$4">
-      {/* Score Header */}
-      <XStack
-        style={styles.scoreHeader}
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <YStack gap="$1">
-          <Text style={styles.roleTitle}>{build.role}</Text>
-          <Text style={styles.sourceLabel}>vs. {build.source} guide</Text>
-        </YStack>
-        <ScoreBadge score={analysis.overallScore} styles={styles} />
-      </XStack>
+    <View className="gap-4">
+      <View className="flex-row items-center justify-between rounded-xl border border-paimon-border bg-paimon-surface p-4 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+        <View className="gap-1">
+          <Text className="text-[15px] font-bold text-paimon-text dark:text-paimon-dark-text">
+            {build.role}
+          </Text>
+          <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+            vs. {build.source} guide
+          </Text>
+        </View>
+        <ScoreBadge score={analysis.overallScore} />
+      </View>
 
-      {/* Artifact Set */}
-      <SectionLabel label="Artifact Set" styles={styles} />
+      <SectionLabel label="Artifact Set" />
       <CheckRow
         label={build.artifactSets[0].sets
           .map((s) => `${s.setName} ${s.pieces}pc`)
           .join(" + ")}
         passed={analysis.artifactSetMatch}
-        styles={styles}
         detail={
           analysis.artifactSetMatch ? "Set bonus active" : "Wrong set equipped"
         }
       />
 
-      {/* Main Stats */}
-      <SectionLabel label="Main Stats" styles={styles} />
+      <SectionLabel label="Main Stats" />
       {mainStatSlots.map((slot) => {
         const passed = analysis.mainStatMatch[slot];
         const options = recommendedMainStats[slot].join(" / ");
@@ -169,153 +182,77 @@ const CompareTab: FC<Props> = ({ characterId, character }) => {
             key={slot}
             label={SLOT_LABELS[slot]}
             passed={passed}
-            styles={styles}
             detail={
               passed
                 ? `${equipped} ✓`
-                : `Have: ${equipped ?? "—"} · Want: ${options}`
+                : `Have: ${equipped ?? "-"} · Want: ${options}`
             }
           />
         );
       })}
 
-      {/* Weapon */}
-      <SectionLabel label="Weapon" styles={styles} />
-      <XStack
-        style={styles.rowCard}
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <YStack flex={1} gap="$1">
-          <Text style={styles.rowLabel}>{character.weapon.name}</Text>
-          <Text style={styles.rowDetail}>
+      <SectionLabel label="Weapon" />
+      <View className="flex-row items-center justify-between rounded-xl border border-paimon-border bg-paimon-surface p-3 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+        <View className="flex-1 gap-1">
+          <Text className="text-sm font-semibold text-paimon-text dark:text-paimon-dark-text">
+            {character.weapon.name}
+          </Text>
+          <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
             {analysis.weaponTier === "unranked"
               ? "Not in recommended list"
               : `Tier ${analysis.weaponTier} pick`}
           </Text>
-        </YStack>
+        </View>
         <Text
-          style={[styles.tierText, { color: TIER_COLORS[analysis.weaponTier] }]}
+          className="text-lg font-extrabold"
+          style={{ color: TIER_COLORS[analysis.weaponTier] }}
         >
-          {analysis.weaponTier === "unranked" ? "—" : analysis.weaponTier}
+          {analysis.weaponTier === "unranked" ? "-" : analysis.weaponTier}
         </Text>
-      </XStack>
+      </View>
 
-      {/* Goal Stats */}
       {analysis.substatGaps.length > 0 && (
         <>
-          <SectionLabel label="Goal Stats" styles={styles} />
+          <SectionLabel label="Goal Stats" />
           {analysis.substatGaps.map((gap) => (
-            <StatGapRow key={gap.stat} gap={gap} styles={styles} />
+            <StatGapRow key={gap.stat} gap={gap} />
           ))}
         </>
       )}
 
-      {/* Substat Coverage */}
-      <SectionLabel label="Substat Coverage" styles={styles} />
-      <View style={styles.rowCard}>
-        <XStack flexWrap="wrap" gap="$2">
+      <SectionLabel label="Substat Coverage" />
+      <View className="rounded-xl border border-paimon-border bg-paimon-surface p-3 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+        <View className="flex-row flex-wrap gap-2">
           {build.substatPriority.slice(0, 4).map((stat, i) => {
             const allSubs = character.artifacts.flatMap((a) =>
               a.subStats.map((s) => s.stat),
             );
             const present = allSubs.includes(stat);
             return (
-              <XStack key={stat} alignItems="center" gap="$1">
-                <Text style={styles.priorityIndex}>{i + 1}.</Text>
+              <View key={stat} className="flex-row items-center gap-1">
+                <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+                  {i + 1}.
+                </Text>
                 <Text
-                  style={[
-                    styles.substatChip,
-                    { color: present ? theme.success : theme.textSubtle },
-                  ]}
+                  className={cn(
+                    "text-sm font-semibold",
+                    present
+                      ? "text-paimon-success dark:text-paimon-dark-success"
+                      : "text-paimon-subtle dark:text-paimon-dark-subtle",
+                  )}
                 >
                   {stat}
                 </Text>
-              </XStack>
+              </View>
             );
           })}
-        </XStack>
-        <Text style={styles.coverageHint}>
+        </View>
+        <Text className="mt-2 text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
           Green = present in at least one artifact
         </Text>
       </View>
-    </YStack>
+    </View>
   );
 };
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  emptyContainer: {
-    backgroundColor: theme.surface,
-    borderRadius: 12,
-    padding: 32,
-    alignItems: "center",
-    gap: 8,
-  },
-  emptyText: {
-    color: theme.text,
-    fontSize: 15,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-  emptySubText: { color: theme.textSubtle, fontSize: 13, textAlign: "center" },
-
-  scoreHeader: {
-    backgroundColor: theme.surface,
-    borderRadius: 12,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  scoreBadge: {
-    borderWidth: 2,
-    borderRadius: 40,
-    width: 64,
-    height: 64,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  scoreValue: { fontSize: 20, fontWeight: "800" },
-  scoreMax: { color: theme.textSubtle, fontSize: 10 },
-
-  sectionLabel: {
-    color: theme.accent,
-    fontSize: 12,
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-    marginTop: 4,
-  },
-
-  rowCard: {
-    backgroundColor: theme.surface,
-    borderRadius: 10,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  rowLabel: { color: theme.text, fontSize: 14, fontWeight: "600" },
-  rowDetail: { color: theme.textSubtle, fontSize: 12 },
-
-  iconPass: { color: "#4caf50", fontSize: 18, fontWeight: "700" },
-  iconFail: { color: "#e05c5c", fontSize: 18, fontWeight: "700" },
-
-  tierText: { fontSize: 18, fontWeight: "800" },
-
-  statCurrent: { color: theme.text, fontSize: 13, fontWeight: "600" },
-  statGoal: { color: theme.textSubtle, fontSize: 11 },
-  statDelta: {
-    fontSize: 13,
-    fontWeight: "700",
-    minWidth: 52,
-    textAlign: "right",
-  },
-
-  substatChip: { fontSize: 14, fontWeight: "600" },
-  priorityIndex: { color: theme.textSubtle, fontSize: 12 },
-  coverageHint: { color: theme.textSubtle, fontSize: 11, marginTop: 8 },
-
-  roleTitle: { color: theme.text, fontSize: 15, fontWeight: "700" },
-  sourceLabel: { color: theme.textSubtle, fontSize: 11 },
-});
 
 export default CompareTab;

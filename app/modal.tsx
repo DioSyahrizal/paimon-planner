@@ -1,25 +1,17 @@
-import { useAppTheme, type AppTheme } from '@/theme/app-theme'
-import { Link } from 'expo-router'
-import { StyleSheet } from 'react-native'
-import { Text, View } from 'tamagui'
+import { Link } from "expo-router";
+import { Text, View } from "react-native";
 
 export default function ModalScreen() {
-  const theme = useAppTheme()
-  const styles = createStyles(theme)
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <Link href="/" dismissTo style={styles.link}>
-        <Text style={styles.linkText}>Go to home screen</Text>
+    <View className="flex-1 items-center justify-center bg-paimon-bg p-5 dark:bg-paimon-dark-bg">
+      <Text className="text-2xl font-bold text-paimon-text dark:text-paimon-dark-text">
+        Modal
+      </Text>
+      <Link href="/" dismissTo className="mt-4">
+        <Text className="text-base text-paimon-accent dark:text-paimon-dark-accent">
+          Go to home screen
+        </Text>
       </Link>
     </View>
-  )
+  );
 }
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  container: { flex: 1, backgroundColor: theme.background, alignItems: 'center', justifyContent: 'center', padding: 20 },
-  title: { color: theme.text, fontSize: 22, fontWeight: '700' },
-  link: { marginTop: 15 },
-  linkText: { color: theme.accent, fontSize: 16 },
-})

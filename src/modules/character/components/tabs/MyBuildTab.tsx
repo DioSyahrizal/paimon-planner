@@ -1,16 +1,11 @@
 import { scoreBuild, type BuildScore, type Grade } from "@/lib/artifact-scorer";
 import { getBuildsForCharacter } from "@/lib/recommended-builds";
-import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { Character } from "@/types/character";
 import React, { FC, useMemo } from "react";
-import { StyleSheet } from "react-native";
-import { Text, View, XStack, YStack } from "tamagui";
+import { Text, View } from "react-native";
 import ArtifactCard from "./components/ArtifactCard";
 import StatsGrid from "./components/StatsGrid";
 
-type MyBuildStyles = ReturnType<typeof createStyles>;
-
-// ── Overall score badge ───────────────────────────────────────────────────────
 const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
   S: { bg: "#FFD700", text: "#000" },
   A: { bg: "#9de06b", text: "#000" },
@@ -19,46 +14,50 @@ const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
   D: { bg: "#555", text: "#fff" },
 };
 
-function OverallScoreBanner({ buildScore, styles }: { buildScore: BuildScore; styles: MyBuildStyles }) {
+function OverallScoreBanner({ buildScore }: { buildScore: BuildScore }) {
   const { bg, text } = GRADE_COLORS[buildScore.grade];
 
   return (
-    <View style={styles.scoreBanner}>
-      <YStack gap={2}>
-        <Text style={styles.scoreBannerLabel}>Build Score</Text>
-        <XStack gap="$2" alignItems="center">
-          <Text style={styles.scoreBannerValue}>{buildScore.overall}</Text>
-          <Text style={styles.scoreBannerMax}>/100</Text>
-          <View style={[styles.gradePill, { backgroundColor: bg }]}>
-            <Text style={[styles.gradePillText, { color: text }]}>
-              {buildScore.grade}
-            </Text>
-          </View>
-        </XStack>
-        <XStack gap="$3" marginTop={4}>
-          <Text style={styles.scoreBreakdown}>
-            Substats {buildScore.substatScore}/60
+    <View className="rounded-xl border border-paimon-border bg-paimon-surface p-3.5 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+      <Text className="text-xs font-bold uppercase tracking-wide text-paimon-subtle dark:text-paimon-dark-subtle">
+        Build Score
+      </Text>
+      <View className="flex-row items-end gap-2">
+        <Text className="text-4xl font-extrabold text-paimon-text dark:text-paimon-dark-text">
+          {buildScore.overall}
+        </Text>
+        <Text className="mb-1 text-sm text-paimon-subtle dark:text-paimon-dark-subtle">
+          /100
+        </Text>
+        <View
+          className="mb-1 rounded-lg px-2.5 py-1"
+          style={{ backgroundColor: bg }}
+        >
+          <Text className="text-sm font-extrabold" style={{ color: text }}>
+            {buildScore.grade}
           </Text>
-          <Text style={styles.scoreBreakdown}>
-            Main stats {buildScore.mainStatScore}/30
-          </Text>
-          <Text style={styles.scoreBreakdown}>
-            Set {buildScore.setScore}/10
-          </Text>
-        </XStack>
-      </YStack>
+        </View>
+      </View>
+      <View className="mt-1 flex-row flex-wrap gap-3">
+        <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+          Substats {buildScore.substatScore}/60
+        </Text>
+        <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+          Main stats {buildScore.mainStatScore}/30
+        </Text>
+        <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+          Set {buildScore.setScore}/10
+        </Text>
+      </View>
     </View>
   );
 }
 
-// ── Component ─────────────────────────────────────────────────────────────────
 interface Props {
   character: Character;
 }
 
 const MyBuildTab: FC<Props> = ({ character }) => {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
   const buildScore = useMemo(() => {
     const builds = getBuildsForCharacter(character.id);
     if (!builds.length || !character.artifacts.length) return null;
@@ -66,10 +65,12 @@ const MyBuildTab: FC<Props> = ({ character }) => {
   }, [character.id, character.artifacts]);
 
   return (
-    <YStack gap="$3">
-      {buildScore && <OverallScoreBanner buildScore={buildScore} styles={styles} />}
+    <View className="gap-3">
+      {buildScore && <OverallScoreBanner buildScore={buildScore} />}
 
-      <Text style={styles.sectionLabel}>Artifacts</Text>
+      <Text className="mt-1 text-xs font-bold uppercase tracking-wide text-paimon-accent dark:text-paimon-dark-accent">
+        Artifacts
+      </Text>
       {character.artifacts.map((artifact) => {
         const artifactScore = buildScore?.artifactScores.find(
           (s) => s.artifactId === artifact.id,
@@ -83,58 +84,12 @@ const MyBuildTab: FC<Props> = ({ character }) => {
         );
       })}
 
-      <Text style={styles.sectionLabel}>Total Stats</Text>
+      <Text className="mt-1 text-xs font-bold uppercase tracking-wide text-paimon-accent dark:text-paimon-dark-accent">
+        Total Stats
+      </Text>
       <StatsGrid character={character} />
-    </YStack>
+    </View>
   );
 };
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  sectionLabel: {
-    color: theme.accent,
-    fontSize: 12,
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-    marginTop: 4,
-  },
-  scoreBanner: {
-    backgroundColor: theme.surface,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: theme.border,
-    padding: 14,
-  },
-  scoreBannerLabel: {
-    color: theme.textSubtle,
-    fontSize: 11,
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-  },
-  scoreBannerValue: {
-    color: theme.text,
-    fontSize: 32,
-    fontWeight: "800",
-  },
-  scoreBannerMax: {
-    color: theme.textSubtle,
-    fontSize: 14,
-    alignSelf: "flex-end",
-    marginBottom: 4,
-  },
-  gradePill: {
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    alignSelf: "flex-end",
-    marginBottom: 3,
-  },
-  gradePillText: { fontSize: 14, fontWeight: "800" },
-  scoreBreakdown: {
-    color: theme.textSubtle,
-    fontSize: 11,
-  },
-});
 
 export default MyBuildTab;

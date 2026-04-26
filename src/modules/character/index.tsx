@@ -1,11 +1,16 @@
+import { getEnkaErrorMessage } from "@/api/enka";
+import {
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  SkeletonList,
+} from "@/components/ScreenState";
 import { useEnkaUser } from "@/hooks/useEnkaUser";
 import { useUserStore } from "@/store/user-store";
-import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Text, View } from "tamagui";
 import { CharacterHeader, TabToggle, WeaponCard } from "./components";
 import MyBuildTab from "./components/tabs/MyBuildTab";
 import RecommendedTab from "./components/tabs/RecommendedTab";
@@ -26,50 +31,76 @@ function getInitialTab(tabParam?: string | string[]): CharacterTab {
 }
 
 const CharacterPage = () => {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
   const { bottom } = useSafeAreaInsets();
-  const { id, tab } = useLocalSearchParams<{ id: string; tab?: string | string[] }>();
+  const { id, tab } = useLocalSearchParams<{
+    id: string;
+    tab?: string | string[];
+  }>();
   const uid = useUserStore((s) => s.uid);
-  const [activeTab, setActiveTab] = useState<CharacterTab>(() => getInitialTab(tab));
+  const isHydrated = useUserStore((s) => s.isHydrated);
+  const [activeTab, setActiveTab] = useState<CharacterTab>(() =>
+    getInitialTab(tab),
+  );
 
-  const { data } = useEnkaUser(uid);
+  const { data, isLoading, isError, error, refetch } = useEnkaUser(uid);
   const character = data?.characters.find((c) => c.id === id);
+
+  if (!isHydrated) {
+    return <LoadingState message="Preparing character details..." />;
+  }
+
+  if (!uid) {
+    return (
+      <EmptyState
+        title="No UID set"
+        message="Go to Settings and enter your Genshin Impact UID before opening character details."
+      />
+    );
+  }
+
+  if (isLoading) {
+    return <SkeletonList title="Loading character details..." count={4} />;
+  }
+
+  if (isError) {
+    return (
+      <ErrorState
+        title="Could not load character"
+        message={getEnkaErrorMessage(error)}
+        actionLabel="Retry"
+        onAction={() => refetch()}
+      />
+    );
+  }
 
   if (!character) {
     return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.emptyText}>Character not found.</Text>
-      </View>
+      <EmptyState
+        title="Character not found"
+        message="This character is not in the currently loaded public showcase."
+      />
     );
   }
 
   return (
     <ScrollView
-      style={styles.container}
-      contentContainerStyle={[styles.content, { paddingBottom: bottom + 24 }]}
+      className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg"
+      contentContainerClassName="gap-3 p-4"
+      contentContainerStyle={{ paddingBottom: bottom + 24 }}
     >
       <CharacterHeader character={character} />
       <WeaponCard weapon={character.weapon} />
       <TabToggle active={activeTab} onChange={setActiveTab} />
 
       {activeTab === "my-build" && <MyBuildTab character={character} />}
-      {activeTab === "recommended" && <RecommendedTab characterId={character.id} />}
-      {activeTab === "compare" && <CompareTab characterId={character.id} character={character} />}
+      {activeTab === "recommended" && (
+        <RecommendedTab characterId={character.id} />
+      )}
+      {activeTab === "compare" && (
+        <CompareTab characterId={character.id} character={character} />
+      )}
     </ScrollView>
   );
 };
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  container: { flex: 1, backgroundColor: theme.background },
-  content: { padding: 16, gap: 12 },
-  centerContainer: {
-    flex: 1,
-    backgroundColor: theme.background,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  emptyText: { color: theme.textSubtle, fontSize: 15 },
-});
 
 export default CharacterPage;

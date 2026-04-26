@@ -1,14 +1,15 @@
+import { cn } from "@/lib/cn";
 import { useUserStore } from "@/store/user-store";
-import { useAppTheme, type AppColorScheme, type AppTheme } from "@/theme/app-theme";
+import type { AppColorScheme } from "@/theme/app-theme";
 import { useEffect, useState } from "react";
 import {
   Alert,
   ScrollView,
-  StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
+  View,
 } from "react-native";
-import { Text, XStack, YStack } from "tamagui";
 
 type ServerRegion = "Asia" | "America" | "Europe" | "TW/HK/MO";
 
@@ -20,9 +21,8 @@ const COLOR_SCHEMES: { label: string; value: AppColorScheme }[] = [
 ];
 
 export default function SettingsScreen() {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
-  const { uid, region, colorScheme, setUid, setRegion, setColorScheme } = useUserStore();
+  const { uid, region, colorScheme, setUid, setRegion, setColorScheme } =
+    useUserStore();
   const [uidInput, setUidInput] = useState("");
 
   useEffect(() => {
@@ -42,161 +42,130 @@ export default function SettingsScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.screenTitle}>Settings</Text>
+    <ScrollView
+      className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg"
+      contentContainerClassName="px-5 pb-10 pt-5"
+    >
+      <Text className="mb-6 text-3xl font-bold text-paimon-text dark:text-paimon-dark-text">
+        Settings
+      </Text>
 
-      <YStack style={styles.section}>
-        <Text style={styles.sectionTitle}>Enka.Network</Text>
-        <Text style={styles.label}>Player UID</Text>
-        <XStack style={styles.uidRow}>
+      <View className="mb-4 gap-2.5 rounded-xl border border-paimon-border bg-paimon-surface p-4 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+        <Text className="text-xs font-semibold uppercase tracking-wide text-paimon-accent dark:text-paimon-dark-accent">
+          Enka.Network
+        </Text>
+        <Text className="text-sm text-paimon-soft dark:text-paimon-dark-soft">
+          Player UID
+        </Text>
+        <View className="flex-row items-center gap-2.5">
           <TextInput
-            style={styles.uidInput}
+            className="flex-1 rounded-lg border border-paimon-strong bg-paimon-raised px-3.5 py-2.5 text-base tracking-widest text-paimon-text dark:border-paimon-dark-strong dark:bg-paimon-dark-raised dark:text-paimon-dark-text"
             value={uidInput}
             onChangeText={setUidInput}
             placeholder="9-digit UID"
-            placeholderTextColor={theme.textSubtle}
+            placeholderTextColor="#7d715f"
             keyboardType="numeric"
             maxLength={9}
             returnKeyType="done"
             onSubmitEditing={handleSaveUid}
           />
-          <TouchableOpacity style={styles.saveButton} onPress={handleSaveUid}>
-            <Text style={styles.saveButtonText}>Save</Text>
+          <TouchableOpacity
+            className="rounded-lg bg-paimon-accent px-4 py-2.5 dark:bg-paimon-dark-accent"
+            onPress={handleSaveUid}
+          >
+            <Text className="text-sm font-bold text-white dark:text-black">
+              Save
+            </Text>
           </TouchableOpacity>
-        </XStack>
-        <Text style={styles.hint}>
+        </View>
+        <Text className="text-xs leading-5 text-paimon-subtle dark:text-paimon-dark-subtle">
           Find your UID in-game on the Paimon menu (bottom-right corner). Make
           sure your Character Showcase is set to public.
         </Text>
-      </YStack>
+      </View>
 
-      <YStack style={styles.section}>
-        <Text style={styles.sectionTitle}>Server Region</Text>
-        <XStack style={styles.regionRow}>
+      <View className="mb-4 gap-2.5 rounded-xl border border-paimon-border bg-paimon-surface p-4 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+        <Text className="text-xs font-semibold uppercase tracking-wide text-paimon-accent dark:text-paimon-dark-accent">
+          Server Region
+        </Text>
+        <View className="flex-row flex-wrap gap-2">
           {REGIONS.map((r) => (
             <TouchableOpacity
               key={r}
-              style={[
-                styles.regionChip,
-                region === r && styles.regionChipActive,
-              ]}
+              className={cn(
+                "rounded-full border border-paimon-strong px-3.5 py-1.5 dark:border-paimon-dark-strong",
+                region === r &&
+                  "border-paimon-accent bg-paimon-accent dark:border-paimon-dark-accent dark:bg-paimon-dark-accent",
+              )}
               onPress={() => setRegion(r)}
             >
               <Text
-                style={[
-                  styles.regionText,
-                  region === r && styles.regionTextActive,
-                ]}
+                className={cn(
+                  "text-xs text-paimon-subtle dark:text-paimon-dark-subtle",
+                  region === r &&
+                    "font-bold text-paimon-accentSoft dark:text-black",
+                )}
               >
                 {r}
               </Text>
             </TouchableOpacity>
           ))}
-        </XStack>
-      </YStack>
+        </View>
+      </View>
 
-      <YStack style={styles.section}>
-        <Text style={styles.sectionTitle}>Appearance</Text>
-        <XStack style={styles.regionRow}>
+      <View className="mb-4 gap-2.5 rounded-xl border border-paimon-border bg-paimon-surface p-4 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+        <Text className="text-xs font-semibold uppercase tracking-wide text-paimon-accent dark:text-paimon-dark-accent">
+          Appearance
+        </Text>
+        <View className="flex-row flex-wrap gap-2">
           {COLOR_SCHEMES.map((scheme) => (
             <TouchableOpacity
               key={scheme.value}
-              style={[
-                styles.regionChip,
-                colorScheme === scheme.value && styles.regionChipActive,
-              ]}
+              className={cn(
+                "rounded-full border border-paimon-strong px-3.5 py-1.5 dark:border-paimon-dark-strong",
+                colorScheme === scheme.value &&
+                  "border-paimon-accent bg-paimon-accent dark:border-paimon-dark-accent dark:bg-paimon-dark-accent",
+              )}
               onPress={() => setColorScheme(scheme.value)}
             >
               <Text
-                style={[
-                  styles.regionText,
-                  colorScheme === scheme.value && styles.regionTextActive,
-                ]}
+                className={cn(
+                  "text-xs text-paimon-subtle dark:text-paimon-dark-subtle",
+                  colorScheme === scheme.value &&
+                    "font-bold text-paimon-accentSoft dark:text-black",
+                )}
               >
                 {scheme.label}
               </Text>
             </TouchableOpacity>
           ))}
-        </XStack>
-      </YStack>
+        </View>
+      </View>
 
-      <YStack style={styles.section}>
-        <Text style={styles.sectionTitle}>About</Text>
-        <Text style={styles.aboutText}>Paimon Planner — v1.0.0</Text>
-        <Text style={styles.aboutText}>
+      <View className="mb-4 gap-2.5 rounded-xl border border-paimon-border bg-paimon-surface p-4 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+        <Text className="text-xs font-semibold uppercase tracking-wide text-paimon-accent dark:text-paimon-dark-accent">
+          About
+        </Text>
+        <Text className="text-xs leading-5 text-paimon-subtle dark:text-paimon-dark-subtle">
+          Paimon Planner - v1.0.0
+        </Text>
+        <Text className="text-xs leading-5 text-paimon-subtle dark:text-paimon-dark-subtle">
           Character data provided by{" "}
-          <Text style={styles.link}>Enka.Network</Text>
+          <Text className="text-paimon-accent dark:text-paimon-dark-accent">
+            Enka.Network
+          </Text>
         </Text>
-        <Text style={styles.aboutText}>
-          Game data from <Text style={styles.link}>genshin.dev</Text>
+        <Text className="text-xs leading-5 text-paimon-subtle dark:text-paimon-dark-subtle">
+          Game data from{" "}
+          <Text className="text-paimon-accent dark:text-paimon-dark-accent">
+            genshin.dev
+          </Text>
         </Text>
-        <Text style={styles.aboutText}>
+        <Text className="text-xs leading-5 text-paimon-subtle dark:text-paimon-dark-subtle">
           Build guides are curated by you based on community resources (KQM,
           Genshin Helper Team).
         </Text>
-      </YStack>
+      </View>
     </ScrollView>
   );
 }
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  container: { flex: 1, backgroundColor: theme.background },
-  content: { padding: 20, paddingBottom: 40 },
-  screenTitle: {
-    color: theme.text,
-    fontSize: 28,
-    fontWeight: "700",
-    marginBottom: 24,
-  },
-  section: {
-    backgroundColor: theme.surface,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    gap: 10,
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  sectionTitle: {
-    color: theme.accent,
-    fontSize: 13,
-    fontWeight: "600",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-  },
-  label: { color: theme.textMuted, fontSize: 14 },
-  uidRow: { gap: 10, alignItems: "center" },
-  uidInput: {
-    flex: 1,
-    backgroundColor: theme.input,
-    borderWidth: 1,
-    borderColor: theme.borderStrong,
-    borderRadius: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    color: theme.text,
-    fontSize: 16,
-    letterSpacing: 2,
-  },
-  saveButton: {
-    backgroundColor: theme.accent,
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  saveButtonText: { color: theme.accentText, fontWeight: "700", fontSize: 14 },
-  hint: { color: theme.textSubtle, fontSize: 12, lineHeight: 18 },
-  regionRow: { flexWrap: "wrap", gap: 8 },
-  regionChip: {
-    borderWidth: 1,
-    borderColor: theme.borderStrong,
-    borderRadius: 20,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-  },
-  regionChipActive: { backgroundColor: theme.accent, borderColor: theme.accent },
-  regionText: { color: theme.textSubtle, fontSize: 13 },
-  regionTextActive: { color: theme.accentText, fontWeight: "700" },
-  aboutText: { color: theme.textSubtle, fontSize: 13, lineHeight: 20 },
-  link: { color: theme.accent },
-});

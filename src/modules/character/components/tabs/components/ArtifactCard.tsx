@@ -1,11 +1,8 @@
 import type { ArtifactScore, Grade } from "@/lib/artifact-scorer";
-import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { Artifact, StatType } from "@/types/artifact";
 import { FC } from "react";
-import { StyleSheet } from "react-native";
-import { Image, Text, View, XStack, YStack } from "tamagui";
+import { Image, Text, View } from "react-native";
 
-// ── Grade colours ─────────────────────────────────────────────────────────────
 const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
   S: { bg: "#FFD700", text: "#000" },
   A: { bg: "#9de06b", text: "#000" },
@@ -14,16 +11,15 @@ const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
   D: { bg: "#555", text: "#fff" },
 };
 
-// ── Substat colours by priority rank ─────────────────────────────────────────
 const PRIORITY_COLORS: Record<number, string> = {
-  0: "#FFD700", // 1st priority — gold
-  1: "#e7c766", // 2nd priority — light gold
-  2: "#8ec8ff", // 3rd priority — blue
-  3: "#aaa",    // 4th priority — muted
+  0: "#FFD700",
+  1: "#e7c766",
+  2: "#8ec8ff",
+  3: "#aaa",
 };
 
-function getSubstatColor(priorityRank: number | null, mutedColor: string): string {
-  if (priorityRank === null) return mutedColor;
+function getSubstatColor(priorityRank: number | null): string {
+  if (priorityRank === null) return "#7d715f";
   return PRIORITY_COLORS[priorityRank] ?? "#aaa";
 }
 
@@ -33,142 +29,98 @@ function formatValue(stat: StatType, value: number): string {
     stat === "EM" ||
     stat.endsWith("DMG%") ||
     stat === "Healing%";
-  // Percentage stats come from Enka as e.g. 3.89 (not 0.0389)
   return isPct ? `${value.toFixed(1)}` : `${Math.round(value)}`;
 }
 
-// ── Grade badge ───────────────────────────────────────────────────────────────
-function GradeBadge({ grade, styles }: { grade: Grade; styles: ReturnType<typeof createStyles> }) {
+function GradeBadge({ grade }: { grade: Grade }) {
   const { bg, text } = GRADE_COLORS[grade];
   return (
-    <View style={[styles.gradeBadge, { backgroundColor: bg }]}>
-      <Text style={[styles.gradeText, { color: text }]}>{grade}</Text>
+    <View
+      className="items-center justify-center rounded-md px-2 py-0.5"
+      style={{ backgroundColor: bg }}
+    >
+      <Text className="text-xs font-extrabold" style={{ color: text }}>
+        {grade}
+      </Text>
     </View>
   );
 }
 
-// ── Component ─────────────────────────────────────────────────────────────────
 interface Props {
   artifact: Artifact;
   score?: ArtifactScore;
 }
 
 const ArtifactCard: FC<Props> = ({ artifact, score }) => {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
-
   return (
-    <View style={styles.artifactCard}>
-      <XStack gap="$3">
+    <View className="rounded-xl border border-paimon-border bg-paimon-surface p-3 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+      <View className="flex-row gap-3">
         <Image
-          src={artifact.iconUrl}
-          width={64}
-          height={64}
-          borderRadius={8}
-          backgroundColor={theme.raised}
+          source={{ uri: artifact.iconUrl }}
+          className="h-16 w-16 rounded-lg bg-paimon-raised dark:bg-paimon-dark-raised"
         />
-        <YStack flex={1}>
-          <XStack justifyContent="space-between" alignItems="center" marginBottom={4}>
-            <Text style={styles.artifactSlot}>
-              {artifact.slotType.toUpperCase()}
+        <View className="flex-1">
+          <View className="mb-1 flex-row items-center justify-between">
+            <Text className="text-xs font-bold uppercase tracking-wide text-paimon-subtle dark:text-paimon-dark-subtle">
+              {artifact.slotType}
             </Text>
-            <XStack gap="$2" alignItems="center">
-              <Text style={styles.artifactLevel}>
+            <View className="flex-row items-center gap-2">
+              <Text className="text-xs font-bold text-paimon-accent dark:text-paimon-dark-accent">
                 {"★".repeat(artifact.rarity)}
               </Text>
-              <Text style={styles.artifactLevel}>+{artifact.level}</Text>
-              {score && <GradeBadge grade={score.grade} styles={styles} />}
-            </XStack>
-          </XStack>
-          <Text style={styles.artifactSet}>{artifact.setName}</Text>
-          <Text style={styles.artifactMainStat}>
-            {artifact.mainStat.stat}: {formatValue(artifact.mainStat.stat, artifact.mainStat.value)}
+              <Text className="text-xs font-bold text-paimon-accent dark:text-paimon-dark-accent">
+                +{artifact.level}
+              </Text>
+              {score && <GradeBadge grade={score.grade} />}
+            </View>
+          </View>
+          <Text className="mb-1 text-sm font-semibold text-paimon-text dark:text-paimon-dark-text">
+            {artifact.setName}
           </Text>
-        </YStack>
-      </XStack>
+          <Text className="text-xs text-paimon-accent dark:text-paimon-dark-accent">
+            {artifact.mainStat.stat}:{" "}
+            {formatValue(artifact.mainStat.stat, artifact.mainStat.value)}
+          </Text>
+        </View>
+      </View>
 
-      <YStack marginTop={8} gap="$1">
+      <View className="mt-2 gap-1">
         {artifact.subStats.map((sub, i) => {
           const contribution = score?.substatContributions.find(
             (c) => c.stat === sub.stat,
           );
           const priorityRank = contribution?.priorityRank ?? null;
-          const color = getSubstatColor(priorityRank, theme.textSubtle);
+          const color = getSubstatColor(priorityRank);
           const efficiencyPct =
             contribution && priorityRank !== null
               ? Math.round(contribution.efficiency * 100)
               : null;
 
           return (
-            <XStack key={i} justifyContent="space-between" alignItems="center">
-              <Text style={[styles.artifactSubStat, { color }]}>
+            <View key={i} className="flex-row items-center justify-between">
+              <Text className="text-xs" style={{ color }}>
                 · {sub.stat} {formatValue(sub.stat, sub.value)}
               </Text>
               {efficiencyPct !== null && (
-                <Text style={[styles.efficiencyText, { color }]}>
+                <Text className="text-xs font-semibold opacity-80" style={{ color }}>
                   {efficiencyPct}%
                 </Text>
               )}
-            </XStack>
+            </View>
           );
         })}
-      </YStack>
+      </View>
 
       {score && (
-        <View style={styles.scoreBar}>
+        <View className="mt-2.5 h-[3px] overflow-hidden rounded-full bg-paimon-border dark:bg-paimon-dark-border">
           <View
-            style={[styles.scoreBarFill, { width: `${score.score}%` as `${number}%` }]}
+            className="h-[3px] rounded-full bg-paimon-accent dark:bg-paimon-dark-accent"
+            style={{ width: `${score.score}%` }}
           />
         </View>
       )}
     </View>
   );
 };
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  artifactCard: {
-    backgroundColor: theme.surface,
-    borderRadius: 10,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  artifactSlot: {
-    color: theme.textSubtle,
-    fontSize: 11,
-    fontWeight: "700",
-    letterSpacing: 0.5,
-  },
-  artifactLevel: { color: theme.accent, fontSize: 12, fontWeight: "700" },
-  artifactSet: {
-    color: theme.text,
-    fontSize: 14,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
-  artifactMainStat: { color: theme.accent, fontSize: 13 },
-  artifactSubStat: { fontSize: 12 },
-  efficiencyText: { fontSize: 11, fontWeight: "600", opacity: 0.8 },
-  gradeBadge: {
-    borderRadius: 6,
-    paddingHorizontal: 7,
-    paddingVertical: 2,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  gradeText: { fontSize: 11, fontWeight: "800" },
-  scoreBar: {
-    marginTop: 10,
-    height: 3,
-    backgroundColor: theme.border,
-    borderRadius: 999,
-    overflow: "hidden",
-  },
-  scoreBarFill: {
-    height: 3,
-    backgroundColor: theme.accent,
-    borderRadius: 999,
-  },
-});
 
 export default ArtifactCard;

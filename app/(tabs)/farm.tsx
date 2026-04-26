@@ -1,4 +1,12 @@
+import { getEnkaErrorMessage } from "@/api/enka";
+import {
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  SkeletonList,
+} from "@/components/ScreenState";
 import { useEnkaUser } from "@/hooks/useEnkaUser";
+import { cn } from "@/lib/cn";
 import {
   getAvailableDomainsForDay,
   getCharacterDomains,
@@ -9,15 +17,17 @@ import {
 } from "@/lib/farm-data";
 import { useFarmStore } from "@/store/farm-store";
 import { useUserStore } from "@/store/user-store";
-import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { Character } from "@/types/character";
 import type { DayOfWeek, FarmSource, ResolvedFarmTarget } from "@/types/farm";
 import { useEffect } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Image, Spinner, Text, View, XStack, YStack } from "tamagui";
-
-type FarmStyles = ReturnType<typeof createStyles>;
 
 const DAY_LABELS: DayOfWeek[] = [
   "Sun",
@@ -29,7 +39,7 @@ const DAY_LABELS: DayOfWeek[] = [
   "Sat",
 ];
 
-const DEV_MOCK_DAY: DayOfWeek | null = null; // e.g. "Mon" to test Monday
+const DEV_MOCK_DAY: DayOfWeek | null = null;
 
 function getToday(): DayOfWeek {
   return DEV_MOCK_DAY ?? DAY_LABELS[new Date().getDay()];
@@ -117,34 +127,36 @@ function getDailyChecklistItems(
 function DomainCard({
   source,
   today,
-  styles,
 }: {
   source: FarmSource;
   today: DayOfWeek;
-  styles: FarmStyles;
 }) {
   return (
-    <View style={styles.domainCard}>
-      <XStack style={styles.domainHeader}>
-        <XStack style={styles.domainTitleRow}>
-          <View style={styles.categoryBadge}>
-            <Text style={styles.categoryBadgeText}>
+    <View className="rounded-[14px] border border-paimon-border bg-paimon-surface p-3.5 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+      <View className="flex-row items-center justify-between gap-3">
+        <View className="flex-1 flex-row items-center gap-2.5">
+          <View className="min-w-[42px] items-center justify-center rounded-lg bg-paimon-infoSoft px-2 py-1.5 dark:bg-paimon-dark-infoSoft">
+            <Text className="text-xs font-bold text-paimon-info dark:text-paimon-dark-info">
               {getCategoryBadge(source)}
             </Text>
           </View>
-          <Text style={styles.domainName}>{source.name}</Text>
-        </XStack>
-        <XStack style={styles.domainHeaderRight}>
-          <View style={styles.dayChip}>
-            <Text style={styles.dayChipText}>{today}</Text>
-          </View>
-        </XStack>
-      </XStack>
-      <Text style={styles.domainMeta}>
+          <Text className="flex-1 text-base font-bold text-paimon-text dark:text-paimon-dark-text">
+            {source.name}
+          </Text>
+        </View>
+        <View className="rounded-full bg-paimon-accentSoft px-2.5 py-1 dark:bg-paimon-dark-accentSoft">
+          <Text className="text-xs font-bold text-paimon-accent dark:text-paimon-dark-accent">
+            {today}
+          </Text>
+        </View>
+      </View>
+      <Text className="mt-2 text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
         {source.region} · {source.location}
       </Text>
-      <Text style={styles.domainDrops}>Drops: {source.drops.join(", ")}</Text>
-      <Text style={styles.domainSchedule}>
+      <Text className="mt-2 text-xs leading-5 text-paimon-text dark:text-paimon-dark-text">
+        Drops: {source.drops.join(", ")}
+      </Text>
+      <Text className="mt-2 text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
         {formatDayList(source.availableDays)}
       </Text>
     </View>
@@ -156,13 +168,11 @@ function CharacterFarmCard({
   today,
   completedIds,
   onToggleTask,
-  styles,
 }: {
   character: Character;
   today: DayOfWeek;
   completedIds: string[];
   onToggleTask: (taskId: string) => void;
-  styles: FarmStyles;
 }) {
   const farmData = getCharacterFarmData(character.id);
   const nextStage = getNextAscensionStage(character.id, character.level);
@@ -180,70 +190,78 @@ function CharacterFarmCard({
   }
 
   return (
-    <View style={styles.characterCard}>
-      <XStack style={styles.characterHeader}>
-        <XStack style={styles.characterIdentity}>
+    <View className="gap-3.5 rounded-2xl border border-paimon-border bg-paimon-surface p-4 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+      <View className="flex-row items-start justify-between gap-3">
+        <View className="flex-1 flex-row items-center gap-3">
           {portraitUrl ? (
-            <Image src={portraitUrl} width={56} height={56} />
+            <Image source={{ uri: portraitUrl }} className="h-14 w-14" />
           ) : (
-            <View style={styles.characterPortraitFallback}>
-              <Text style={styles.characterPortraitFallbackText}>
+            <View className="h-14 w-14 items-center justify-center rounded-[14px] bg-paimon-accentSoft dark:bg-paimon-dark-accentSoft">
+              <Text className="text-2xl font-bold text-paimon-accent dark:text-paimon-dark-accent">
                 {character.name.slice(0, 1).toUpperCase()}
               </Text>
             </View>
           )}
-          <YStack style={styles.characterHeaderCopy}>
-            <Text style={styles.characterName}>{character.name}</Text>
-            <Text style={styles.characterMeta}>
+          <View className="flex-1 gap-1">
+            <Text className="text-lg font-bold text-paimon-text dark:text-paimon-dark-text">
+              {character.name}
+            </Text>
+            <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
               Lv.{character.level} · C{character.constellation} · Friendship{" "}
               {character.friendship}
             </Text>
-          </YStack>
-        </XStack>
-        <View style={styles.progressBadge}>
-          <Text style={styles.progressBadgeText}>
+          </View>
+        </View>
+        <View className="rounded-full bg-paimon-successSoft px-2.5 py-1 dark:bg-paimon-dark-successSoft">
+          <Text className="text-xs font-bold text-paimon-success dark:text-paimon-dark-success">
             {nextStage
               ? `Next: ${nextStage.fromLevel}-${nextStage.toLevel}`
               : "Ascended"}
           </Text>
         </View>
-      </XStack>
+      </View>
 
       {nextStage ? (
-        <View style={styles.sectionBlock}>
-          <Text style={styles.sectionLabel}>Next ascension materials</Text>
+        <View className="gap-2.5">
+          <Text className="mb-1 text-xs font-bold uppercase text-paimon-accent dark:text-paimon-dark-accent">
+            Next ascension materials
+          </Text>
           {stageMaterials.map((material) => (
-            <XStack
+            <View
               key={`${character.id}-${material.name}-${material.amount}`}
-              style={styles.materialRow}
+              className="flex-row items-center gap-2.5 rounded-xl border border-paimon-border bg-paimon-muted px-3 py-2.5 dark:border-paimon-dark-border dark:bg-paimon-dark-muted"
             >
-              <View style={styles.materialBadge}>
-                <Text style={styles.materialBadgeText}>
+              <View className="h-10 w-10 items-center justify-center rounded-xl bg-paimon-accentSoft dark:bg-paimon-dark-accentSoft">
+                <Text className="text-xs font-bold text-paimon-accent dark:text-paimon-dark-accent">
                   {getMaterialBadge(material.name)}
                 </Text>
               </View>
-              <YStack style={styles.materialCopy}>
-                <Text style={styles.materialName}>
+              <View className="flex-1">
+                <Text className="text-sm font-semibold text-paimon-text dark:text-paimon-dark-text">
                   {material.name} x{material.amount}
                 </Text>
-                <Text style={styles.materialSource}>
+                <Text className="mt-1 text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
                   {material.source ? material.source.name : "Boss / conversion"}
                 </Text>
-              </YStack>
-            </XStack>
+              </View>
+            </View>
           ))}
         </View>
       ) : (
-        <View style={styles.sectionBlock}>
-          <Text style={styles.sectionLabel}>Ascension</Text>
-          <Text style={styles.helperText}>
+        <View className="gap-2.5">
+          <Text className="mb-1 text-xs font-bold uppercase text-paimon-accent dark:text-paimon-dark-accent">
+            Ascension
+          </Text>
+          <Text className="text-xs leading-5 text-paimon-subtle dark:text-paimon-dark-subtle">
             This character is already at Max Ascension
           </Text>
         </View>
       )}
 
-      <View style={styles.sectionBlock}>
-        <Text style={styles.sectionLabel}>Today&apos;s must-do</Text>
+      <View className="gap-2.5">
+        <Text className="mb-1 text-xs font-bold uppercase text-paimon-accent dark:text-paimon-dark-accent">
+          Today&apos;s must-do
+        </Text>
         {todayChecklistItems.length > 0 ? (
           todayChecklistItems.map((item) => {
             const isCompleted = completedIds.includes(item.id);
@@ -254,46 +272,54 @@ function CharacterFarmCard({
                 activeOpacity={0.85}
                 onPress={() => onToggleTask(item.id)}
               >
-                <XStack
-                  style={[
-                    styles.todoItem,
-                    isCompleted && styles.todoItemCompleted,
-                  ]}
+                <View
+                  className={cn(
+                    "flex-row items-center gap-2.5 rounded-xl border border-paimon-border bg-paimon-muted px-3 py-2.5 dark:border-paimon-dark-border dark:bg-paimon-dark-muted",
+                    isCompleted &&
+                      "border-paimon-success bg-paimon-successSoft dark:border-paimon-dark-success dark:bg-paimon-dark-successSoft",
+                  )}
                 >
                   <View
-                    style={[
-                      styles.todoCheckbox,
-                      isCompleted && styles.todoCheckboxCompleted,
-                    ]}
+                    className={cn(
+                      "h-[22px] w-[22px] items-center justify-center rounded-full border border-paimon-strong bg-paimon-bg dark:border-paimon-dark-strong dark:bg-paimon-dark-bg",
+                      isCompleted &&
+                        "border-paimon-success bg-paimon-success dark:border-paimon-dark-success dark:bg-paimon-dark-success",
+                    )}
                   >
-                    <Text style={styles.todoCheckboxText}>
+                    <Text className="text-xs font-extrabold text-paimon-bg dark:text-paimon-dark-bg">
                       {isCompleted ? "✓" : ""}
                     </Text>
                   </View>
                   <Text
-                    style={[
-                      styles.todoLine,
-                      isCompleted && styles.todoLineCompleted,
-                    ]}
+                    className={cn(
+                      "flex-1 text-xs leading-5 text-paimon-text dark:text-paimon-dark-text",
+                      isCompleted &&
+                        "text-paimon-success line-through dark:text-paimon-dark-success",
+                    )}
                   >
                     {item.label}
                   </Text>
-                </XStack>
+                </View>
               </TouchableOpacity>
             );
           })
         ) : (
-          <Text style={styles.helperText}>
+          <Text className="text-xs leading-5 text-paimon-subtle dark:text-paimon-dark-subtle">
             No day-locked domain target for today. Bosses and routes are still
             open.
           </Text>
         )}
       </View>
 
-      <View style={styles.sectionBlock}>
-        <Text style={styles.sectionLabel}>Tracked sources</Text>
+      <View className="gap-2.5">
+        <Text className="mb-1 text-xs font-bold uppercase text-paimon-accent dark:text-paimon-dark-accent">
+          Tracked sources
+        </Text>
         {relatedDomains.map((domain) => (
-          <Text key={`${character.id}-${domain.id}`} style={styles.helperText}>
+          <Text
+            key={`${character.id}-${domain.id}`}
+            className="text-xs leading-5 text-paimon-subtle dark:text-paimon-dark-subtle"
+          >
             {domain.name} · {formatDayList(domain.availableDays)}
           </Text>
         ))}
@@ -303,8 +329,6 @@ function CharacterFarmCard({
 }
 
 export default function FarmScreen() {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
   const { top } = useSafeAreaInsets();
   const uid = useUserStore((state) => state.uid);
   const isHydrated = useUserStore((state) => state.isHydrated);
@@ -315,7 +339,7 @@ export default function FarmScreen() {
   const hydrateFarmStore = useFarmStore((state) => state.hydrate);
   const resetForDate = useFarmStore((state) => state.resetForDate);
   const toggleCompleted = useFarmStore((state) => state.toggleCompleted);
-  const { data, isLoading } = useEnkaUser(uid);
+  const { data, isLoading, isError, error, refetch } = useEnkaUser(uid);
 
   const trackedCharacters = (data?.characters ?? []).filter((character) => {
     if (!getCharacterFarmData(character.id)) return false;
@@ -333,73 +357,74 @@ export default function FarmScreen() {
   }, [dateKey, hydrateFarmStore]);
 
   if (!isHydrated || !farmStoreHydrated) {
-    return (
-      <View style={styles.centerContainer}>
-        <Spinner size="large" color="$yellow9" />
-      </View>
-    );
+    return <LoadingState message="Preparing today's checklist..." />;
   }
 
   if (!uid) {
     return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.title}>Farm Planner</Text>
-        <Text style={styles.subtitle}>
-          Add your UID in Settings to turn this into a day-by-day farming
-          checklist.
-        </Text>
-      </View>
+      <EmptyState
+        title="Farm Planner"
+        message="Add your UID in Settings to turn this into a day-by-day farming checklist."
+      />
     );
   }
 
   if (isLoading) {
+    return <SkeletonList title="Loading your tracked characters..." count={3} />;
+  }
+
+  if (isError) {
     return (
-      <View style={styles.centerContainer}>
-        <Spinner size="large" color="$yellow9" />
-        <Text style={styles.loadingText}>
-          Loading your tracked characters...
-        </Text>
-      </View>
+      <ErrorState
+        title="Could not load farm plan"
+        message={getEnkaErrorMessage(error)}
+        actionLabel="Retry"
+        onAction={() => refetch()}
+      />
     );
   }
 
   return (
     <ScrollView
-      style={[styles.container, { paddingTop: top }]}
-      contentContainerStyle={styles.content}
+      className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg"
+      contentContainerClassName="gap-[18px] p-4 pb-8"
+      style={{ paddingTop: top }}
     >
-      <View style={styles.header}>
-        <Text style={styles.title}>Farm Planner</Text>
-        <Text style={styles.subtitle}>
+      <View className="gap-1.5">
+        <Text className="text-2xl font-bold text-paimon-text dark:text-paimon-dark-text">
+          Farm Planner
+        </Text>
+        <Text className="text-sm leading-5 text-paimon-subtle dark:text-paimon-dark-subtle">
           Today is {today}. This view combines your showcased tracked
           characters, their next ascension range, and the domains that are open
           right now.
         </Text>
       </View>
 
-      <View style={styles.sectionBlock}>
-        <Text style={styles.sectionTitle}>Today&apos;s domains</Text>
+      <View className="gap-2.5">
+        <Text className="mb-1 text-lg font-bold text-paimon-text dark:text-paimon-dark-text">
+          Today&apos;s domains
+        </Text>
         {todayDomains.map((source) => (
-          <DomainCard
-            key={source.id}
-            source={source}
-            today={today}
-            styles={styles}
-          />
+          <DomainCard key={source.id} source={source} today={today} />
         ))}
       </View>
 
-      <View style={styles.sectionBlock}>
-        <XStack style={styles.sectionHeaderRow}>
-          <Text style={styles.sectionTitle}>Tracked characters</Text>
+      <View className="gap-2.5">
+        <View className="mb-1 flex-row items-center justify-between gap-3">
+          <Text className="text-lg font-bold text-paimon-text dark:text-paimon-dark-text">
+            Tracked characters
+          </Text>
           <TouchableOpacity
             activeOpacity={0.85}
             onPress={() => resetForDate(dateKey)}
-            style={styles.resetButton}
+            className="rounded-full bg-paimon-accentSoft px-3 py-1.5 dark:bg-paimon-dark-accentSoft"
           >
-            <Text style={styles.resetButtonText}>Reset today</Text>
+            <Text className="text-xs font-bold text-paimon-accent dark:text-paimon-dark-accent">
+              Reset today
+            </Text>
           </TouchableOpacity>
-        </XStack>
+        </View>
         {trackedCharacters.length > 0 ? (
           trackedCharacters.map((character) => (
             <CharacterFarmCard
@@ -408,15 +433,14 @@ export default function FarmScreen() {
               today={today}
               completedIds={farmChecklist.completedIds}
               onToggleTask={toggleCompleted}
-              styles={styles}
             />
           ))
         ) : (
-          <View style={styles.emptyCard}>
-            <Text style={styles.emptyTitle}>
+          <View className="rounded-[14px] border border-paimon-border bg-paimon-surface p-4 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+            <Text className="mb-1.5 text-base font-bold text-paimon-text dark:text-paimon-dark-text">
               No tracked farm characters in showcase
             </Text>
-            <Text style={styles.helperText}>
+            <Text className="text-xs leading-5 text-paimon-subtle dark:text-paimon-dark-subtle">
               Put curated characters like Chasca, Zibai, or Nahida in your Enka
               showcase to get level-aware farm planning.
             </Text>
@@ -426,208 +450,3 @@ export default function FarmScreen() {
     </ScrollView>
   );
 }
-
-const createStyles = (theme: AppTheme) =>
-  StyleSheet.create({
-    container: { flex: 1, backgroundColor: theme.background },
-    content: { padding: 16, paddingBottom: 32, gap: 18 },
-    centerContainer: {
-      flex: 1,
-      backgroundColor: theme.background,
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 24,
-    },
-    header: { gap: 6 },
-    title: { color: theme.text, fontSize: 24, fontWeight: "700" },
-    subtitle: { color: theme.textSubtle, fontSize: 14, lineHeight: 20 },
-    loadingText: { color: theme.textSubtle, marginTop: 12, fontSize: 14 },
-    sectionTitle: {
-      color: theme.text,
-      fontSize: 18,
-      fontWeight: "700",
-      marginBottom: 10,
-    },
-    sectionHeaderRow: {
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: 12,
-      marginBottom: 10,
-    },
-    sectionLabel: {
-      color: theme.accent,
-      fontSize: 13,
-      fontWeight: "700",
-      marginBottom: 8,
-      textTransform: "uppercase",
-    },
-    sectionBlock: { gap: 10 },
-    domainCard: {
-      backgroundColor: theme.surface,
-      borderRadius: 14,
-      borderWidth: 1,
-      borderColor: theme.border,
-      padding: 14,
-    },
-    domainHeader: {
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: 12,
-    },
-    domainTitleRow: { alignItems: "center", gap: 10, flex: 1 },
-    domainHeaderRight: { alignItems: "center" },
-    domainName: { color: theme.text, fontSize: 16, fontWeight: "700", flex: 1 },
-    categoryBadge: {
-      minWidth: 42,
-      backgroundColor: theme.infoSoft,
-      borderRadius: 8,
-      paddingHorizontal: 8,
-      paddingVertical: 6,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    categoryBadgeText: { color: theme.info, fontSize: 10, fontWeight: "700" },
-    dayChip: {
-      backgroundColor: theme.accentSoft,
-      borderRadius: 999,
-      paddingHorizontal: 10,
-      paddingVertical: 4,
-    },
-    dayChipText: { color: theme.accent, fontSize: 11, fontWeight: "700" },
-    domainMeta: { color: theme.textSubtle, fontSize: 12, marginTop: 8 },
-    domainDrops: {
-      color: theme.text,
-      fontSize: 13,
-      lineHeight: 18,
-      marginTop: 8,
-    },
-    domainSchedule: { color: theme.textSubtle, fontSize: 12, marginTop: 8 },
-    characterCard: {
-      backgroundColor: theme.surface,
-      borderRadius: 16,
-      borderWidth: 1,
-      borderColor: theme.border,
-      padding: 16,
-      gap: 14,
-    },
-    characterHeader: {
-      alignItems: "flex-start",
-      justifyContent: "space-between",
-      gap: 12,
-    },
-    characterIdentity: { alignItems: "center", gap: 12, flex: 1 },
-    characterHeaderCopy: { flex: 1, gap: 4 },
-    characterPortraitFallback: {
-      width: 56,
-      height: 56,
-      borderRadius: 14,
-      backgroundColor: theme.accentSoft,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    characterPortraitFallbackText: {
-      color: theme.accent,
-      fontSize: 22,
-      fontWeight: "700",
-    },
-    characterName: { color: theme.text, fontSize: 18, fontWeight: "700" },
-    characterMeta: { color: theme.textSubtle, fontSize: 13 },
-    progressBadge: {
-      backgroundColor: theme.successSoft,
-      borderRadius: 999,
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-    },
-    progressBadgeText: {
-      color: theme.success,
-      fontSize: 11,
-      fontWeight: "700",
-    },
-    resetButton: {
-      backgroundColor: theme.accentSoft,
-      borderRadius: 999,
-      paddingHorizontal: 12,
-      paddingVertical: 7,
-    },
-    resetButtonText: { color: theme.accent, fontSize: 12, fontWeight: "700" },
-    todoItem: {
-      alignItems: "center",
-      gap: 10,
-      paddingHorizontal: 12,
-      paddingVertical: 10,
-      borderRadius: 10,
-      backgroundColor: theme.surfaceMuted,
-      borderWidth: 1,
-      borderColor: theme.border,
-    },
-    todoItemCompleted: {
-      backgroundColor: theme.successSoft,
-      borderColor: theme.success,
-    },
-    todoCheckbox: {
-      width: 22,
-      height: 22,
-      borderRadius: 999,
-      borderWidth: 1,
-      borderColor: theme.borderStrong,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: theme.background,
-    },
-    todoCheckboxCompleted: {
-      backgroundColor: theme.success,
-      borderColor: theme.success,
-    },
-    todoCheckboxText: {
-      color: theme.background,
-      fontSize: 12,
-      fontWeight: "800",
-    },
-    materialRow: {
-      backgroundColor: theme.surfaceMuted,
-      borderRadius: 10,
-      paddingHorizontal: 12,
-      paddingVertical: 10,
-      borderWidth: 1,
-      borderColor: theme.border,
-      gap: 10,
-      alignItems: "center",
-    },
-    materialBadge: {
-      width: 40,
-      height: 40,
-      borderRadius: 10,
-      backgroundColor: theme.accentSoft,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    materialBadgeText: { color: theme.accent, fontSize: 11, fontWeight: "700" },
-    materialCopy: { flex: 1 },
-    materialName: { color: theme.text, fontSize: 14, fontWeight: "600" },
-    materialSource: { color: theme.textSubtle, fontSize: 12, marginTop: 4 },
-    todoLine: {
-      color: theme.text,
-      fontSize: 13,
-      lineHeight: 18,
-      flex: 1,
-      flexShrink: 1,
-    },
-    todoLineCompleted: {
-      color: theme.success,
-      textDecorationLine: "line-through",
-    },
-    helperText: { color: theme.textSubtle, fontSize: 13, lineHeight: 18 },
-    emptyCard: {
-      backgroundColor: theme.surface,
-      borderRadius: 14,
-      borderWidth: 1,
-      borderColor: theme.border,
-      padding: 16,
-    },
-    emptyTitle: {
-      color: theme.text,
-      fontSize: 16,
-      fontWeight: "700",
-      marginBottom: 6,
-    },
-  });

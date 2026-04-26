@@ -1,7 +1,6 @@
-import { useAppTheme, type AppTheme } from "@/theme/app-theme";
+import { cn } from "@/lib/cn";
 import React, { FC } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
-import { Text, XStack } from "tamagui";
+import { Text, TouchableOpacity, View } from "react-native";
 import { CharacterTab } from "..";
 
 interface Props {
@@ -10,8 +9,6 @@ interface Props {
 }
 
 const TabToggle: FC<Props> = ({ active, onChange }) => {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
   const tabs: { key: CharacterTab; label: string }[] = [
     { key: "my-build", label: "My Build" },
     { key: "recommended", label: "Recommended" },
@@ -19,42 +16,29 @@ const TabToggle: FC<Props> = ({ active, onChange }) => {
   ];
 
   return (
-    <XStack style={styles.tabRow}>
+    <View className="flex-row rounded-xl border border-paimon-border bg-paimon-surface p-1 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
       {tabs.map((tab) => (
         <TouchableOpacity
           key={tab.key}
-          style={[styles.tab, active === tab.key && styles.tabActive]}
+          className={cn(
+            "flex-1 items-center rounded-lg py-2",
+            active === tab.key &&
+              "bg-paimon-accent dark:bg-paimon-dark-accent",
+          )}
           onPress={() => onChange(tab.key)}
         >
           <Text
-            style={[styles.tabText, active === tab.key && styles.tabTextActive]}
+            className={cn(
+              "text-xs font-semibold text-paimon-subtle dark:text-paimon-dark-subtle",
+              active === tab.key && "text-white dark:text-black",
+            )}
           >
             {tab.label}
           </Text>
         </TouchableOpacity>
       ))}
-    </XStack>
+    </View>
   );
 };
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  // Tabs
-  tabRow: {
-    backgroundColor: theme.surface,
-    borderRadius: 10,
-    padding: 4,
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 8,
-    alignItems: "center",
-    borderRadius: 8,
-  },
-  tabActive: { backgroundColor: theme.accent },
-  tabText: { color: theme.textSubtle, fontSize: 13, fontWeight: "600" },
-  tabTextActive: { color: theme.accentText },
-});
 
 export default TabToggle;

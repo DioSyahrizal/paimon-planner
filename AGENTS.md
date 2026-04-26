@@ -675,10 +675,10 @@ Build Guides Tab                    Build Editor Screen
 - [x] Build Guides tab — read-only viewer of `recommended-builds.json` (character name, role, best set, S-tier weapon). Tap → navigate to character detail with `tab=recommended`.
 - [x] Materials/domain data mapping
 - [x] Farm planner screen with day-based grouping
-- [ ] Checklist persistence
-- [ ] Artifact scoring/grading system
-- [ ] Error handling polish (empty states, loading skeletons, error boundaries)
-- [ ] Dark mode support
+- [x] Checklist persistence
+- [x] Artifact scoring/grading system
+- [x] Error handling polish (empty states, loading skeletons, error boundaries)
+- [x] Dark mode support
 
 **Phase 4 implementation notes:**
 
@@ -694,6 +694,8 @@ Build Guides Tab                    Build Editor Screen
   - tracked bosses/domains per character
 - Character portraits on the Farm tab currently use the same Enka-provided `iconUrl` pattern as the Home `CharacterCard`. Tamagui `Image` rendering was more reliable when width/height were passed directly without extra style-based sizing.
 - Recommendation ingestion is still manual for now. A script-assisted importer is a good future improvement, but Phase 4 keeps the JSON hand-curated.
+- NativeWind/Tailwind is installed alongside Tamagui. Tamagui remains for the root provider and icons, while app-owned screens/components now use React Native primitives with `className`.
+- Error handling now uses a shared `AppErrorBoundary` plus reusable loading, empty, error, and skeleton states in `src/components/`.
 
 ### Phase 5 — Nice to Have (Later)
 

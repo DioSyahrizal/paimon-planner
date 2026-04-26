@@ -1,22 +1,26 @@
 import { getEnkaErrorMessage } from "@/api/enka";
+import {
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  SkeletonList,
+} from "@/components/ScreenState";
 import { ELEMENT_COLOR } from "@/constants/color";
 import { scoreBuild, scoreToGrade, type Grade } from "@/lib/artifact-scorer";
 import { getBuildsForCharacter } from "@/lib/recommended-builds";
 import { useEnkaUser } from "@/hooks/useEnkaUser";
 import { useUserStore } from "@/store/user-store";
-import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import type { Character } from "@/types/character";
 import { useRouter } from "expo-router";
 import {
   FlatList,
+  Image,
   RefreshControl,
-  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Image, Spinner, Text, View, XStack, YStack } from "tamagui";
-
-type HomeStyles = ReturnType<typeof createStyles>;
 
 const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
   S: { bg: "#FFD700", text: "#000" },
@@ -26,7 +30,7 @@ const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
   D: { bg: "#555", text: "#fff" },
 };
 
-function BuildScoreBadge({ character, styles }: { character: Character; styles: HomeStyles }) {
+function BuildScoreBadge({ character }: { character: Character }) {
   const builds = getBuildsForCharacter(character.id);
   if (!builds.length || !character.artifacts.length) return null;
 
@@ -35,38 +39,57 @@ function BuildScoreBadge({ character, styles }: { character: Character; styles: 
   const { bg } = GRADE_COLORS[grade];
 
   return (
-    <XStack style={styles.scoreBadge} gap={4} alignItems="center">
-      <Text style={[styles.scoreBadgeGrade, { color: bg }]}>{grade}</Text>
-      <Text style={styles.scoreBadgeValue}>{overall}</Text>
-    </XStack>
+    <View className="flex-row items-center gap-1 rounded-md bg-paimon-raised px-1.5 py-0.5 dark:bg-paimon-dark-raised">
+      <Text className="text-xs font-extrabold" style={{ color: bg }}>
+        {grade}
+      </Text>
+      <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+        {overall}
+      </Text>
+    </View>
   );
 }
 
-function CharacterCard({ character, styles }: { character: Character; styles: HomeStyles }) {
+function CharacterCard({ character }: { character: Character }) {
   const router = useRouter();
   const elementColor = ELEMENT_COLOR[character.element] ?? "#c9a227";
 
   return (
     <TouchableOpacity
-      style={styles.cardTouchable}
+      className="m-1.5 flex-1"
       onPress={() => router.push(`/character/${character.id}`)}
     >
-      <View style={[styles.card, { borderColor: elementColor }]}>
-        <View style={[styles.elementBadge, { backgroundColor: elementColor }]}>
-          <Image src={character.iconUrl} width={24} height={24} />
+      <View
+        className="min-h-[120px] rounded-xl border-[1.5px] bg-paimon-surface p-3 dark:bg-paimon-dark-surface"
+        style={{ borderColor: elementColor }}
+      >
+        <View
+          className="mb-2 h-9 w-9 items-center justify-center rounded-xl"
+          style={{ backgroundColor: elementColor }}
+        >
+          <Image source={{ uri: character.iconUrl }} className="h-6 w-6" />
         </View>
 
-        <Text style={styles.characterName} numberOfLines={1}>
+        <Text
+          className="mb-1 text-[15px] font-semibold text-paimon-text dark:text-paimon-dark-text"
+          numberOfLines={1}
+        >
           {character.name}
         </Text>
-        <XStack style={styles.cardMeta}>
-          <Text style={styles.metaText}>Lv.{character.level}</Text>
-          <Text style={styles.metaText}>C{character.constellation}</Text>
-        </XStack>
-        <XStack justifyContent="space-between" alignItems="center">
-          <Text style={styles.rarityText}>{"★".repeat(character.rarity)}</Text>
-          <BuildScoreBadge character={character} styles={styles} />
-        </XStack>
+        <View className="mb-1 flex-row gap-2">
+          <Text className="text-xs text-paimon-soft dark:text-paimon-dark-soft">
+            Lv.{character.level}
+          </Text>
+          <Text className="text-xs text-paimon-soft dark:text-paimon-dark-soft">
+            C{character.constellation}
+          </Text>
+        </View>
+        <View className="flex-row items-center justify-between">
+          <Text className="text-xs text-paimon-accent dark:text-paimon-dark-accent">
+            {"★".repeat(character.rarity)}
+          </Text>
+          <BuildScoreBadge character={character} />
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -76,28 +99,24 @@ function PlayerInfoBar({
   nickname,
   level,
   uid,
-  styles,
 }: {
   nickname: string;
   level: number;
   uid: string;
-  styles: HomeStyles;
 }) {
   return (
-    <View style={styles.playerBar}>
-      <YStack>
-        <Text style={styles.playerName}>{nickname}</Text>
-        <Text style={styles.playerMeta}>
-          AR {level} · UID {uid}
-        </Text>
-      </YStack>
+    <View className="border-b border-paimon-border bg-paimon-surface px-4 py-3 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
+      <Text className="text-lg font-bold text-paimon-text dark:text-paimon-dark-text">
+        {nickname}
+      </Text>
+      <Text className="mt-0.5 text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+        AR {level} · UID {uid}
+      </Text>
     </View>
   );
 }
 
 export default function HomeScreen() {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
   const { top } = useSafeAreaInsets();
   const uid = useUserStore((s) => s.uid);
   const isHydrated = useUserStore((s) => s.isHydrated);
@@ -105,162 +124,68 @@ export default function HomeScreen() {
     useEnkaUser(uid);
 
   if (!isHydrated) {
-    return (
-      <View style={styles.centerContainer}>
-        <Spinner size="large" color="$yellow9" />
-      </View>
-    );
+    return <LoadingState message="Preparing your planner..." />;
   }
 
   if (!uid) {
     return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.emptyTitle}>No UID set</Text>
-        <Text style={styles.emptySubtitle}>
-          Go to Settings and enter your Genshin Impact UID to get started.
-        </Text>
-      </View>
+      <EmptyState
+        title="No UID set"
+        message="Go to Settings and enter your Genshin Impact UID to get started."
+      />
     );
   }
 
   if (isLoading) {
-    return (
-      <View style={styles.centerContainer}>
-        <Spinner size="large" color="$yellow9" />
-        <Text style={styles.loadingText}>Fetching showcase...</Text>
-      </View>
-    );
+    return <SkeletonList title="Fetching showcase..." count={4} />;
   }
 
   if (isError) {
     return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.errorText}>{getEnkaErrorMessage(error)}</Text>
-        <TouchableOpacity style={styles.retryButton} onPress={() => refetch()}>
-          <Text style={styles.retryText}>Retry</Text>
-        </TouchableOpacity>
-      </View>
+      <ErrorState
+        title="Could not load showcase"
+        message={getEnkaErrorMessage(error)}
+        actionLabel="Retry"
+        onAction={() => refetch()}
+      />
     );
   }
 
   return (
-    <View style={[styles.container, { paddingTop: top }]}>
+    <View
+      className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg"
+      style={{ paddingTop: top }}
+    >
       {data && (
         <PlayerInfoBar
           nickname={data.playerInfo.nickname}
           level={data.playerInfo.level}
           uid={uid}
-          styles={styles}
         />
       )}
       <FlatList
         data={data?.characters ?? []}
         keyExtractor={(item) => item.id}
         numColumns={2}
-        contentContainerStyle={styles.grid}
+        contentContainerClassName="p-2"
         refreshControl={
           <RefreshControl
             refreshing={isFetching && !isLoading}
             onRefresh={() => refetch()}
-            tintColor={theme.accent}
-            colors={[theme.accent]}
+            tintColor="#c9a227"
+            colors={["#c9a227"]}
           />
         }
         ListEmptyComponent={
-          <View style={styles.centerContainer}>
-            <Text style={styles.emptyTitle}>No characters found</Text>
-            <Text style={styles.emptySubtitle}>
-              Make sure your Character Showcase is set to public in-game (max 8
-              characters).
-            </Text>
-          </View>
+          <EmptyState
+            title="No characters found"
+            message="Make sure your Character Showcase is set to public in-game (max 8 characters)."
+          />
         }
         renderItem={({ item }: { item: Character }) => (
-          <CharacterCard character={item} styles={styles} />
+          <CharacterCard character={item} />
         )}
       />
     </View>
   );
 }
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  container: { flex: 1, backgroundColor: theme.background },
-  centerContainer: {
-    flex: 1,
-    backgroundColor: theme.background,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 24,
-  },
-  playerBar: {
-    backgroundColor: theme.surface,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.border,
-  },
-  playerName: { color: theme.text, fontSize: 18, fontWeight: "700" },
-  playerMeta: { color: theme.textSubtle, fontSize: 13, marginTop: 2 },
-  grid: { padding: 8 },
-  cardTouchable: { flex: 1, margin: 6 },
-  card: {
-    backgroundColor: theme.surface,
-    borderRadius: 12,
-    borderWidth: 1.5,
-    padding: 12,
-    minHeight: 120,
-  },
-  elementBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-  elementText: { color: "#fff", fontSize: 11, fontWeight: "700" },
-  characterName: {
-    color: theme.text,
-    fontSize: 15,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
-  cardMeta: { gap: 8, marginBottom: 4 },
-  metaText: { color: theme.textMuted, fontSize: 12 },
-  rarityText: { color: theme.accent, fontSize: 11 },
-  scoreBadge: {
-    backgroundColor: theme.raised,
-    borderRadius: 6,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-  },
-  scoreBadgeGrade: { fontSize: 11, fontWeight: "800" },
-  scoreBadgeValue: { color: theme.textSubtle, fontSize: 11 },
-  loadingText: { color: theme.textSubtle, marginTop: 12, fontSize: 14 },
-  emptyTitle: {
-    color: theme.text,
-    fontSize: 18,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-  emptySubtitle: {
-    color: theme.textSubtle,
-    fontSize: 14,
-    textAlign: "center",
-    marginTop: 8,
-    lineHeight: 20,
-  },
-  errorText: {
-    color: theme.danger,
-    fontSize: 15,
-    textAlign: "center",
-    marginBottom: 16,
-  },
-  retryButton: {
-    backgroundColor: theme.accent,
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  retryText: { color: theme.accentText, fontWeight: "700" },
-});

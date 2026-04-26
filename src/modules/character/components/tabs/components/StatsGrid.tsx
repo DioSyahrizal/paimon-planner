@@ -1,16 +1,12 @@
-import { useAppTheme, type AppTheme } from "@/theme/app-theme";
 import { Character } from "@/types/character";
 import React, { FC } from "react";
-import { StyleSheet } from "react-native";
-import { Text, View, XStack } from "tamagui";
+import { Text, View } from "react-native";
 
 interface Props {
   character: Character;
 }
 
 const StatsGrid: FC<Props> = ({ character }) => {
-  const theme = useAppTheme();
-  const styles = createStyles(theme);
   const { totalStats } = character;
   const rows = [
     { label: "HP", value: Math.round(totalStats.hp).toLocaleString() },
@@ -39,35 +35,22 @@ const StatsGrid: FC<Props> = ({ character }) => {
   ];
 
   return (
-    <View style={styles.statsGrid}>
+    <View className="rounded-xl border border-paimon-border bg-paimon-surface px-3.5 py-1 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
       {rows.map((row) => (
-        <XStack
+        <View
           key={row.label}
-          justifyContent="space-between"
-          paddingVertical={6}
-          borderBottomWidth={1}
-          borderBottomColor={theme.border}
+          className="flex-row justify-between border-b border-paimon-border py-1.5 dark:border-paimon-dark-border"
         >
-          <Text style={styles.statLabel}>{row.label}</Text>
-          <Text style={styles.statValue}>{row.value}</Text>
-        </XStack>
+          <Text className="text-xs text-paimon-subtle dark:text-paimon-dark-subtle">
+            {row.label}
+          </Text>
+          <Text className="text-xs font-semibold text-paimon-text dark:text-paimon-dark-text">
+            {row.value}
+          </Text>
+        </View>
       ))}
     </View>
   );
 };
-
-const createStyles = (theme: AppTheme) => StyleSheet.create({
-  // Stats
-  statsGrid: {
-    backgroundColor: theme.surface,
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 4,
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  statLabel: { color: theme.textSubtle, fontSize: 13 },
-  statValue: { color: theme.text, fontSize: 13, fontWeight: "600" },
-});
 
 export default StatsGrid;
