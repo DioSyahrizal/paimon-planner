@@ -13,11 +13,12 @@ import {
 import { useUserStore } from "@/store/user-store";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   BuildRolePicker,
   CharacterHeader,
+  CharacterNavBar,
   TabToggle,
   WeaponCard,
 } from "./components";
@@ -40,7 +41,7 @@ function getInitialTab(tabParam?: string | string[]): CharacterTab {
 }
 
 const CharacterPage = () => {
-  const { bottom } = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
   const { id, tab, role } = useLocalSearchParams<{
     id: string;
     tab?: string | string[];
@@ -62,6 +63,13 @@ const CharacterPage = () => {
     () => resolveSelectedBuild(id, selectedRole),
     [id, selectedRole],
   );
+  const navTitle = character?.name ?? "Character";
+  const navSubtitle =
+    character && selectedBuild
+      ? `${selectedBuild.role} build`
+      : character
+        ? `${character.element} character`
+        : "Build details";
 
   useEffect(() => {
     setActiveTab(getInitialTab(tab));
@@ -86,67 +94,92 @@ const CharacterPage = () => {
   }, [builds, selectedBuild, selectedRole]);
 
   if (!isHydrated) {
-    return <LoadingState message="Preparing character details..." />;
+    return (
+      <View className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg">
+        <CharacterNavBar title={navTitle} subtitle={navSubtitle} topInset={top} />
+        <LoadingState message="Preparing character details..." />
+      </View>
+    );
   }
 
   if (!uid) {
     return (
-      <EmptyState
-        title="No UID set"
-        message="Go to Settings and enter your Genshin Impact UID before opening character details."
-      />
+      <View className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg">
+        <CharacterNavBar title={navTitle} subtitle={navSubtitle} topInset={top} />
+        <EmptyState
+          title="No UID set"
+          message="Go to Settings and enter your Genshin Impact UID before opening character details."
+        />
+      </View>
     );
   }
 
   if (isLoading) {
-    return <SkeletonList title="Loading character details..." count={4} />;
+    return (
+      <View className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg">
+        <CharacterNavBar title={navTitle} subtitle={navSubtitle} topInset={top} />
+        <SkeletonList title="Loading character details..." count={4} />
+      </View>
+    );
   }
 
   if (isError) {
     return (
-      <ErrorState
-        title="Could not load character"
-        message={getEnkaErrorMessage(error)}
-        actionLabel="Retry"
-        onAction={() => refetch()}
-      />
+      <View className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg">
+        <CharacterNavBar title={navTitle} subtitle={navSubtitle} topInset={top} />
+        <ErrorState
+          title="Could not load character"
+          message={getEnkaErrorMessage(error)}
+          actionLabel="Retry"
+          onAction={() => refetch()}
+        />
+      </View>
     );
   }
 
   if (!character) {
     return (
-      <EmptyState
-        title="Character not found"
-        message="This character is not in the currently loaded public showcase."
-      />
+      <View className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg">
+        <CharacterNavBar title={navTitle} subtitle={navSubtitle} topInset={top} />
+        <EmptyState
+          title="Character not found"
+          message="This character is not in the currently loaded public showcase."
+        />
+      </View>
     );
   }
 
   return (
-    <ScrollView
-      className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg"
-      contentContainerClassName="gap-3 p-4"
-      contentContainerStyle={{ paddingBottom: bottom + 24 }}
-    >
-      <CharacterHeader character={character} />
-      <WeaponCard weapon={character.weapon} />
-      <TabToggle active={activeTab} onChange={setActiveTab} />
-      <BuildRolePicker
-        builds={builds}
-        selectedRole={selectedBuild?.role ?? ""}
-        onChange={setSelectedRole}
-      />
+    <View className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg">
+      <CharacterNavBar title={navTitle} subtitle={navSubtitle} topInset={top} />
+      <ScrollView
+        className="flex-1"
+        contentContainerClassName="gap-3 p-4"
+        contentContainerStyle={{ paddingBottom: bottom + 24 }}
+      >
+        <CharacterHeader character={character} />
+        <WeaponCard weapon={character.weapon} />
+        <TabToggle active={activeTab} onChange={setActiveTab} />
+        <BuildRolePicker
+          builds={builds}
+          selectedRole={selectedBuild?.role ?? ""}
+          onChange={setSelectedRole}
+        />
 
-      {activeTab === "my-build" && (
-        <MyBuildTab character={character} build={selectedBuild} />
-      )}
-      {activeTab === "recommended" && (
-        <RecommendedTab characterId={character.id} selectedRole={selectedBuild?.role} />
-      )}
-      {activeTab === "compare" && (
-        <CompareTab character={character} build={selectedBuild} />
-      )}
-    </ScrollView>
+        {activeTab === "my-build" && (
+          <MyBuildTab character={character} build={selectedBuild} />
+        )}
+        {activeTab === "recommended" && (
+          <RecommendedTab
+            characterId={character.id}
+            selectedRole={selectedBuild?.role}
+          />
+        )}
+        {activeTab === "compare" && (
+          <CompareTab character={character} build={selectedBuild} />
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

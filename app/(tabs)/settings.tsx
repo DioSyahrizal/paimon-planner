@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type ServerRegion = "Asia" | "America" | "Europe" | "TW/HK/MO";
 
@@ -24,6 +25,7 @@ export default function SettingsScreen() {
   const { uid, region, colorScheme, setUid, setRegion, setColorScheme } =
     useUserStore();
   const [uidInput, setUidInput] = useState("");
+  const { top, bottom } = useSafeAreaInsets();
 
   useEffect(() => {
     if (uid) {
@@ -44,7 +46,11 @@ export default function SettingsScreen() {
   return (
     <ScrollView
       className="flex-1 bg-paimon-bg dark:bg-paimon-dark-bg"
-      contentContainerClassName="px-5 pb-10 pt-5"
+      contentContainerClassName="px-5"
+      contentContainerStyle={{
+        paddingTop: top + 12,
+        paddingBottom: bottom + 16,
+      }}
     >
       <Text className="mb-6 text-3xl font-bold text-paimon-text dark:text-paimon-dark-text">
         Settings
@@ -102,8 +108,7 @@ export default function SettingsScreen() {
               <Text
                 className={cn(
                   "text-xs text-paimon-subtle dark:text-paimon-dark-subtle",
-                  region === r &&
-                    "font-bold text-paimon-accentSoft dark:text-black",
+                  region === r && "font-bold text-white dark:text-black",
                 )}
               >
                 {r}
@@ -132,7 +137,7 @@ export default function SettingsScreen() {
                 className={cn(
                   "text-xs text-paimon-subtle dark:text-paimon-dark-subtle",
                   colorScheme === scheme.value &&
-                    "font-bold text-paimon-accentSoft dark:text-black",
+                    "font-bold text-white dark:text-black",
                 )}
               >
                 {scheme.label}
