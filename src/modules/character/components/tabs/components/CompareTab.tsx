@@ -1,15 +1,14 @@
 import { cn } from "@/lib/cn";
 import { analyzeGap } from "@/lib/gap-analysis";
-import { getBuildsForCharacter } from "@/lib/recommended-builds";
 import type { ArtifactSlot } from "@/types/artifact";
-import type { GapAnalysis, StatGap } from "@/types/build";
+import type { GapAnalysis, RecommendedBuild, StatGap } from "@/types/build";
 import type { Character } from "@/types/character";
 import React, { FC } from "react";
 import { Text, View } from "react-native";
 
 interface Props {
-  characterId: string;
   character: Character;
+  build?: RecommendedBuild;
 }
 
 const SLOT_LABELS: Record<ArtifactSlot, string> = {
@@ -124,10 +123,8 @@ const StatGapRow: FC<{ gap: StatGap }> = ({ gap }) => {
   );
 };
 
-const CompareTab: FC<Props> = ({ characterId, character }) => {
-  const builds = getBuildsForCharacter(characterId);
-
-  if (builds.length === 0) {
+const CompareTab: FC<Props> = ({ character, build }) => {
+  if (!build) {
     return (
       <View className="items-center gap-2 rounded-xl border border-paimon-border bg-paimon-surface p-8 dark:border-paimon-dark-border dark:bg-paimon-dark-surface">
         <Text className="text-center text-[15px] font-semibold text-paimon-text dark:text-paimon-dark-text">
@@ -140,7 +137,6 @@ const CompareTab: FC<Props> = ({ characterId, character }) => {
     );
   }
 
-  const build = builds[0];
   const analysis: GapAnalysis = analyzeGap(character, build);
 
   const mainStatSlots = ["sands", "goblet", "circlet"] as const;

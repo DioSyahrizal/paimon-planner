@@ -63,7 +63,7 @@ function BuildCard({ build }: { build: RecommendedBuild }) {
       onPress={() =>
         router.push({
           pathname: "/character/[id]",
-          params: { id: build.characterId, tab: "recommended" },
+          params: { id: build.characterId, tab: "recommended", role: build.role },
         })
       }
     >

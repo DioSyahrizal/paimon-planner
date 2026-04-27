@@ -1,10 +1,14 @@
-import { getBuildsForCharacter } from "@/lib/recommended-builds";
+import {
+  getBuildsForCharacter,
+  resolveSelectedBuild,
+} from "@/lib/recommended-builds";
 import type { RecommendedBuild, WeaponRecommendation } from "@/types/build";
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { Text, View } from "react-native";
 
 interface Props {
   characterId: string;
+  selectedRole?: string;
 }
 
 const TIER_COLORS: Record<string, string> = {
@@ -54,8 +58,12 @@ const WeaponRow: FC<{ weapon: WeaponRecommendation }> = ({ weapon }) => (
   </View>
 );
 
-const RecommendedTab: FC<Props> = ({ characterId }) => {
-  const builds = getBuildsForCharacter(characterId);
+const RecommendedTab: FC<Props> = ({ characterId, selectedRole }) => {
+  const builds = useMemo(() => getBuildsForCharacter(characterId), [characterId]);
+  const selectedBuild = useMemo(
+    () => resolveSelectedBuild(characterId, selectedRole),
+    [characterId, selectedRole],
+  );
 
   if (builds.length === 0) {
     return (
@@ -72,7 +80,7 @@ const RecommendedTab: FC<Props> = ({ characterId }) => {
 
   return (
     <View className="gap-4">
-      {builds.map((build: RecommendedBuild) => (
+      {(selectedBuild ? [selectedBuild] : []).map((build: RecommendedBuild) => (
         <View key={`${build.characterId}-${build.role}`} className="gap-3">
           <View className="flex-row items-center justify-between">
             <Text className="text-base font-bold text-paimon-text dark:text-paimon-dark-text">

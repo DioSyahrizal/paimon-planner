@@ -1,0 +1,57 @@
+Ayato Sub-DPS Build
+Hydro Sub-DPS
+Best Weapon
+Mistsplitter Reforged Image Mistsplitter Reforged
+Replacement Weapons
+1. Skyward Blade Image Skyward Blade
+2. Primordial Jade Cutter Image Primordial Jade Cutter
+3. Amenoma Kageuchi Image Amenoma Kageuchi
+Best Artifacts
+Genshin - Emblem of Severed Fate Image Emblem of Severed Fate x4
+Artifact Main Stats
+Genshin - HourglassSands: ATK% or ER
+Genshin - GobletGoblet: Hydro DMG Bonus
+Genshin - CircletCirclet: CRIT Rate or CRIT DMG
+Artifact Sub Stats
+Energy Recharge, CRIT Rate, CRIT DMG, ATK%, HP%
+
+Ayato Goal Stat Values
+Stat Goal Value
+ATK 2,000
+CRIT Rate 70 ~ 80%
+CRIT DMG 160% or above
+Energy Recharge 100 ~ 130%
+
+Ayato's Talent Priority
+Sub-DPS
+1st 2nd 3rd
+Elemental Burst Elemental Skill Normal Attack
+
+
+Ayato Hyperbloom Build
+Hyperbloom Hydro Applicator
+Best Weapon
+Skyward Blade Image Skyward Blade
+Replacement Weapons
+1. Amenoma Kageuchi Image Amenoma Kageuchi
+2. Favonius Sword Image Favonius Sword
+Best Artifacts
+Genshin - Heart of Depth Image Heart of Depth x4
+Artifact Main Stats
+Genshin - HourglassSands: ATK% or Energy Recharge
+Genshin - GobletGoblet: Hydro DMG Bonus
+Genshin - CircletCirclet: CRIT Rate or CRIT DMG
+Artifact Sub Stats
+Energy Recharge, CRIT Rate, CRIT DMG, ATK%
+
+Ayato Goal Stat Values
+Stat Goal Value
+ATK 1,800
+CRIT Rate 60 ~ 70%
+CRIT DMG 140% or above
+Energy Recharge 120 ~ 140%
+
+Ayato's Talent Priority
+Hyperbloom
+1st 2nd 3rd
+Elemental Skill Elemental Burst Normal Attack

@@ -1,5 +1,5 @@
 import { scoreBuild, type BuildScore, type Grade } from "@/lib/artifact-scorer";
-import { getBuildsForCharacter } from "@/lib/recommended-builds";
+import type { RecommendedBuild } from "@/types/build";
 import type { Character } from "@/types/character";
 import React, { FC, useMemo } from "react";
 import { Text, View } from "react-native";
@@ -55,14 +55,14 @@ function OverallScoreBanner({ buildScore }: { buildScore: BuildScore }) {
 
 interface Props {
   character: Character;
+  build?: RecommendedBuild;
 }
 
-const MyBuildTab: FC<Props> = ({ character }) => {
+const MyBuildTab: FC<Props> = ({ character, build }) => {
   const buildScore = useMemo(() => {
-    const builds = getBuildsForCharacter(character.id);
-    if (!builds.length || !character.artifacts.length) return null;
-    return scoreBuild(character.artifacts, builds[0]);
-  }, [character.id, character.artifacts]);
+    if (!build || !character.artifacts.length) return null;
+    return scoreBuild(character.artifacts, build);
+  }, [build, character.artifacts]);
 
   return (
     <View className="gap-3">

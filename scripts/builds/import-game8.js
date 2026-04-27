@@ -264,6 +264,69 @@ function getNonEmptyLines(section) {
     .filter(Boolean);
 }
 
+function isLikelyBuildHeading(line) {
+  return /builds?/i.test(line) && !SECTION_HEADINGS.has(line);
+}
+
+function findNextNonEmptyLine(lines, startIndex) {
+  for (let index = startIndex; index < lines.length; index += 1) {
+    if (cleanLine(lines[index])) {
+      return cleanLine(lines[index]);
+    }
+  }
+
+  return "";
+}
+
+function isBuildSectionStart(lines, index) {
+  const currentLine = cleanLine(lines[index]);
+  if (!currentLine || !isLikelyBuildHeading(currentLine)) {
+    return false;
+  }
+
+  for (let offset = 1; offset <= 4; offset += 1) {
+    const nextLine = findNextNonEmptyLine(lines, index + offset);
+    if (!nextLine) {
+      break;
+    }
+
+    if (nextLine === "Best Weapon") {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function splitGuideTextIntoBuildSections(text) {
+  const lines = text.split(/\r?\n/);
+  const startIndices = [];
+
+  for (let index = 0; index < lines.length; index += 1) {
+    if (isBuildSectionStart(lines, index)) {
+      startIndices.push(index);
+    }
+  }
+
+  if (startIndices.length <= 1) {
+    return [text.trim()].filter(Boolean);
+  }
+
+  const sections = [];
+
+  for (let index = 0; index < startIndices.length; index += 1) {
+    const start = startIndices[index];
+    const end = startIndices[index + 1] ?? lines.length;
+    const section = lines.slice(start, end).join("\n").trim();
+
+    if (section) {
+      sections.push(section);
+    }
+  }
+
+  return sections;
+}
+
 function inferCharacterName(text) {
   const goalMatch = text.match(/^\s*([A-Za-z' -]+?)\s+Goal Stat Values\s*$/m);
   if (goalMatch) {
@@ -591,6 +654,19 @@ function upsertBuild(build) {
   return index >= 0 ? "updated" : "added";
 }
 
+function upsertBuilds(builds) {
+  const actions = [];
+
+  for (const build of builds) {
+    actions.push({
+      build,
+      action: upsertBuild(build),
+    });
+  }
+
+  return actions;
+}
+
 function parseGuideText(text) {
   const characterName = inferCharacterName(text);
   const role = parseRole(text);
@@ -636,7 +712,6 @@ function main() {
   const args = parseArgs(process.argv.slice(2));
   const inputPath = path.resolve(PROJECT_ROOT, args.inputPath);
   const rawText = fs.readFileSync(inputPath, "utf8");
-  const parsed = parseGuideText(rawText);
 
   const lookups = {
     characters: buildCharacterLookup(),
@@ -644,18 +719,28 @@ function main() {
     artifacts: buildArtifactLookup(),
   };
 
-  const build = resolveBuild(parsed, lookups);
-  validateBuild(build);
+  const sectionTexts = splitGuideTextIntoBuildSections(rawText);
+  const builds = sectionTexts.map((sectionText) => {
+    const parsed = parseGuideText(sectionText);
+    const build = resolveBuild(parsed, lookups);
+    validateBuild(build);
+    return build;
+  });
 
-  console.log(JSON.stringify(build, null, 2));
+  console.log(JSON.stringify(builds, null, 2));
 
   if (!args.write) {
-    console.log("\nDry run only. Re-run with --write to save into src/data/recommended-builds.json.");
+    console.log(
+      `\nDry run only. Parsed ${builds.length} build${builds.length === 1 ? "" : "s"}. Re-run with --write to save into src/data/recommended-builds.json.`,
+    );
     return;
   }
 
-  const action = upsertBuild(build);
-  console.log(`\nBuild ${action} in ${BUILDS_PATH}`);
+  const actions = upsertBuilds(builds);
+  console.log("");
+  for (const { build, action } of actions) {
+    console.log(`${build.characterName} [${build.role}] ${action} in ${BUILDS_PATH}`);
+  }
 }
 
 try {

@@ -516,7 +516,7 @@
   {
     "characterId": "10000003",
     "characterName": "Jean",
-    "role": "Support Builds for Jean",
+    "role": "Support",
     "artifactSets": [
       {
         "sets": [
@@ -581,6 +581,123 @@
         "tier": "A"
       }
     ],
+    "notes": "Healing-focused support Jean. Prioritize Burst uptime, team shred from 4pc Viridescent Venerer, and enough ATK% to keep healing comfortable.",
+    "source": "Game8",
+    "lastUpdated": "2026-04-23"
+  },
+  {
+    "characterId": "10000003",
+    "characterName": "Jean",
+    "role": "Sub-DPS",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "15002",
+            "setName": "Viridescent Venerer",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      },
+      {
+        "sets": [
+          {
+            "setId": "15002",
+            "setName": "Viridescent Venerer",
+            "pieces": 2
+          },
+          {
+            "setId": "15001",
+            "setName": "Gladiator's Finale",
+            "pieces": 2
+          }
+        ],
+        "label": "Alternative",
+        "tier": "A"
+      },
+      {
+        "sets": [
+          {
+            "setId": "15002",
+            "setName": "Viridescent Venerer",
+            "pieces": 2
+          },
+          {
+            "setId": "15007",
+            "setName": "Noblesse Oblige",
+            "pieces": 2
+          }
+        ],
+        "label": "Burst-focused alternative",
+        "tier": "A"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "ATK%",
+        "ER%"
+      ],
+      "goblet": [
+        "Anemo DMG%"
+      ],
+      "circlet": [
+        "CR%",
+        "CD%"
+      ]
+    },
+    "substatPriority": [
+      "CR%",
+      "CD%",
+      "ATK%",
+      "ER%"
+    ],
+    "goalStats": {
+      "ATK": 1800,
+      "CR%": 60,
+      "CD%": 120,
+      "ER%": 140
+    },
+    "talentPriority": [
+      "burst",
+      "skill",
+      "normal"
+    ],
+    "weapons": [
+      {
+        "weaponId": "4124851547",
+        "weaponName": "Mistsplitter Reforged",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "1345343763",
+        "weaponName": "Primordial Jade Cutter",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "902264035",
+        "weaponName": "Aquila Favonia",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "4055003299",
+        "weaponName": "Skyward Blade",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "1990820123",
+        "weaponName": "Amenoma Kageuchi",
+        "refinement": "R5",
+        "tier": "A",
+        "note": "Comfortable craftable option for burst uptime"
+      }
+    ],
+    "notes": "Damage-oriented Jean with stronger Burst and Skill output. 4pc Viridescent stays best in swirlable teams; 2pc mixes are fine when you want more personal damage.",
     "source": "Game8",
     "lastUpdated": "2026-04-23"
   },
@@ -654,80 +771,149 @@
   },
   {
     "characterId": "10000066",
-    "characterName": "Ayato",
+    "characterName": "Kamisato Ayato",
     "role": "Hyperbloom Hydro Applicator",
     "artifactSets": [
       {
-        "sets": [{ "setId": "15023", "setName": "Heart of Depth", "pieces": 4 }],
+        "sets": [
+          {
+            "setId": "15016",
+            "setName": "Heart of Depth",
+            "pieces": 4
+          }
+        ],
         "label": "Best in Slot",
         "tier": "S"
-      },
-      {
-        "sets": [{ "setId": "15026", "setName": "Echoes of an Offering", "pieces": 4 }],
-        "label": "Alternative",
-        "tier": "S"
-      },
-      {
-        "sets": [
-          { "setId": "15007", "setName": "Noblesse Oblige", "pieces": 2 },
-          { "setId": "15023", "setName": "Heart of Depth", "pieces": 2 }
-        ],
-        "label": "Support Option (if no one else runs Noblesse)",
-        "tier": "A"
       }
     ],
     "mainStats": {
-      "sands": ["ATK%"],
-      "goblet": ["Hydro DMG%"],
-      "circlet": ["CR%", "CD%"]
+      "sands": [
+        "ATK%",
+        "ER%"
+      ],
+      "goblet": [
+        "Hydro DMG%"
+      ],
+      "circlet": [
+        "CR%",
+        "CD%"
+      ]
     },
-    "substatPriority": ["CR%", "CD%", "ATK%", "ER%", "HP%"],
+    "substatPriority": [
+      "ER%",
+      "CR%",
+      "CD%",
+      "ATK%"
+    ],
+    "goalStats": {
+      "ATK": 1800,
+      "CR%": 60,
+      "CD%": 140,
+      "ER%": 120
+    },
+    "talentPriority": [
+      "skill",
+      "burst",
+      "normal"
+    ],
+    "weapons": [
+      {
+        "weaponId": "11502",
+        "weaponName": "Skyward Blade",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "11414",
+        "weaponName": "Amenoma Kageuchi",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11401",
+        "weaponName": "Favonius Sword",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "source": "Game8",
+    "lastUpdated": "2026-04-27"
+  },
+  {
+    "characterId": "10000066",
+    "characterName": "Kamisato Ayato",
+    "role": "Hydro Sub-DPS",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "15020",
+            "setName": "Emblem of Severed Fate",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "ATK%",
+        "ER%"
+      ],
+      "goblet": [
+        "Hydro DMG%"
+      ],
+      "circlet": [
+        "CR%",
+        "CD%"
+      ]
+    },
+    "substatPriority": [
+      "ER%",
+      "CR%",
+      "CD%",
+      "ATK%",
+      "HP%"
+    ],
     "goalStats": {
       "ATK": 2000,
       "CR%": 70,
       "CD%": 160,
-      "ER%": 120
+      "ER%": 100
     },
-    "talentPriority": ["skill", "burst", "normal"],
+    "talentPriority": [
+      "burst",
+      "skill",
+      "normal"
+    ],
     "weapons": [
       {
-        "weaponId": "11415",
-        "weaponName": "Haran Geppaku Futsu",
-        "refinement": "R1",
-        "tier": "S",
-        "note": "Signature BiS — CR substat + Hydro DMG bonus stacks on skill use."
-      },
-      {
-        "weaponId": "11426",
-        "weaponName": "Primordial Jade Cutter",
-        "refinement": "R1",
-        "tier": "S",
-        "note": "High CR substat; HP bonus indirectly buffs Ayato's skill scaling."
-      },
-      {
-        "weaponId": "11416",
+        "weaponId": "11509",
         "weaponName": "Mistsplitter Reforged",
         "refinement": "R1",
-        "tier": "S",
-        "note": "High base ATK + CD substat; strong for personal Hydro DMG."
+        "tier": "S"
       },
       {
-        "weaponId": "11412",
-        "weaponName": "Amenoma Kageuchi",
-        "refinement": "R5",
-        "tier": "A",
-        "note": "F2P craftable. ER passive helps burst uptime — recommended if ER feels tight."
-      },
-      {
-        "weaponId": "11403",
-        "weaponName": "The Black Sword",
+        "weaponId": "11502",
+        "weaponName": "Skyward Blade",
         "refinement": "R1",
-        "tier": "A",
-        "note": "Battle Pass option. CR substat is consistent."
+        "tier": "A"
+      },
+      {
+        "weaponId": "11505",
+        "weaponName": "Primordial Jade Cutter",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11414",
+        "weaponName": "Amenoma Kageuchi",
+        "refinement": "R1",
+        "tier": "A"
       }
     ],
-    "notes": "In this Hyperbloom team (Nahida / Raiden / Ayato / Jean), Ayato's job is consistent Hydro application to create Bloom seeds with Nahida's Dendro — Raiden triggers Hyperbloom and owns the EM scaling. Build Ayato for personal Hydro DPS, not EM. Use Skill on every cooldown. Prioritise ER% substats over ATK% since Jean doesn't funnel energy — aim for 120%+ ER for reliable burst uptime. Heart of Depth 4pc is ideal as the post-skill buff aligns perfectly with Shunsuiken slashes.",
-    "source": "custom",
-    "lastUpdated": "2026-04-25"
+    "source": "Game8",
+    "lastUpdated": "2026-04-27"
   }
 ]

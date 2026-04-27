@@ -6,8 +6,8 @@ import {
   SkeletonList,
 } from "@/components/ScreenState";
 import { ELEMENT_COLOR } from "@/constants/color";
-import { scoreBuild, scoreToGrade, type Grade } from "@/lib/artifact-scorer";
-import { getBuildsForCharacter } from "@/lib/recommended-builds";
+import { scoreToGrade, type Grade } from "@/lib/artifact-scorer";
+import { getBestBuildScoreForArtifacts } from "@/lib/recommended-builds";
 import { useEnkaUser } from "@/hooks/useEnkaUser";
 import { useUserStore } from "@/store/user-store";
 import type { Character } from "@/types/character";
@@ -31,10 +31,13 @@ const GRADE_COLORS: Record<Grade, { bg: string; text: string }> = {
 };
 
 function BuildScoreBadge({ character }: { character: Character }) {
-  const builds = getBuildsForCharacter(character.id);
-  if (!builds.length || !character.artifacts.length) return null;
+  const bestResult = getBestBuildScoreForArtifacts(
+    character.id,
+    character.artifacts,
+  );
+  if (!bestResult) return null;
 
-  const { overall } = scoreBuild(character.artifacts, builds[0]);
+  const { overall } = bestResult.score;
   const grade = scoreToGrade(overall);
   const { bg } = GRADE_COLORS[grade];
 
