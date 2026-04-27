@@ -2,8 +2,10 @@
 
 const fs = require("fs");
 const path = require("path");
+const readline = require("readline");
 
 const PROJECT_ROOT = path.resolve(__dirname, "../..");
+const RAW_GUIDES_DIR = path.join(PROJECT_ROOT, "src/data/build-raw");
 const BUILDS_PATH = path.join(PROJECT_ROOT, "src/data/recommended-builds.json");
 const ARTIFACT_SETS_PATH = path.join(PROJECT_ROOT, "src/data/artifact-sets.json");
 const AVATARS_PATH = path.join(PROJECT_ROOT, "src/data/enka-store/avatars.json");
@@ -116,6 +118,28 @@ const SECTION_HEADINGS = new Set([
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+function ask(question) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer.trim());
+    });
+  });
+}
+
+function listRawGuideFiles() {
+  return fs
+    .readdirSync(RAW_GUIDES_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".txt"))
+    .map((entry) => entry.name)
+    .sort((a, b) => a.localeCompare(b));
 }
 
 function normalizeKey(value) {
@@ -701,16 +725,63 @@ function parseArgs(argv) {
     }
   }
 
-  if (!args.inputPath) {
-    throw new Error("Usage: node scripts/builds/import-game8.js <input-file> [--write]");
-  }
-
   return args;
 }
 
-function main() {
+function resolveInputPath(inputPath) {
+  if (!inputPath) {
+    throw new Error("Input file is required.");
+  }
+
+  const trimmed = inputPath.trim();
+  const hasExtension = path.extname(trimmed).length > 0;
+  const localName = hasExtension ? trimmed : `${trimmed}.txt`;
+  const guideDirCandidate = path.join(RAW_GUIDES_DIR, localName);
+
+  if (fs.existsSync(guideDirCandidate)) {
+    return guideDirCandidate;
+  }
+
+  const projectRelativeCandidate = path.resolve(PROJECT_ROOT, trimmed);
+  if (fs.existsSync(projectRelativeCandidate)) {
+    return projectRelativeCandidate;
+  }
+
+  const projectRelativeWithExtension = path.resolve(PROJECT_ROOT, localName);
+  if (fs.existsSync(projectRelativeWithExtension)) {
+    return projectRelativeWithExtension;
+  }
+
+  const availableFiles = listRawGuideFiles();
+  throw new Error(
+    `Could not find guide file "${inputPath}". Looked in src/data/build-raw and project-relative paths.\nAvailable guide files: ${availableFiles.join(", ")}`,
+  );
+}
+
+async function ensureInputPath(args) {
+  if (args.inputPath) {
+    return args.inputPath;
+  }
+
+  const availableFiles = listRawGuideFiles();
+  console.log("Available guide files:");
+  for (const fileName of availableFiles) {
+    console.log(`- ${fileName}`);
+  }
+  console.log("");
+
+  const answer = await ask("Guide file name (e.g. yae-miko or yae-miko.txt): ");
+  if (!answer) {
+    throw new Error("No guide file name provided.");
+  }
+
+  return answer;
+}
+
+async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const inputPath = path.resolve(PROJECT_ROOT, args.inputPath);
+  const requestedInputPath = await ensureInputPath(args);
+  const inputPath = resolveInputPath(requestedInputPath);
   const rawText = fs.readFileSync(inputPath, "utf8");
 
   const lookups = {

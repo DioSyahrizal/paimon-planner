@@ -1,0 +1,56 @@
+Support Build for Kazuha
+Best Weapon	
+Freedom-Sworn Image Freedom-Sworn
+Replacement Weapons	
+1. Xiphos Xiphos' Moonlight
+2. Iron Sting Image Iron Sting
+3. Favonius Sword Image Favonius Sword
+Best Artifacts	
+Genshin - Viridescent Venerer Image Viridescent Venerer x4
+Artifact Main Stats	
+Genshin - HourglassSands: Energy Recharge or Elemental Mastery
+Genshin - GobletGoblet: Elemental Mastery
+Genshin - CircletCirclet: Elemental Mastery
+Artifact Sub Stats	Energy Recharge, Elemental Mastery, CRIT DMG, CRIT Rate, ATK%
+
+Kazuha Goal Stat Values
+Stat Goal Value
+Elemental Mastery 900 ~ 1,000+
+Energy Recharge 160 ~ 180%
+
+Kazuha's Talent Priority
+Sub-DPS & Support
+1st	Elemental Burst
+2nd	Elemental Skill
+3rd	Normal Attack
+
+
+DPS Build for Kazuha
+Best Weapon	
+Mistsplitter Reforged Image Mistsplitter Reforged
+Replacement Weapons	
+1. Freedom-Sworn Image Freedom-Sworn
+2. Primordial Jade Cutter Image Primordial Jade Cutter
+3. Wolf-Fang Image Wolf-Fang
+4. Kagotsurube Isshin Image Kagotsurube Isshin
+Best Artifacts	
+Genshin - Viridescent Venerer Image Viridescent Venerer x4
+Artifact Main Stats	
+Genshin - HourglassSands: ATK% or Elemental Mastery
+Genshin - GobletGoblet: Anemo DMG Bonus
+Genshin - CircletCirclet: CRIT Rate or CRIT DMG
+Artifact Sub Stats	CRIT Rate, CRIT DMG, Elemental Mastery, ATK%, Energy Recharge
+
+Kazuha Goal Stat Values
+Stat Goal Value
+ATK 1,800 ~ 2,000
+CRIT Rate 70 ~ 80%
+CRIT DMG 160% or above
+Energy Recharge 120 ~ 140%
+Elemental Mastery 150 ~ 300
+
+Kazuha's Talent Priority
+Sub-DPS & Support
+1st	Elemental Burst
+2nd	Elemental Skill
+3rd	Normal Attack

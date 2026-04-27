@@ -1,0 +1,43 @@
+Yae Miko Sub DPS Builds
+General Electro Sub-DPS
+Best Weapon	
+Kagura Kagura's Verity
+Replacement Weapons	
+1. Skyward Atlas Image Skyward Atlas
+2. Lost Prayer to the Sacred Winds Image Lost Prayer to the Sacred Winds
+3. The Widsith Image The Widsith
+4. Sacrificial Jade Image Sacrificial Jade
+Best Artifacts	
+Genshin - Golden Troupe Image Golden Troupe x4
+Artifact Main Stats	
+Genshin - HourglassSands: Elemental Mastery or ATK%
+Genshin - GobletGoblet: Electro DMG Bonus%
+Genshin - CircletCirclet: CRIT Rate or CRIT DMG
+Artifact Sub Stats	CRIT Rate, CRIT DMG, Energy Recharge, Elemental Mastery, ATK%
+
+Yae Miko's Talent Priority
+1st	2nd	3rd
+Elemental Skill	Elemental Burst	Normal Attack
+
+
+Yae Miko Aggravate Electro Build
+Aggravate Electro Sub-DPS
+Best Weapon	
+Kagura Kagura's Verity
+Replacement Weapons	
+1. A Thousand Floating Dreams Image A Thousand Floating Dreams
+2. Skyward Atlas Image Skyward Atlas
+3. Lost Prayer to the Sacred Winds Image Lost Prayer to the Sacred Winds
+4. Sacrificial Jade Image Sacrificial Jade
+5. The Widsith Image The Widsith
+Best Artifacts	
+Genshin - Gilded Dreams Image Gilded Dreams x4
+Artifact Main Stats	
+Genshin - HourglassSands: Elemental Mastery or ATK%
+Genshin - GobletGoblet: Electro DMG Bonus%
+Genshin - CircletCirclet: CRIT Rate or CRIT DMG
+Artifact Sub Stats	CRIT Rate, CRIT DMG, Elemental Mastery, Energy Recharge, ATK%
+
+Yae Miko's Talent Priority
+1st	2nd	3rd
+Elemental Skill	Elemental Burst	Normal Attack

@@ -11,7 +11,8 @@
     "lint": "expo lint",
     "update-enka": "bash scripts/update-enka-data.sh",
     "import-guide": "npx tsx scripts/import-guide.ts",
-    "import-guide:game8": "node scripts/builds/import-game8.js"
+    "import-guide:game8": "node scripts/builds/import-game8.js",
+    "import-guide:game8:write": "node scripts/builds/import-game8.js --write"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

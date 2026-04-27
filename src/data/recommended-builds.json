@@ -915,5 +915,323 @@
     ],
     "source": "Game8",
     "lastUpdated": "2026-04-27"
+  },
+  {
+    "characterId": "10000058",
+    "characterName": "Yae Miko",
+    "role": "General Electro Sub-DPS",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "15032",
+            "setName": "Golden Troupe",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "EM",
+        "ATK%"
+      ],
+      "goblet": [
+        "Electro DMG%"
+      ],
+      "circlet": [
+        "CR%",
+        "CD%"
+      ]
+    },
+    "substatPriority": [
+      "CR%",
+      "CD%",
+      "ER%",
+      "EM",
+      "ATK%"
+    ],
+    "talentPriority": [
+      "skill",
+      "burst",
+      "normal"
+    ],
+    "weapons": [
+      {
+        "weaponId": "14509",
+        "weaponName": "Kagura's Verity",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "14501",
+        "weaponName": "Skyward Atlas",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "14502",
+        "weaponName": "Lost Prayer to the Sacred Winds",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "14402",
+        "weaponName": "The Widsith",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "14424",
+        "weaponName": "Sacrificial Jade",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "source": "Game8",
+    "lastUpdated": "2026-04-27"
+  },
+  {
+    "characterId": "10000058",
+    "characterName": "Yae Miko",
+    "role": "Aggravate Electro Sub-DPS",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "15026",
+            "setName": "Gilded Dreams",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "EM",
+        "ATK%"
+      ],
+      "goblet": [
+        "Electro DMG%"
+      ],
+      "circlet": [
+        "CR%",
+        "CD%"
+      ]
+    },
+    "substatPriority": [
+      "CR%",
+      "CD%",
+      "EM",
+      "ER%",
+      "ATK%"
+    ],
+    "talentPriority": [
+      "skill",
+      "burst",
+      "normal"
+    ],
+    "weapons": [
+      {
+        "weaponId": "14509",
+        "weaponName": "Kagura's Verity",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "14511",
+        "weaponName": "A Thousand Floating Dreams",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "14501",
+        "weaponName": "Skyward Atlas",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "14502",
+        "weaponName": "Lost Prayer to the Sacred Winds",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "14424",
+        "weaponName": "Sacrificial Jade",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "14402",
+        "weaponName": "The Widsith",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "source": "Game8",
+    "lastUpdated": "2026-04-27"
+  },
+  {
+    "characterId": "10000047",
+    "characterName": "Kaedehara Kazuha",
+    "role": "Support Build for Kazuha",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "15002",
+            "setName": "Viridescent Venerer",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "ER%",
+        "EM"
+      ],
+      "goblet": [
+        "EM"
+      ],
+      "circlet": [
+        "EM"
+      ]
+    },
+    "substatPriority": [
+      "ER%",
+      "EM",
+      "CD%",
+      "CR%",
+      "ATK%"
+    ],
+    "goalStats": {
+      "EM": 900,
+      "ER%": 160
+    },
+    "talentPriority": [
+      "burst",
+      "skill",
+      "normal"
+    ],
+    "weapons": [
+      {
+        "weaponId": "11503",
+        "weaponName": "Freedom-Sworn",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "11418",
+        "weaponName": "Xiphos' Moonlight",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11407",
+        "weaponName": "Iron Sting",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11401",
+        "weaponName": "Favonius Sword",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "source": "Game8",
+    "lastUpdated": "2026-04-27"
+  },
+  {
+    "characterId": "10000047",
+    "characterName": "Kaedehara Kazuha",
+    "role": "DPS Build for Kazuha",
+    "artifactSets": [
+      {
+        "sets": [
+          {
+            "setId": "15002",
+            "setName": "Viridescent Venerer",
+            "pieces": 4
+          }
+        ],
+        "label": "Best in Slot",
+        "tier": "S"
+      }
+    ],
+    "mainStats": {
+      "sands": [
+        "ATK%",
+        "EM"
+      ],
+      "goblet": [
+        "Anemo DMG%"
+      ],
+      "circlet": [
+        "CR%",
+        "CD%"
+      ]
+    },
+    "substatPriority": [
+      "CR%",
+      "CD%",
+      "EM",
+      "ATK%",
+      "ER%"
+    ],
+    "goalStats": {
+      "ATK": 1800,
+      "CR%": 70,
+      "CD%": 160,
+      "ER%": 120,
+      "EM": 150
+    },
+    "talentPriority": [
+      "burst",
+      "skill",
+      "normal"
+    ],
+    "weapons": [
+      {
+        "weaponId": "11509",
+        "weaponName": "Mistsplitter Reforged",
+        "refinement": "R1",
+        "tier": "S"
+      },
+      {
+        "weaponId": "11503",
+        "weaponName": "Freedom-Sworn",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11505",
+        "weaponName": "Primordial Jade Cutter",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11424",
+        "weaponName": "Wolf-Fang",
+        "refinement": "R1",
+        "tier": "A"
+      },
+      {
+        "weaponId": "11416",
+        "weaponName": "Kagotsurube Isshin",
+        "refinement": "R1",
+        "tier": "A"
+      }
+    ],
+    "source": "Game8",
+    "lastUpdated": "2026-04-27"
   }
 ]
